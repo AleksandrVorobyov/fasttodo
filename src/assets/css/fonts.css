@@ -1,0 +1,8 @@
+@font-face {
+	font-family: 'Benae';
+	src: url('../fonts/Benae//Benae.eot');
+	src: local('☺'), url('../fonts/Benae//Benae.woff') format('woff'), url('../fonts/Benae//Benae.ttf') format('truetype'), url('../fonts/Benae//Benae.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+

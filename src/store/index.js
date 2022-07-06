@@ -1,4 +1,7 @@
 import { createStore } from 'vuex'
+import Navigation from "./modules/Navigation"
+import Login from "./modules/Login"
+import ToDoList from "./modules/ToDoList"
 
 export default createStore({
   state: {
@@ -10,5 +13,8 @@ export default createStore({
   actions: {
   },
   modules: {
+    Navigation,
+    Login,
+    ToDoList,
   }
 })
