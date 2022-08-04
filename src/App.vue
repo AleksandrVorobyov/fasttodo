@@ -4,18 +4,24 @@ router-view
 </template>
 
 <script>
-import Preloader from "./components/AppPreloader.vue";
+import Preloader from "./components/FastPreloader.vue";
 
 export default {
   components: {
     Preloader,
   },
+  methods: {
+    async authLocalVerification() {
+      await this.$store.dispatch("authLocalVerification");
+    },
+  },
   mounted() {
     window.onload = function () {
       setTimeout(() => {
         document.querySelector(".preloader").classList.add("preloader-remove");
-      }, 1500);
+      }, 1000);
     };
+    this.authLocalVerification();
   },
 };
 </script>
@@ -23,10 +29,27 @@ export default {
 
 <style lang="scss">
 :root {
+  --bgMain: #0a0c26;
   --grayMain: #e6e1e1;
   --grayBorder: #ada8a8;
-  --redMain: red;
-  --linearMain: linear-gradient(45deg, #dfff28, #09f3e7);
+  --activeMain: #6947cb;
+  --linearMain: linear-gradient(97.62deg, #eb11aa -15.99%, #2e81e2 104.3%);
+  --linearMainSecond: linear-gradient(
+    89.96deg,
+    #cb47a0 0.02%,
+    #6947cb 49.47%,
+    #00ff85 99.97%
+  );
+  --bgPreloaderOne: url("~@/assets/img/payload/rock-bg.png") top left / cover
+    no-repeat;
+  --bgPreloaderTwo: url("~@/assets/img/payload/blue.jpg") top left / cover
+    no-repeat;
+  --bgAvatarFirstStart: url("~@/assets/img/firstStart/avatar.png") center center /
+    contain no-repeat;
+  --clockHourArrow: #eb11aa;
+  --clockMinArrow: #fff;
+  --clockSecArrow: #6947cb;
+  --clockLight: purple;
 }
 
 * {
@@ -35,6 +58,7 @@ export default {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  user-select: none;
 }
 
 html {
@@ -50,11 +74,26 @@ body {
   min-height: 100vh;
   color: black;
   line-height: 1;
+  font-family: "Strong";
   font-size: 16px;
   font-weight: 400;
+  background: var(--bgMain);
 }
 
-body.hidden {
+body::before {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  content: "";
+  background: url("~@/assets/img/bg/lines.png") top center / cover no-repeat;
+  filter: hue-rotate(60deg) opacity(30%);
+  background-attachment: fixed;
+}
+
+body.hidden,
+.app-hidden {
   overflow: hidden;
 }
 
@@ -99,5 +138,13 @@ img {
 
 .relative {
   position: relative;
+}
+
+.title-gradient {
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: var(--linearMain);
+  font-family: "Pixel";
 }
 </style>

@@ -1,0 +1,145 @@
+<template lang="pug">
+section.todolist
+  .container
+    .todolist-wrap
+      .totolist__nav
+        .totolist__nav-col
+          todoTitle(:title="todolist.title")
+        .totolist__nav-col
+          todoBurger
+          todoMenu
+      .totolist__categories-wrap
+        todoListCategories
+      .todolist__clock-wrap
+        span
+        todoClock
+        span
+      .totolist__theme-wrap
+        todoListThemeDropdown
+      .todolist__form-wrap
+        todoForm
+</template>
+<script>
+import { mapGetters } from "vuex";
+import todoTitle from "./parts/todoTitle.vue";
+import todoListCategories from "./parts/todoListCategories.vue";
+import todoListThemeDropdown from "./parts/todoListThemeDropdown.vue";
+import todoForm from "./parts/todoForm.vue";
+import todoBurger from "./parts/todoBurger.vue";
+import todoMenu from "./parts/todoMenu.vue";
+import todoClock from "./parts/clock.vue";
+
+export default {
+  components: {
+    todoTitle,
+    todoListCategories,
+    todoListThemeDropdown,
+    todoForm,
+    todoBurger,
+    todoMenu,
+    todoClock,
+  },
+  computed: {
+    ...mapGetters(["todolist", "login", "clientTime"]),
+  },
+  methods: {
+    localeTime() {
+      this.$store.commit("localeTime");
+    },
+  },
+};
+</script>
+<style scoped lang="scss">
+.todolist {
+  position: relative;
+  padding: 100px 0 100px;
+  overflow: hidden;
+  z-index: 500;
+}
+
+#todolist-time {
+  position: relative;
+  color: white;
+}
+
+.todolist-wrap {
+  position: relative;
+  display: inline-block;
+  padding: 50px 8px;
+  width: 100%;
+  background: linear-gradient(var(--bgMain) 0 0) padding-box,
+    var(--linearMain) border-box;
+  border: 8px solid transparent;
+  border-radius: 16px;
+  z-index: 100;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    background: var(--linearMain);
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    z-index: -2;
+    opacity: 0.7;
+    filter: blur(10px);
+    transform: scale(1.1);
+  }
+
+  &::after {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    content: "";
+    background: var(--bgMain);
+    width: calc(100% - 16px);
+    height: calc(100% - 16px);
+    border-radius: 16px;
+    z-index: -1;
+    opacity: 1;
+  }
+}
+
+.totolist__nav {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.totolist__nav-col {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.totolist__nav,
+.totolist__categories-wrap {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.todolist__clock-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+
+  span:first-child {
+    width: 250px;
+    height: 250px;
+    background: url("~@/assets/img/clock/bg-1.png") center center / contain
+      no-repeat;
+  }
+
+  span:last-child {
+    width: 250px;
+    height: 250px;
+    background: url("~@/assets/img/clock/bg-2.png") center center / contain
+      no-repeat;
+  }
+}
+</style>

@@ -1,6 +1,7 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true,
+
   configureWebpack: {
     module: {
       rules: [
@@ -19,6 +20,7 @@ module.exports = defineConfig({
       ]
     }
   },
+
   pluginOptions: {
     svgSprite: {
       dir: 'src/assets/icons',
@@ -38,5 +40,10 @@ module.exports = defineConfig({
       .rule('svg-sprite')
       .use('svgo-loader')
       .loader('svgo-loader')
+  },
+
+  pwa: {
+    name: 'FastToDo',
+    themeColor: '#6947cb'
   }
 })

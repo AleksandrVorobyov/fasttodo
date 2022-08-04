@@ -1,17 +1,17 @@
 <template lang="pug">
-.login-page
+.registration-page
   main
     FastNotification
-    Login
+    FastRegistration
 </template>
 
 <script>
-import Login from "@/components/FastLogin.vue";
+import FastRegistration from "@/components/FastRegistration.vue";
 import FastNotification from "@/components/FastNotification.vue";
 import { mapGetters } from "vuex";
 export default {
   components: {
-    Login,
+    FastRegistration,
     FastNotification,
   },
   computed: {

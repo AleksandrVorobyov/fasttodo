@@ -1,8 +1,23 @@
 @font-face {
 	font-family: 'Benae';
-	src: url('../fonts/Benae//Benae.eot');
-	src: local('☺'), url('../fonts/Benae//Benae.woff') format('woff'), url('../fonts/Benae//Benae.ttf') format('truetype'), url('../fonts/Benae//Benae.svg') format('svg');
+	src: url('../fonts/Benae/Benae.eot');
+	src: local('☺'), url('../fonts/Benae/Benae.woff') format('woff'), url('../fonts/Benae/Benae.ttf') format('truetype'), url('../fonts/Benae/Benae.svg') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
 
+@font-face {
+	font-family: 'Pixel';
+	src: url('../fonts/pixel/pixel.eot');
+	src: local('☺'), url('../fonts/pixel/pixel.woff') format('woff'), url('../fonts/pixel/pixel.ttf') format('truetype'), url('../fonts/pixel/pixel.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Strong';
+	src: url('../fonts/strong/strong.eot');
+	src: local('☺'), url('../fonts/strong/strong.woff') format('woff'), url('../fonts/strong/strong.ttf') format('truetype'), url('../fonts/strong/strong.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}

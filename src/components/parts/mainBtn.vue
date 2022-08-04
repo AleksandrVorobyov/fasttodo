@@ -1,0 +1,72 @@
+<template lang="pug">
+button.main-btn(
+  :type="elType",
+  :id="elId",
+  :class="elClass",
+  @click="$emit('clickAction', $event)"
+) 
+  span.main-btn__text {{ elText }}
+  span.main-btn__effect(
+    @mousemove="$emit('moveAction', $event)",
+    @mouseleave="$emit('leaveAction', $event)"
+  )
+</template>
+<script>
+export default {
+  props: {
+    elText: String,
+    elClass: String,
+    elId: String,
+    elType: {
+      type: String,
+      default: "button",
+      required: false,
+    },
+  },
+  emits: ["clickAction", "moveAction", "leaveAction"],
+};
+</script>
+<style scoped lang="scss">
+.main-btn {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  padding: 10px;
+  background: linear-gradient(var(--bgMain) 0 0) padding-box,
+    var(--linearMain) border-box;
+  border: 2px solid transparent;
+  border-radius: 0px;
+  cursor: pointer;
+  outline: none;
+  transition: background 1s linear;
+  z-index: 5;
+
+  .main-btn__text {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 21px;
+    letter-spacing: 0.5px;
+    color: white;
+    z-index: 5;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .main-btn__effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -4;
+  }
+}
+
+button:focus {
+  outline: none;
+}
+</style>
+
