@@ -6,8 +6,12 @@ import FatsToDoList from "./modules/FatsToDoList"
 import userSelected from "./user/userSelected"
 
 export default createStore({
-  state: {},
-  getters: {},
+  state: {
+
+  },
+  getters: {
+
+  },
   mutations: {
     mainBtnAnimMove(_, btn) {
       const rect = btn.target.getBoundingClientRect();
@@ -18,7 +22,7 @@ export default createStore({
 
     mainBtnAnimLeave(state, btn) {
       btn.target.style.background = `transparent`;
-    }
+    },
   },
   actions: {},
   modules: {

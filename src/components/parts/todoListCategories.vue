@@ -1,11 +1,16 @@
 <template lang="pug">
 .todolist__categories
   categoriesCard(
-    v-for="item in categoriesCard.list",
+    v-for="(item, index) in categoriesCard.list",
     :key="item",
     :id="item.id",
     :categoriesTitle="item.title",
     :categoriesImg="item.img"
+    :thisCardIndex="index"
+    :categoriesCardLast="categoriesCardLast"
+    :categoriesCardDirection="categoriesCardDirection"
+    @actionMouseOver="categoriesCardAnim($event, index)"
+    @actionMouseLeave="categoriesCardFindNumber($event, index)"
   )
 </template>
 <script>
@@ -16,8 +21,16 @@ export default {
     categoriesCard,
   },
   computed: {
-    ...mapGetters(["categoriesCard"]),
+    ...mapGetters(["categoriesCard", "categoriesCardLast", "categoriesCardDirection"]),
   },
+  methods: {
+    categoriesCardFindNumber(btn, index) {
+      this.$store.commit("categoriesCardFindNumber", {btn, index})
+    },
+    categoriesCardAnim(btn, index) {
+      this.$store.commit("categoriesCardAnim", {btn, index})
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

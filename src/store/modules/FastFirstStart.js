@@ -15,7 +15,6 @@ export default {
         },
     },
     mutations: {
-
     },
     actions: {
         animFirstStart({ commit, state }, payload) {

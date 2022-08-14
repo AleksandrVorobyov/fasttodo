@@ -35,7 +35,9 @@ export default {
         theme: {
             activeTheme: "Спорт",
             themeDropList: ["Спорт", "Кулинария"]
-        }
+        },
+        categoriesCardLast: 0,
+        categoriesCardDirection: "left",
     },
     getters: {
         todolist(state) {
@@ -52,7 +54,13 @@ export default {
         },
         clientTime(state) {
             return state.clientTime
-        }
+        },
+        categoriesCardLast(state) {
+            return state.categoriesCardLast
+        },
+        categoriesCardDirection(state) {
+            return state.categoriesCardDirection
+        },
     },
     mutations: {
         updateElements(state, payload) {
@@ -93,6 +101,26 @@ export default {
                 .getElementById("theme-drop-list")
                 .classList.toggle("theme-dropdown__list--hidden");
         },
+
+        categoriesCardFindNumber(state, {btn, index}) {
+            state.categoriesCardLast = index
+            if (index == 0) {
+              return btn.dataset.direction = "left"
+            }
+            if (index == 2) {
+              return btn.dataset.direction = "right"
+            }
+        },
+      
+        categoriesCardAnim(state, {btn, index}) {
+            if (state.categoriesCardLast == index) {
+                return
+            }
+            if (state.categoriesCardLast > index) {
+                return btn.dataset.direction = "right"
+            } 
+            return btn.dataset.direction = "left"
+        }
     },
     actions: {
         updateElements({ commit }, payload) {

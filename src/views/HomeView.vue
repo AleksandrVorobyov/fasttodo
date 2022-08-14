@@ -8,20 +8,11 @@
 
 <script>
 import FastToDoList from "@/components/FastToDoList.vue";
-import { mapGetters } from "vuex";
 
 export default {
   name: "HomeView",
   components: {
     FastToDoList,
-  },
-  computed: {
-    ...mapGetters(["user"]),
-  },
-  mounted() {
-    if (this.user.selected == false) {
-      this.$router.push("/start");
-    }
   },
 };
 </script>

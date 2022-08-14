@@ -41,7 +41,7 @@ export default {
   border-radius: 0px;
   cursor: pointer;
   outline: none;
-  transition: background 1s linear;
+  transition: all 1s linear;
   z-index: 5;
 
   .main-btn__text {

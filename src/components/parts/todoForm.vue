@@ -4,7 +4,6 @@
     input#toDoList.todolist__form-nav-search(
       type="search",
       placeholder="Search...",
-      autofocus,
       @keyup.enter="todoAdd()"
     )
     button.todolist__form-nav-btn(type="button", @click="todoAdd()") Добавить

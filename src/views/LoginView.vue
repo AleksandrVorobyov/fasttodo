@@ -8,19 +8,10 @@
 <script>
 import Login from "@/components/FastLogin.vue";
 import FastNotification from "@/components/FastNotification.vue";
-import { mapGetters } from "vuex";
 export default {
   components: {
     Login,
     FastNotification,
-  },
-  computed: {
-    ...mapGetters(["user"]),
-  },
-  mounted() {
-    if (this.user.selected == true) {
-      this.$router.push("/");
-    }
   },
 };
 </script>

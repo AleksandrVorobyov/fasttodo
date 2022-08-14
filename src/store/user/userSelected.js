@@ -3,6 +3,10 @@ import firebase from 'firebase/compat/app';
 import { getDatabase, ref, set } from "firebase/database";
 import { getAuth } from "firebase/auth";
 
+router.beforeEach((to, from) => {
+    localStorage.setItem('lastPageRoute', to.fullPath)
+})
+
 export default {
     state: {
         user: {
@@ -22,7 +26,8 @@ export default {
             return state.notification;
         },
     },
-    mutations: {},
+    mutations: {
+    },
     actions: {
         emailValid(state, email) {
             let reg = /^[\w-\.]+@[\w-]+\.[a-z]{2,4}$/i;
