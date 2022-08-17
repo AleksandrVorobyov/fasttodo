@@ -1,0 +1,23 @@
+:root {
+    --bgMain: #0a0c26;
+    --grayMain: #e6e1e1;
+    --grayBorder: #ada8a8;
+    --activeMain: #6947cb;
+    --linearMain: linear-gradient(97.62deg, #eb11aa -15.99%, #2e81e2 104.3%);
+    --linearMainSecond: linear-gradient(
+        89.96deg,
+        #cb47a0 0.02%,
+        #6947cb 49.47%,
+        #00ff85 99.97%
+    );
+    --bgPreloaderOne: url("~@/assets/img/payload/rock-bg.png") top left / cover
+        no-repeat;
+    --bgPreloaderTwo: url("~@/assets/img/payload/blue.jpg") top left / cover
+        no-repeat;
+    --bgAvatarFirstStart: url("~@/assets/img/firstStart/avatar.png") center center /
+        contain no-repeat;
+    --clockHourArrow: #eb11aa;
+    --clockMinArrow: #fff;
+    --clockSecArrow: #6947cb;
+    --clockLight: purple;
+}

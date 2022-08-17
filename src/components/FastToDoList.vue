@@ -8,14 +8,14 @@ section.todolist
         .totolist__nav-col
           todoBurger
           todoMenu
-      .totolist__categories-wrap
-        todoListCategories
       .todolist__clock-wrap
         span
         todoClock
         span
+      .totolist__categories-wrap
+        todoListCategories
       .totolist__theme-wrap
-        todoListThemeDropdown
+        todoListTheme
       .todolist__form-wrap
         todoForm
 </template>
@@ -23,7 +23,7 @@ section.todolist
 import { mapGetters } from "vuex";
 import todoTitle from "./parts/todoTitle.vue";
 import todoListCategories from "./parts/todoListCategories.vue";
-import todoListThemeDropdown from "./parts/todoListThemeDropdown.vue";
+import todoListTheme from "./parts/todoListTheme.vue";
 import todoForm from "./parts/todoForm.vue";
 import todoBurger from "./parts/todoBurger.vue";
 import todoMenu from "./parts/todoMenu.vue";
@@ -33,7 +33,7 @@ export default {
   components: {
     todoTitle,
     todoListCategories,
-    todoListThemeDropdown,
+    todoListTheme,
     todoForm,
     todoBurger,
     todoMenu,
@@ -127,17 +127,23 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 30px;
+  margin-bottom: 40px;
 
-  span:first-child {
+  & > span {
     width: 250px;
     height: 250px;
+    border: 5px solid transparent;
+    box-sizing: content-box;
+    border-image: var(--linearMain);
+    border-image-slice: 1;
+  }
+
+  span:first-child {
     background: url("~@/assets/img/clock/bg-1.png") center center / contain
       no-repeat;
   }
 
   span:last-child {
-    width: 250px;
-    height: 250px;
     background: url("~@/assets/img/clock/bg-2.png") center center / contain
       no-repeat;
   }

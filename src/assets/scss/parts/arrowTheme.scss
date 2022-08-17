@@ -1,0 +1,58 @@
+.arrow {
+    background: #0000;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+.arrow svg {
+    width: 50px;
+    height: auto;
+    overflow: visible;
+}
+
+.arrow svg polygon, 
+.arrow svg path {
+    transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+    fill: #fff;
+}
+
+.arrow svg:hover polygon, 
+.arrow svg:hover path {
+    transition: all 1s cubic-bezier(0.2, 1, 0.3, 1);
+    fill: var(--activeMain);
+}
+
+.arrow svg:hover .arrow-pl {
+    animation: arrowAnim 1s cubic-bezier(0.2, 1, 0.3, 1) infinite;
+}
+
+.arrow svg:hover .arrow-pl-fixed {
+    animation: arrowFixedAnim 1s cubic-bezier(0.2, 1, 0.3, 1) infinite;
+}
+ 
+@keyframes arrowAnim {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    5% {
+        transform: translateX(-0.1rem);
+    }
+    100% {
+        transform: translateX(1rem);
+        opacity: 0;
+    }
+}
+
+@keyframes arrowFixedAnim {
+    5% {
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 1;
+    }
+}

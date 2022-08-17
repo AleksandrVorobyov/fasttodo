@@ -1,3 +1,5 @@
+import theme from "../todo/theme"
+
 export default {
     state: {
         todolist: {
@@ -32,10 +34,6 @@ export default {
             all: []
         },
         clientTime: "",
-        theme: {
-            activeTheme: "Спорт",
-            themeDropList: ["Спорт", "Кулинария"]
-        },
         categoriesCardLast: 0,
         categoriesCardDirection: "left",
     },
@@ -48,9 +46,6 @@ export default {
         },
         categoriesCard(state) {
             return state.categoriesCard;
-        },
-        theme(state) {
-            return state.theme;
         },
         clientTime(state) {
             return state.clientTime
@@ -96,29 +91,23 @@ export default {
             state.todoOptions.disabled = !state.todoOptions.disabled;
             payload.target.closest('.todolist__form-body-item').classList.toggle("todolist__form-body-item--active")
         },
-        activeThemeBtn() {
-            document
-                .getElementById("theme-drop-list")
-                .classList.toggle("theme-dropdown__list--hidden");
-        },
-
-        categoriesCardFindNumber(state, {btn, index}) {
+        categoriesCardFindNumber(state, { btn, index }) {
             state.categoriesCardLast = index
             if (index == 0) {
-              return btn.dataset.direction = "left"
+                return btn.dataset.direction = "left"
             }
             if (index == 2) {
-              return btn.dataset.direction = "right"
+                return btn.dataset.direction = "right"
             }
         },
-      
-        categoriesCardAnim(state, {btn, index}) {
+
+        categoriesCardAnim(state, { btn, index }) {
             if (state.categoriesCardLast == index) {
                 return
             }
             if (state.categoriesCardLast > index) {
                 return btn.dataset.direction = "right"
-            } 
+            }
             return btn.dataset.direction = "left"
         }
     },
@@ -140,10 +129,8 @@ export default {
                 }
             }
         },
-        chengeThemeBtn({ state, commit }, theme) {
-            commit("activeThemeBtn")
-            state.theme.activeTheme = theme
-            return
-        },
+    },
+    modules: {
+        theme
     }
 }
