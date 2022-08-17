@@ -1,15 +1,10 @@
 <template lang="pug">
 .todolist__form
-  form.todolist__form-nav(action="", method="get", @submit.prevent)
-    input#toDoList.todolist__form-nav-search(
-      type="search",
-      placeholder="Search...",
-      @keyup.enter="todoAdd()"
-    )
-    button.todolist__form-nav-btn(type="button", @click="todoAdd()") Добавить
-    hr
+  hr(v-if="todoForm.list.length != 0")
   .todolist__form-body
+    h3.todolist__form-body-title(v-if="todoForm.list.length == 0") {{ todoForm.title }}
     draggable#list.todolist__form-body-list(
+      v-else,
       v-model="myList",
       tag="ul",
       @end="dragSave()",
@@ -33,16 +28,31 @@
             type="button",
             @click="todoDel(index)"
           ) Х
+  hr
+  form.todolist__form-nav(action="", method="get", @submit.prevent)
+    input#todoFormInput.todolist__form-nav-search(
+      type="text",
+      :placeholder="todoForm.inputPlaceholder",
+      @keyup.enter="todoAdd()"
+    )
+    mainBtn(
+      :elText="todoForm.btnText",
+      elClass="todolist__form-nav-btn",
+      @moveAction="mainBtnAnimMove($event)",
+      @leaveAction="mainBtnAnimLeave($event)",
+      @clickAction="todoAdd()"
+    )
 </template>
 <script>
 import { mapGetters } from "vuex";
 import { VueDraggableNext } from "vue-draggable-next";
+import mainBtn from "./mainBtn.vue";
 export default {
   computed: {
-    ...mapGetters(["todolist", "todoOptions"]),
+    ...mapGetters(["todoForm", "todoOptions"]),
     myList: {
       get() {
-        return this.todolist.list;
+        return this.todoForm.list;
       },
       set(value) {
         this.$store.dispatch("updateElements", value);
@@ -51,6 +61,7 @@ export default {
   },
   components: {
     draggable: VueDraggableNext,
+    mainBtn: mainBtn,
   },
   data() {
     return {
@@ -61,7 +72,7 @@ export default {
   },
   methods: {
     todoAdd() {
-      this.$store.commit("todoAdd");
+      this.$store.dispatch("todoAdd");
     },
     todoDel(elemIndex) {
       this.$store.commit("todoDel", elemIndex);
@@ -74,6 +85,12 @@ export default {
     },
     dragCheck(event) {
       this.$store.commit("dragCheck", event);
+    },
+    mainBtnAnimMove(btn) {
+      this.$store.commit("mainBtnAnimMove", btn);
+    },
+    mainBtnAnimLeave(btn) {
+      this.$store.commit("mainBtnAnimLeave", btn);
     },
   },
   mounted() {
@@ -91,24 +108,57 @@ form > hr {
   margin-top: 10px;
 }
 
+.todolist__form-nav {
+  position: relative;
+  margin-top: 20px;
+  display: grid;
+  justify-content: center;
+  gap: 20px;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
 .todolist__form-nav-search {
   position: relative;
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  height: 30px;
-  margin-bottom: 10px;
+  width: 600px;
+  height: 50px;
+  padding: 0px 10px;
+  margin: 0;
+  background: rgba(46, 47, 64, 0.3);
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+
+  &::placeholder {
+    color: #fff;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: 0.5px;
+  }
 }
 
 .todolist__form-nav-btn {
-  height: 30px;
   width: 100%;
-  max-width: 150px;
+  max-width: 300px;
   margin: 0 auto;
   cursor: pointer;
 }
 
+.todolist__form-body-title {
+  font-size: 22px;
+  line-height: 26px;
+  letter-spacing: 0.5px;
+  color: #fff;
+  margin: 15px 0;
+  text-align: center;
+}
+
 .todolist__form-body-list {
+  display: grid;
+  gap: 5px;
   list-style: none;
   text-align: left;
   padding: 10px 40px;
@@ -119,12 +169,13 @@ form > hr {
   padding: 10px 5px;
   border-radius: 6px;
   width: 100%;
+  background: var(--grayMain);
   transition: background 0.4s linear, transform 0.4s linear,
     box-shadow 0.4s linear;
   z-index: 10;
 
   span {
-    color: black;
+    color: #000;
     font-size: 18px;
     line-height: 18px;
     font-family: "Benae";

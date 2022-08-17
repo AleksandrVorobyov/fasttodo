@@ -2,6 +2,7 @@ import router from '@/router'
 import firebase from 'firebase/compat/app';
 import { getDatabase, ref, set } from "firebase/database";
 import { getAuth } from "firebase/auth";
+import notification from "./notification"
 
 router.beforeEach((to, from) => {
     localStorage.setItem('lastPageRoute', to.fullPath)
@@ -12,18 +13,10 @@ export default {
         user: {
             selected: false
         },
-        notification: {
-            visible: false,
-            type: null,
-            text: null
-        },
     },
     getters: {
         user(state) {
             return state.user;
-        },
-        notification(state) {
-            return state.notification;
         },
     },
     mutations: {
@@ -78,14 +71,6 @@ export default {
             allInput.forEach((item) => {
                 item.readOnly = boolean;
             })
-        },
-        getNotificationError({ state }, text) {
-            state.notification.type = "notificationError"
-            state.notification.text = text
-            state.notification.visible = true
-            setTimeout(() => {
-                return state.notification.type, state.notification.text = null, state.notification.visible = false
-            }, 4000);
         },
         async registerPerson({ commit, state, dispatch }, { name, email, password, passwordConfirm }) {
             const nameValide = await dispatch('nameValid', name);
@@ -159,4 +144,7 @@ export default {
             localStorage.clear()
         }
     },
+    modules: {
+        notification
+    }
 }

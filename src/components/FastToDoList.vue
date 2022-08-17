@@ -4,7 +4,7 @@ section.todolist
     .todolist-wrap
       .totolist__nav
         .totolist__nav-col
-          todoTitle(:title="todolist.title")
+          todoTitle(:title="fastToDoList.title")
         .totolist__nav-col
           todoBurger
           todoMenu
@@ -40,7 +40,7 @@ export default {
     todoClock,
   },
   computed: {
-    ...mapGetters(["todolist", "login", "clientTime"]),
+    ...mapGetters(["todolist", "login", "clientTime", "fastToDoList"]),
   },
   methods: {
     localeTime() {

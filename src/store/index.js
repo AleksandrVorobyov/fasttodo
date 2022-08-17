@@ -1,9 +1,9 @@
 import { createStore } from 'vuex'
+import userSelected from "./user/userSelected"
 import FastFirstStart from "./modules/FastFirstStart"
 import FastLogin from "./modules/FastLogin"
 import FastRegistration from "./modules/FastRegistration"
-import FatsToDoList from "./modules/FatsToDoList"
-import userSelected from "./user/userSelected"
+import FastToDoList from "./modules/FastToDoList"
 
 export default createStore({
   state: {
@@ -26,10 +26,10 @@ export default createStore({
   },
   actions: {},
   modules: {
+    userSelected,
     FastFirstStart,
     FastLogin,
     FastRegistration,
-    FatsToDoList,
-    userSelected
+    FastToDoList,
   }
 })
