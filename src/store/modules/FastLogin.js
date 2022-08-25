@@ -35,6 +35,7 @@ export default {
         },
     },
     mutations: {
+
     },
     actions: {
         loginToRouter({ commit, state }, products) {

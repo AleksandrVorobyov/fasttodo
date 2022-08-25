@@ -29,7 +29,7 @@ export default {
         },
         todoDel(state, elemIndex) {
             state.todoForm.list.splice(elemIndex, 1)
-            localStorage.clear()
+            localStorage.removeItem(`todoForm-${elemIndex}`)
             let content = state.todoForm.list
             for (let index = 0; index < content.length; index++) {
                 const element = content[index];
@@ -59,22 +59,25 @@ export default {
                     try {
                         let content = JSON.parse(localStorage.getItem(`todoForm-${index}`));
                         if (content) {
-                            state.todoForm.list.push(content)
+                            let newObj = {
+                                text: content
+                            }
+                            state.todoForm.list.push(newObj)
                         }
                     } catch (error) {
-                        return false
+                        break
                     }
                 }
             }
         },
         todoAdd({ state, dispatch }, elem) {
-            const productInput = document.getElementById("todoFormInput");
+            // const productInput = document.getElementById("todoFormInput");
 
-            if (productInput.value != "") {
-                state.todoForm.list.push(productInput.value);
-                localStorage.setItem(`todoForm-${state.todoForm.list.length + 1}`, JSON.stringify(productInput.value));
-                productInput.value = "";
-            }
+            // if (productInput.value != "") {
+            //     state.todoForm.list.push(productInput.value);
+            //     localStorage.setItem(`todoForm-${state.todoForm.list.length + 1}`, JSON.stringify(productInput.value));
+            //     productInput.value = "";
+            // }
         },
     },
 }

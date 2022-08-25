@@ -1,5 +1,18 @@
 <template lang="pug">
 .todolist__form
+  form.todolist__form-nav(action="", method="get", @submit.prevent)
+    input#todoFormInput.todolist__form-nav-search(
+      type="text",
+      :placeholder="todoForm.inputPlaceholder",
+      @keyup.enter="getNewRecord()"
+    )
+    mainBtn(
+      :elText="todoForm.btnText",
+      elClass="todolist__form-nav-btn",
+      @moveAction="mainBtnAnimMove($event)",
+      @leaveAction="mainBtnAnimLeave($event)",
+      @clickAction="getNewRecord()"
+    )
   hr(v-if="todoForm.list.length != 0")
   .todolist__form-body
     h3.todolist__form-body-title(v-if="todoForm.list.length == 0") {{ todoForm.title }}
@@ -14,10 +27,10 @@
     )
       transition-group(type="transition", name="flip-list")
         li.todolist__form-body-item(
-          v-for="(item, index) in myList",
+          v-for="(item, index) in (webList ? personRecord : myList)",
           :key="item"
         )
-          span {{ index + 1 + ')' + ' ' + item }}
+          span {{ index + 1 + ')' + ' ' + item.text }}
           button.todolist__form-body-drag(
             type="button",
             @mouseover="dragCheck($event)",
@@ -26,22 +39,9 @@
             span
           button.todolist__form-body-del(
             type="button",
-            @click="todoDel(index)"
+            @click="delRecord(index)"
           ) Х
   hr
-  form.todolist__form-nav(action="", method="get", @submit.prevent)
-    input#todoFormInput.todolist__form-nav-search(
-      type="text",
-      :placeholder="todoForm.inputPlaceholder",
-      @keyup.enter="todoAdd()"
-    )
-    mainBtn(
-      :elText="todoForm.btnText",
-      elClass="todolist__form-nav-btn",
-      @moveAction="mainBtnAnimMove($event)",
-      @leaveAction="mainBtnAnimLeave($event)",
-      @clickAction="todoAdd()"
-    )
 </template>
 <script>
 import { mapGetters } from "vuex";
@@ -49,14 +49,22 @@ import { VueDraggableNext } from "vue-draggable-next";
 import mainBtn from "./mainBtn.vue";
 export default {
   computed: {
-    ...mapGetters(["todoForm", "todoOptions"]),
+    ...mapGetters(["todoForm", "todoOptions", "personRecord"]),
     myList: {
       get() {
         return this.todoForm.list;
       },
-      set(value) {
-        this.$store.dispatch("updateElements", value);
+      set(el) {
+        this.$store.dispatch("updateElements", el);
       },
+    },
+
+    webList() {
+      if (this.personRecord) {
+        this.todoForm.list = this.personRecord;
+        return true;
+      }
+      return false;
     },
   },
   components: {
@@ -71,14 +79,15 @@ export default {
     };
   },
   methods: {
-    todoAdd() {
-      this.$store.dispatch("todoAdd");
-    },
-    todoDel(elemIndex) {
-      this.$store.commit("todoDel", elemIndex);
+    async delRecord(elemIndex) {
+      await this.$store.dispatch("delRecord", elemIndex);
     },
     loadTodoList() {
       this.$store.dispatch("loadTodoList");
+    },
+    async getNewRecord() {
+      const message = document.getElementById("todoFormInput").value;
+      await this.$store.dispatch("getNewRecord", message);
     },
     dragSave() {
       this.$store.commit("dragSave");
@@ -94,7 +103,9 @@ export default {
     },
   },
   mounted() {
-    this.loadTodoList();
+    if (!this.webList) {
+      this.loadTodoList();
+    }
   },
 };
 </script>
@@ -110,7 +121,7 @@ form > hr {
 
 .todolist__form-nav {
   position: relative;
-  margin-top: 20px;
+  margin-bottom: 20px;
   display: grid;
   justify-content: center;
   gap: 20px;
@@ -185,7 +196,8 @@ form > hr {
   &:hover {
     background: #c8ebfb;
 
-    .todolist__form-body-drag {
+    .todolist__form-body-drag,
+    .todolist__form-body-del {
       opacity: 1;
     }
   }
@@ -214,10 +226,14 @@ form > hr {
   cursor: pointer;
 }
 
+.todolist__form-body-del,
 .todolist__form-body-drag {
-  position: absolute;
   opacity: 0;
   transition: opacity 0.4s linear;
+}
+
+.todolist__form-body-drag {
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);

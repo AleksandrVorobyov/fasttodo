@@ -26,7 +26,7 @@ export default {
   padding: 5px 10px;
   margin-bottom: 20px;
   width: 100%;
-  height: 60px;
+  height: 50px;
   background: white;
   box-shadow: inset 0px 0px 3px 3px #0000007a;
   border-radius: 6px;

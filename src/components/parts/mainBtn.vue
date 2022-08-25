@@ -33,7 +33,7 @@ export default {
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 60px;
+  height: 50px;
   padding: 10px;
   background: linear-gradient(var(--bgMain) 0 0) padding-box,
     var(--linearMain) border-box;

@@ -46,7 +46,7 @@ export default {
 <style scoped lang="scss">
 .todolist__theme {
   position: relative;
-  padding: 30px 0;
+  padding: 10px 0;
   overflow: hidden;
   z-index: 500;
 }
