@@ -6,7 +6,7 @@ section.todolist
         .totolist__nav-col
           todoTitle(:title="fastToDoList.title")
         .totolist__nav-col
-          todoBurger
+          todoProfile
           todoMenu
       .todolist__clock-wrap
         span
@@ -25,7 +25,7 @@ import todoTitle from "./parts/todoTitle.vue";
 import todoListCategories from "./parts/todoListCategories.vue";
 import todoListTheme from "./parts/todoListTheme.vue";
 import todoForm from "./parts/todoForm.vue";
-import todoBurger from "./parts/todoBurger.vue";
+import todoProfile from "./parts/todoProfile.vue";
 import todoMenu from "./parts/todoMenu.vue";
 import todoClock from "./parts/clock.vue";
 
@@ -35,7 +35,7 @@ export default {
     todoListCategories,
     todoListTheme,
     todoForm,
-    todoBurger,
+    todoProfile,
     todoMenu,
     todoClock,
   },

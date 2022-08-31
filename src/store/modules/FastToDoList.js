@@ -1,5 +1,6 @@
 import theme from "../todo/theme"
 import todoForm from "../todo/todoForm"
+import todoProfile from "../todo/todoProfile"
 
 export default {
     state: {
@@ -27,8 +28,6 @@ export default {
             all: []
         },
         clientTime: "",
-        categoriesCardLast: 0,
-        categoriesCardDirection: "left",
     },
     getters: {
         fastToDoList(state) {
@@ -40,38 +39,13 @@ export default {
         clientTime(state) {
             return state.clientTime
         },
-        categoriesCardLast(state) {
-            return state.categoriesCardLast
-        },
-        categoriesCardDirection(state) {
-            return state.categoriesCardDirection
-        },
     },
-    mutations: {
-        categoriesCardFindNumber(state, { btn, index }) {
-            state.categoriesCardLast = index
-            if (index == 0) {
-                return btn.dataset.direction = "left"
-            }
-            if (index == 2) {
-                return btn.dataset.direction = "right"
-            }
-        },
-
-        categoriesCardAnim(state, { btn, index }) {
-            if (state.categoriesCardLast == index) {
-                return
-            }
-            if (state.categoriesCardLast > index) {
-                return btn.dataset.direction = "right"
-            }
-            return btn.dataset.direction = "left"
-        }
-    },
+    mutations: {},
     actions: {
     },
     modules: {
         theme,
-        todoForm
+        todoForm,
+        todoProfile,
     }
 }

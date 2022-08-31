@@ -4,8 +4,8 @@ router-view
 </template>
 
 <script>
-import Preloader from "./components/FastPreloader.vue";
 import { mapGetters } from "vuex";
+import Preloader from "@/components/FastPreloader.vue";
 
 export default {
   components: {
@@ -18,23 +18,21 @@ export default {
     async authLocalVerification() {
       await this.$store.dispatch("authLocalVerification");
     },
+    todoMenuSmartHiding(e) {
+      this.$store.dispatch("todoMenuSmartHiding", e);
+    },
   },
   created() {
-    setTimeout(() => {
-      document.querySelector(".preloader").classList.add("preloader-remove");
-      let lastPageRoute = localStorage.getItem("lastPageRoute");
-      if (this.user.selected == false) {
-        if (lastPageRoute) {
-          return this.$router.push(
-            lastPageRoute == "/" ? "/start" : lastPageRoute
-          );
-        }
-        return this.$router.push("/start");
-      } else {
-        this.$router.push("/");
-      }
-    }, 1000);
     this.authLocalVerification();
+  },
+  mounted() {
+    setTimeout(() => {
+      const preloader = document.querySelector(".preloader");
+      preloader.classList.add("preloader-remove");
+    }, 1000);
+    document.addEventListener("click", (e) => {
+      this.todoMenuSmartHiding(e);
+    });
   },
 };
 </script>

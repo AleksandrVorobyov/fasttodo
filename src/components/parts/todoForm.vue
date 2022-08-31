@@ -13,12 +13,12 @@
       @leaveAction="mainBtnAnimLeave($event)",
       @clickAction="getNewRecord()"
     )
-  hr(v-if="todoForm.list.length != 0")
+  hr(v-if="personRecord.length != 0")
   .todolist__form-body
-    h3.todolist__form-body-title(v-if="todoForm.list.length == 0") {{ todoForm.title }}
+    h3.todolist__form-body-title(v-if="personRecord.length == 0") {{ todoForm.title }}
     draggable#list.todolist__form-body-list(
       v-else,
-      v-model="myList",
+      v-model="personRecord",
       tag="ul",
       @end="dragSave()",
       v-bind="todoOptions",
@@ -27,8 +27,8 @@
     )
       transition-group(type="transition", name="flip-list")
         li.todolist__form-body-item(
-          v-for="(item, index) in (webList ? personRecord : myList)",
-          :key="item"
+          v-for="(item, index) in personRecord",
+          :key="item.id"
         )
           span {{ index + 1 + ')' + ' ' + item.text }}
           button.todolist__form-body-drag(
@@ -50,22 +50,6 @@ import mainBtn from "./mainBtn.vue";
 export default {
   computed: {
     ...mapGetters(["todoForm", "todoOptions", "personRecord"]),
-    myList: {
-      get() {
-        return this.todoForm.list;
-      },
-      set(el) {
-        this.$store.dispatch("updateElements", el);
-      },
-    },
-
-    webList() {
-      if (this.personRecord) {
-        this.todoForm.list = this.personRecord;
-        return true;
-      }
-      return false;
-    },
   },
   components: {
     draggable: VueDraggableNext,
@@ -101,11 +85,6 @@ export default {
     mainBtnAnimLeave(btn) {
       this.$store.commit("mainBtnAnimLeave", btn);
     },
-  },
-  mounted() {
-    if (!this.webList) {
-      this.loadTodoList();
-    }
   },
 };
 </script>

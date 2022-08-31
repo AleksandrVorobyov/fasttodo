@@ -1,8 +1,6 @@
 export default {
     state: {
         todoForm: {
-            list: [
-            ],
             title: "Список дел в данной теме пуст! Добавьте новое дело!",
             inputPlaceholder: "Поле для ваших дел...",
             btnText: "Добавить",
@@ -27,17 +25,8 @@ export default {
         updateElements(state, payload) {
             state.todoForm.list = payload;
         },
-        todoDel(state, elemIndex) {
-            state.todoForm.list.splice(elemIndex, 1)
-            localStorage.removeItem(`todoForm-${elemIndex}`)
-            let content = state.todoForm.list
-            for (let index = 0; index < content.length; index++) {
-                const element = content[index];
-                localStorage.setItem(`todoForm-${index}`, JSON.stringify(element));
-            }
-        },
         dragSave(state) {
-            localStorage.clear()
+            // localStorage.clear()
             let content = state.todoForm.list
             for (let index = 0; index < content.length; index++) {
                 const element = content[index];
@@ -52,32 +41,6 @@ export default {
     actions: {
         updateElements({ commit }, payload) {
             commit("updateElements", payload);
-        },
-        loadTodoList({ state }) {
-            if (state.todoForm.list == "") {
-                for (let index = 0; index < 99; index++) {
-                    try {
-                        let content = JSON.parse(localStorage.getItem(`todoForm-${index}`));
-                        if (content) {
-                            let newObj = {
-                                text: content
-                            }
-                            state.todoForm.list.push(newObj)
-                        }
-                    } catch (error) {
-                        break
-                    }
-                }
-            }
-        },
-        todoAdd({ state, dispatch }, elem) {
-            // const productInput = document.getElementById("todoFormInput");
-
-            // if (productInput.value != "") {
-            //     state.todoForm.list.push(productInput.value);
-            //     localStorage.setItem(`todoForm-${state.todoForm.list.length + 1}`, JSON.stringify(productInput.value));
-            //     productInput.value = "";
-            // }
         },
     },
 }

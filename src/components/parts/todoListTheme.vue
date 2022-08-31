@@ -5,7 +5,7 @@ section.todolist__theme
       h3.todolist__theme-title {{ theme.title }}
       .todolist__theme-cards
         .todolist__theme-cards-item(
-          v-for="(item, index) in theme.themeCards",
+          v-for="(item, index) in theme.themeCardsDefault",
           :key="item",
           :data-theme="item.idx"
         )
@@ -19,13 +19,13 @@ section.todolist__theme
 </template>
 <script>
 import { mapGetters } from "vuex";
-import arrow from "@/assets/img/iconVue/arrow.vue"
+import arrow from "@/assets/img/iconVue/arrow.vue";
 export default {
   computed: {
-    ...mapGetters(["theme"]),
+    ...mapGetters(["theme", "webUser"]),
   },
   components: {
-    arrow
+    arrow,
   },
   methods: {
     getThemeStyle() {

@@ -6,11 +6,6 @@
     :id="item.id",
     :categoriesTitle="item.title",
     :categoriesImg="item.img"
-    :thisCardIndex="index"
-    :categoriesCardLast="categoriesCardLast"
-    :categoriesCardDirection="categoriesCardDirection"
-    @actionMouseOver="categoriesCardAnim($event, index)"
-    @actionMouseLeave="categoriesCardFindNumber($event, index)"
   )
 </template>
 <script>
@@ -21,15 +16,9 @@ export default {
     categoriesCard,
   },
   computed: {
-    ...mapGetters(["categoriesCard", "categoriesCardLast", "categoriesCardDirection"]),
+    ...mapGetters(["categoriesCard"]),
   },
   methods: {
-    categoriesCardFindNumber(btn, index) {
-      this.$store.commit("categoriesCardFindNumber", {btn, index})
-    },
-    categoriesCardAnim(btn, index) {
-      this.$store.commit("categoriesCardAnim", {btn, index})
-    }
   }
 };
 </script>
@@ -52,31 +41,5 @@ export default {
       rgba(105, 71, 203, 0.5) 49.47%,
       rgba(0, 255, 133, 0.5) 99.97%
     );
-
-  &::before {
-    position: absolute;
-    content: "";
-    width: 450px;
-    height: 450px;
-    top: -112.5px;
-    left: -112.5px;
-    background: rgba(203, 71, 160, 0.3);
-    filter: blur(100px);
-    border-radius: 50%;
-    z-index: -1;
-  }
-
-  &::after {
-    position: absolute;
-    content: "";
-    width: 450px;
-    height: 450px;
-    top: -112.5px;
-    right: -112.5px;
-    background: rgba(0, 255, 133, 0.2);
-    filter: blur(100px);
-    border-radius: 50%;
-    z-index: -1;
-  }
 }
 </style>

@@ -2,7 +2,7 @@ export default {
     state: {
         theme: {
             activeTheme: "Спорт",
-            themeCards: [
+            themeCardsDefault: [
                 {
                     title: "Спорт",
                     src: "categories/themeCards/sport.jpg",
@@ -52,14 +52,14 @@ export default {
             });
         },
         findActiveTheme(state) {
-            return state.activeTheme = state.theme.themeCards.find((e) => e.idx == 0).title
+            return state.activeTheme = state.theme.themeCardsDefault.find((e) => e.idx == 0).title
         }
     },
     actions: {
         themeIndexPlus({ state, commit }) {
-            let last = state.theme.themeCards[state.theme.themeCards.length - 1]
+            let last = state.theme.themeCardsDefault[state.theme.themeCardsDefault.length - 1]
             if (last.idx > 0) {
-                state.theme.themeCards.forEach((item, index) => {
+                state.theme.themeCardsDefault.forEach((item, index) => {
                     item.idx = item.idx - 1;
                 });
 
@@ -71,9 +71,9 @@ export default {
             }
         },
         themeIndexmin({ state, commit }) {
-            let first = state.theme.themeCards[0]
+            let first = state.theme.themeCardsDefault[0]
             if (first.idx < 0) {
-                state.theme.themeCards.forEach((item, index) => {
+                state.theme.themeCardsDefault.forEach((item, index) => {
                     item.idx = item.idx + 1;
                 });
 

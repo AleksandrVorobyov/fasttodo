@@ -3,18 +3,23 @@ import firebase from 'firebase/compat/app';
 import { getDatabase, ref, set, get, child, push, update, onValue } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import notification from "./notification"
-import { Number } from 'core-js';
+import defaultProperties from "./defaultProperties";
 
 router.beforeEach((to, from) => {
     localStorage.setItem('lastPageRoute', to.fullPath)
 })
+
 
 export default {
     state: {
         user: {
             selected: false
         },
-        personRecord: []
+        personRecord: [],
+        webUser: {
+            username: "",
+            themeCards: ""
+        }
     },
     getters: {
         user(state) {
@@ -22,6 +27,9 @@ export default {
         },
         personRecord(state) {
             return state.personRecord;
+        },
+        webUser(state) {
+            return state.webUser;
         },
     },
     mutations: {
@@ -69,15 +77,25 @@ export default {
         async authLocalVerification({ state, dispatch }) {
             let email = localStorage.getItem('fastTodoEmail')
             let password = localStorage.getItem('fastTodoPssword')
+            let lastPageRoute = localStorage.getItem('lastPageRoute')
             if (email && password) {
                 try {
                     await firebase.auth().signInWithEmailAndPassword(email, password)
+                    await dispatch("loadProfileBase")
                     await dispatch("loadPersonRecord")
                     state.user.selected = true
                     return router.push('/')
                 } catch (error) {
-                    return console.log("error", error);
+                    if (lastPageRoute) {
+                        return router.push(lastPageRoute), console.log("error", error)
+                    }
+                    return router.push("/start"), console.log("error", error);
                 }
+            } else {
+                if (lastPageRoute) {
+                    return router.push(lastPageRoute)
+                }
+                return router.push("/start");
             }
         },
         getInputReadonly({ state }, boolean) {
@@ -98,17 +116,20 @@ export default {
                     await firebase.auth().createUserWithEmailAndPassword(email, password);
                     const uid = await dispatch("getUid");
                     const db = getDatabase();
+                    const defProp = defaultProperties.state.defaultProperties
                     set(ref(db, `/users/${uid}/info`), {
                         username: name,
                         userId: uid,
                         email: email,
                         password: password,
                         bill: 10000,
+                        defProp: defProp
                     });
                     state.user.selected = true;
                     let emailPerson = localStorage.setItem('fastTodoEmail', email)
                     let passwordPerson = localStorage.setItem('fastTodoPssword', password)
                     await dispatch("loadPersonRecord")
+                    await dispatch("loadProfileBase")
                     setTimeout(() => {
                         router.push('/')
                     }, 1500);
@@ -143,6 +164,7 @@ export default {
                     let emailPerson = localStorage.setItem('fastTodoEmail', email)
                     let passwordPerson = localStorage.setItem('fastTodoPssword', password)
                     await dispatch("loadPersonRecord")
+                    await dispatch("loadProfileBase")
                     setTimeout(() => {
                         router.push('/')
                     }, 1500);
@@ -242,9 +264,22 @@ export default {
             const updates = {};
             updates[`users/${uid}/info/recordList/${delElem[0].id}`] = null;
             await update(ref(db), updates);
-        }
+        },
+        async loadProfileBase({ state, dispatch }) {
+            const uid = await dispatch("getUid");
+            const dbRef = ref(getDatabase());
+
+            await get(child(dbRef, `users/${uid}`)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    let user = snapshot.val().info.username
+                    let themeCards = snapshot.val().info.defProp.themeCardsDefault
+                    return state.webUser.username = user, state.webUser.themeCards = themeCards
+                }
+            })
+        },
     },
     modules: {
-        notification
+        notification,
+        defaultProperties
     }
 }

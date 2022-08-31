@@ -1,5 +1,5 @@
 <template lang="pug">
-.categories-card(@mouseover="$emit('actionMouseOver', $event.target)" @mouseleave="$emit('actionMouseLeave', $event.target)" :data-direction="categoriesCardDirection")
+.categories-card
   h4.categories-card__title.title-gradient {{ categoriesTitle }}
   .categories-card__img
     img(:src="require('@/assets/img/categories/' + categoriesImg)")
@@ -9,11 +9,7 @@ export default {
   props: {
     categoriesTitle: String,
     categoriesImg: String,
-    categoriesCardLast: Number,
-    thisCardIndex: Number,
-    categoriesCardDirection: String
   },
-  emits: ['actionMouseOver', 'actionMouseLeave']
 };
 </script>
 <style scoped lang="scss">
@@ -46,39 +42,19 @@ export default {
 
     &::before {
       width: 100%;
+      opacity: 1;
     }
   }
 
   &::before {
     position: absolute;
     top: 0;
-    width: 0; 
-    height: 100%;     
+    width: 0;
+    height: 100%;
     content: "";
     background: rgba(0, 0, 255, 0.3);
-    transition: all .4s cubic-bezier(.215,.61,.355,1) 0s;
-  }
-}
-
-.categories-card[data-direction="right"] {
-  &::before {
-    left: 0;
-  }
-
-  &:hover::before {
-    left: auto;
-    right: 0;
-  }
-}
-
-.categories-card[data-direction="left"] {
-  &::before {
-    right: 0;
-  }
-
-  &:hover::before {
-    left: 0;
-    right: auto;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
   }
 }
 

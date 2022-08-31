@@ -7,10 +7,8 @@ import FastToDoList from "./modules/FastToDoList"
 
 export default createStore({
   state: {
-
   },
   getters: {
-
   },
   mutations: {
     mainBtnAnimMove(_, btn) {
