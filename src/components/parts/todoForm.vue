@@ -9,8 +9,6 @@
     mainBtn(
       :elText="todoForm.btnText",
       elClass="todolist__form-nav-btn",
-      @moveAction="mainBtnAnimMove($event)",
-      @leaveAction="mainBtnAnimLeave($event)",
       @clickAction="getNewRecord()"
     )
   hr(v-if="personRecord.length != 0")
@@ -40,13 +38,16 @@
           button.todolist__form-body-del(
             type="button",
             @click="delRecord(index)"
-          ) Х
+          )
+            iconTrash
+
   hr
 </template>
 <script>
 import { mapGetters } from "vuex";
 import { VueDraggableNext } from "vue-draggable-next";
 import mainBtn from "./mainBtn.vue";
+import iconTrash from "@/assets/img/iconVue/trash.vue"
 export default {
   computed: {
     ...mapGetters(["todoForm", "todoOptions", "personRecord"]),
@@ -54,6 +55,7 @@ export default {
   components: {
     draggable: VueDraggableNext,
     mainBtn: mainBtn,
+    iconTrash
   },
   data() {
     return {
@@ -78,12 +80,6 @@ export default {
     },
     dragCheck(event) {
       this.$store.commit("dragCheck", event);
-    },
-    mainBtnAnimMove(btn) {
-      this.$store.commit("mainBtnAnimMove", btn);
-    },
-    mainBtnAnimLeave(btn) {
-      this.$store.commit("mainBtnAnimLeave", btn);
     },
   },
 };
@@ -114,7 +110,7 @@ form > hr {
   height: 50px;
   padding: 0px 10px;
   margin: 0;
-  background: rgba(46, 47, 64, 0.3);
+  background: var(--bgInputMain);
   border: none;
   outline: none;
   color: #fff;
@@ -157,15 +153,15 @@ form > hr {
 .todolist__form-body-item {
   position: relative;
   padding: 10px 5px;
-  border-radius: 6px;
   width: 100%;
-  background: var(--grayMain);
+  background: linear-gradient(var(--bgInputMain) 0 0) padding-box, var(--linearMain) border-box;
+  border: 2px solid transparent;
   transition: background 0.4s linear, transform 0.4s linear,
     box-shadow 0.4s linear;
   z-index: 10;
 
   span {
-    color: #000;
+    color: rgb(255, 255, 255);
     font-size: 18px;
     line-height: 18px;
     font-family: "Benae";
@@ -173,7 +169,7 @@ form > hr {
   }
 
   &:hover {
-    background: #c8ebfb;
+    background: linear-gradient(var(--bgInputMain) 0 0) padding-box, gray border-box;
 
     .todolist__form-body-drag,
     .todolist__form-body-del {
@@ -184,11 +180,12 @@ form > hr {
 
 .todolist__form-body-item--active {
   transform: scale(1.05);
-  box-shadow: 0px 3px 6px #c8ebfd;
+  box-shadow: 0px 0px 3px gray;
 }
 
 .todolist__form-body-del {
   position: absolute;
+  padding: 3px;
   top: 50%;
   right: 5px;
   width: 32px;
@@ -203,6 +200,16 @@ form > hr {
   border: none;
   outline: none;
   cursor: pointer;
+
+  svg {
+    object-fit: contain;
+    transition: fill .4s linear;
+    pointer-events: none;
+  }
+
+  &:hover svg {
+    fill: red;
+  }
 }
 
 .todolist__form-body-del,

@@ -2,9 +2,9 @@
 #todo-profile__menu.todo-profile__menu
   ul.todo-profile__menu-list
     li.todo-profile__menu-item
-      button.todo-profile__menu-btn(type="button") {{ profile.menu.btn.renameTextBtn }}
+      button.todo-profile__menu-btn(type="button" @click="openRenameFormModule(), todoMenuActive()",) {{ profile.menu.btn.renameTextBtn }}
     li.todo-profile__menu-item
-      button.todo-profile__menu-btn(type="button") {{ profile.menu.btn.renameImgBtn }}
+      button.todo-profile__menu-btn(type="button" @click="changeUserName(), todoMenuActive()") {{ profile.menu.btn.renameImgBtn }}
     li.todo-profile__menu-item
       button.todo-profile__menu-btn(
         @click="logout(), todoMenuActive(), loginToRouter()",
@@ -27,6 +27,12 @@ export default {
     },
     todoMenuActive() {
       this.$store.commit("todoMenuActive");
+    },
+    openRenameFormModule() {
+      this.$store.commit("openRenameFormModule");
+    },
+    async changeUserName() {
+      await this.$store.dispatch("changeUserName");
     },
   },
 };

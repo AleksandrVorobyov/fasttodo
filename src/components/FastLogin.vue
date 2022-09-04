@@ -19,8 +19,6 @@ section.login
         mainBtn(
           :elText="login.btnText",
           elClass="login__form-btn",
-          @moveAction="mainBtnAnimMove($event)",
-          @leaveAction="mainBtnAnimLeave($event)",
           @clickAction="loginFirebase()"
         )
         p.login__form-text
@@ -49,19 +47,13 @@ export default {
     registrationTo() {
       this.$store.dispatch("registrationTo");
     },
-    mainBtnAnimMove(btn) {
-      this.$store.commit("mainBtnAnimMove", btn);
-    },
-    mainBtnAnimLeave(btn) {
-      this.$store.commit("mainBtnAnimLeave", btn);
-    },
     loginInputSave(id) {
       this.$store.dispatch("loginInputSave", id);
     },
     async loginFirebase() {
       await this.$store.dispatch("loginFirebase", {
-        email: this.login.input[0].value,
-        password: this.login.input[1].value,
+        email: document.getElementById("login-form-input-email").value,
+        password: document.getElementById("login-form-input-password").value,
       });
     },
   },

@@ -8,8 +8,6 @@ section.first-start
         mainBtn(
           :elText="firstStart.btnText",
           elClass="first-start__info-btn",
-          @moveAction="mainBtnAnimMove($event)",
-          @leaveAction="mainBtnAnimLeave($event)",
           @clickAction="(firstStart.animSection = false), animFirstStart(), loginToRouter()"
         )
       .first-start__bg
@@ -31,12 +29,6 @@ export default {
     },
     loginToRouter() {
       this.$store.dispatch("loginToRouter");
-    },
-    mainBtnAnimMove(btn) {
-      this.$store.commit("mainBtnAnimMove", btn);
-    },
-    mainBtnAnimLeave(btn) {
-      this.$store.commit("mainBtnAnimLeave", btn);
     },
   },
   mounted() {

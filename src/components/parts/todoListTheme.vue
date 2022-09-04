@@ -53,10 +53,11 @@ export default {
 
 .todolist__theme-wrap {
   position: relative;
+  margin-bottom: 10px;
 }
 
 .todolist__theme-title {
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   color: white;
   font-size: 34px;
   line-height: 38px;
@@ -67,7 +68,7 @@ export default {
 .todolist__theme-cards {
   position: relative;
   width: 100%;
-  height: 300px;
+  height: 260px;
 }
 
 .todolist__theme-cards-item {

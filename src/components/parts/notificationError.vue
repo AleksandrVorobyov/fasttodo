@@ -33,5 +33,6 @@ export default {
   line-height: 22px;
   letter-spacing: 0.5px;
   color: #721c24;
+  text-align: center;
 }
 </style>

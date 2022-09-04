@@ -7,8 +7,8 @@ button.main-btn(
 ) 
   span.main-btn__text {{ elText }}
   span.main-btn__effect(
-    @mousemove="$emit('moveAction', $event)",
-    @mouseleave="$emit('leaveAction', $event)"
+    @mousemove="mainBtnAnimMove($event)",
+    @mouseleave="mainBtnAnimLeave($event)"
   )
 </template>
 <script>
@@ -23,7 +23,15 @@ export default {
       required: false,
     },
   },
-  emits: ["clickAction", "moveAction", "leaveAction"],
+  emits: ["clickAction"],
+  methods: {
+    mainBtnAnimMove(e) {
+      this.$store.commit("mainBtnAnimMove", e);
+    },
+    mainBtnAnimLeave(e) {
+      this.$store.commit("mainBtnAnimLeave", e);
+    },
+  },
 };
 </script>
 <style scoped lang="scss">

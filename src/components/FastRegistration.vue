@@ -19,8 +19,6 @@ section.registration
         mainBtn(
           :elText="registration.btnText",
           elClass="registration__form-btn",
-          @moveAction="mainBtnAnimMove($event)",
-          @leaveAction="mainBtnAnimLeave($event)",
           @clickAction="registerPerson()"
         )
         p.registration__form-text
@@ -48,12 +46,6 @@ export default {
     },
     loginToRouter() {
       this.$store.dispatch("loginToRouter");
-    },
-    mainBtnAnimMove(btn) {
-      this.$store.commit("mainBtnAnimMove", btn);
-    },
-    mainBtnAnimLeave(btn) {
-      this.$store.commit("mainBtnAnimLeave", btn);
     },
     registrationinputSave(id) {
       this.$store.commit("registrationinputSave", id);

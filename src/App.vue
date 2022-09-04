@@ -1,15 +1,18 @@
 <template lang="pug">
 Preloader
+FastNotification  
 router-view
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import Preloader from "@/components/FastPreloader.vue";
+import FastNotification from "@/components/FastNotification.vue";
 
 export default {
   components: {
     Preloader,
+    FastNotification,
   },
   computed: {
     ...mapGetters(["user"]),

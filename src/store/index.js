@@ -1,15 +1,13 @@
-import { createStore } from 'vuex'
-import userSelected from "./user/userSelected"
-import FastFirstStart from "./modules/FastFirstStart"
-import FastLogin from "./modules/FastLogin"
-import FastRegistration from "./modules/FastRegistration"
-import FastToDoList from "./modules/FastToDoList"
+import { createStore } from "vuex";
+import userSelected from "./user/userSelected";
+import FastFirstStart from "./modules/FastFirstStart";
+import FastLogin from "./modules/FastLogin";
+import FastRegistration from "./modules/FastRegistration";
+import FastToDoList from "./modules/FastToDoList";
 
 export default createStore({
-  state: {
-  },
-  getters: {
-  },
+  state: {},
+  getters: {},
   mutations: {
     mainBtnAnimMove(_, btn) {
       const rect = btn.target.getBoundingClientRect();
@@ -29,5 +27,5 @@ export default createStore({
     FastLogin,
     FastRegistration,
     FastToDoList,
-  }
-})
+  },
+});
