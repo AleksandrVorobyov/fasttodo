@@ -14,10 +14,6 @@ import { getAuth } from "firebase/auth";
 import notification from "./notification";
 import defaultProperties from "./defaultProperties";
 
-router.beforeEach((to, from) => {
-  localStorage.setItem("lastPageRoute", to.fullPath);
-});
-
 export default {
   state: {
     user: {
@@ -73,7 +69,6 @@ export default {
     async authLocalVerification({ state, dispatch }) {
       let email = localStorage.getItem("fastTodoEmail");
       let password = localStorage.getItem("fastTodoPssword");
-      let lastPageRoute = localStorage.getItem("lastPageRoute");
 
       if (email && password) {
         try {
@@ -81,13 +76,11 @@ export default {
           const uid = await dispatch("getUid");
           await dispatch("loadProfileBase");
           await dispatch("loadPersonRecord");
+          await dispatch("loadAvatarImage")
           state.user.selected = true;
           state.user.uid = uid;
           return router.push("/");
         } catch (error) {
-          if (lastPageRoute) {
-            return router.push(lastPageRoute), console.log("error", error);
-          }
           return router.push("/start"), console.log("error", error);
         }
       } else {
@@ -237,6 +230,17 @@ export default {
             (state.webUser.username = user),
             (state.webUser.themeCards = themeCards)
           );
+        }
+      });
+    },
+    async loadUserName({ state, dispatch }) {
+      const uid = await dispatch("getUid");
+      const dbRef = ref(getDatabase());
+
+      await get(child(dbRef, `users/${uid}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+          let user = snapshot.val().info.username;
+          return state.webUser.username = user;
         }
       });
     },

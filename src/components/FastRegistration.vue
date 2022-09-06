@@ -6,21 +6,22 @@ section.registration
         .registration__form-avatar
           img(:src="require('@/assets/img/' + registration.avatarImg)")
         h2.registration__form-title(v-html="registration.title")
-        formInput(
-          v-for="item in registration.input",
-          :key="item.id",
-          :elId="item.id",
-          :elType="item.type",
-          :elClass="item.class",
-          :elValue="item.value",
-          :elPlaceholder="item.placeholder",
-          @inputAction="registrationinputSave(item.id)"
-        )
-        mainBtn(
-          :elText="registration.btnText",
-          elClass="registration__form-btn",
-          @clickAction="registerPerson()"
-        )
+        .registration__form-input-row
+          formInput(
+            v-for="item in registration.input",
+            :key="item.id",
+            :elId="item.id",
+            :elType="item.type",
+            :elClass="item.class",
+            :elValue="item.value",
+            :elPlaceholder="item.placeholder",
+            @inputAction="registrationinputSave(item.id)"
+          )
+          mainBtn(
+            :elText="registration.btnText",
+            elClass="registration__form-btn",
+            @clickAction="registerPerson()"
+          )
         p.registration__form-text
           span {{ registration.question }}
           button.title-gradient(
@@ -82,7 +83,8 @@ export default {
 
 .registration__form {
   position: relative;
-  display: inline-block;
+  display: grid;
+  gap: 20px;
   padding: 15px;
   width: 100%;
   background: linear-gradient(var(--bgMain) 0 0) padding-box,
@@ -97,8 +99,9 @@ export default {
   }
 
   @media (min-width: 720px) {
+    padding: 40px 20px;
     width: 600px;
-    height: 800px;
+    gap: 30px;
 
     &::before {
       position: absolute;
@@ -137,12 +140,7 @@ export default {
   width: 200px;
   height: 200px;
   margin: 0 auto;
-  margin-bottom: 20px;
   overflow: hidden;
-
-  @media (min-width: 720px) {
-    margin-bottom: 30px;
-  }
 
   img {
     position: absolute;
@@ -156,10 +154,14 @@ export default {
   }
 }
 
+.registration__form-input-row {
+  display: grid;
+  gap: 15px;
+}
+
 .registration__form-title {
   display: block;
   text-align: center;
-  margin-bottom: 20px;
   font-size: 32px;
   line-height: 42px;
   letter-spacing: 1px;
@@ -169,12 +171,7 @@ export default {
   @media (min-width: 720px) {
     font-size: 36px;
     line-height: 46px;
-    margin-bottom: 30px;
   }
-}
-
-.registration__form-btn {
-  margin-bottom: 20px;
 }
 
 .registration__form-text {

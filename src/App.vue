@@ -1,6 +1,6 @@
 <template lang="pug">
 Preloader
-FastNotification  
+FastNotification 
 router-view
 </template>
 
@@ -15,7 +15,7 @@ export default {
     FastNotification,
   },
   computed: {
-    ...mapGetters(["user"]),
+    ...mapGetters(["user", "hiddenBody", "scrollBody"]),
   },
   methods: {
     async authLocalVerification() {
@@ -35,6 +35,13 @@ export default {
     }, 1000);
     document.addEventListener("click", (e) => {
       this.todoMenuSmartHiding(e);
+    });
+    window.addEventListener("scroll", () => {
+      if (this.hiddenBody) {
+        let scrollTop = this.scrollBody.y;
+        let scrollLeft = this.scrollBody.x;
+        window.scrollTo(scrollLeft, scrollTop);
+      }
     });
   },
 };

@@ -24,7 +24,6 @@ export default {
 .form-input {
   position: relative;
   padding: 5px 10px;
-  margin-bottom: 20px;
   width: 100%;
   height: 50px;
   background: white;

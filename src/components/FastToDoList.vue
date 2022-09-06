@@ -19,6 +19,7 @@ section.todolist
       .todolist__form-wrap
         todoForm
   changeName
+  changeAvatar
 </template>
 <script>
 import { mapGetters } from "vuex";
@@ -30,6 +31,7 @@ import todoProfile from "./parts/todoProfile.vue";
 import todoMenu from "./parts/todoMenu.vue";
 import todoClock from "./parts/clock.vue";
 import changeName from "./parts/changeNameModuleView.vue";
+import changeAvatar from "./parts/changeAvatarModuleView.vue";
 
 export default {
   components: {
@@ -41,6 +43,7 @@ export default {
     todoMenu,
     todoClock,
     changeName,
+    changeAvatar,
   },
   computed: {
     ...mapGetters(["todolist", "login", "clientTime", "fastToDoList"]),

@@ -2,7 +2,7 @@
 button#todo-profile.todo-profile(type="button")
   h5.todo-profile__username {{ webUser.username }}
   .todo-profile__img
-    img(
+    img#todoProfileImg(
       :src="require('@/assets/img/' + (profile.avatarImg.userСhoice ? profile.avatarImg.userСhoice : profile.avatarImg.default))"
     )
     span 

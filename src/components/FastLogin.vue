@@ -6,21 +6,22 @@ section.login
         .login__form-avatar
           img(:src="require('@/assets/img/' + login.avatar.img)")
         h2.login__form-title(v-html="login.title")
-        formInput(
-          v-for="item in login.input",
-          :key="item.id",
-          :elId="item.id",
-          :elType="item.type",
-          :elClass="item.class",
-          :elValue="item.value",
-          :elPlaceholder="item.placeholder",
-          @inputAction="loginInputSave(item.id)"
-        )
-        mainBtn(
-          :elText="login.btnText",
-          elClass="login__form-btn",
-          @clickAction="loginFirebase()"
-        )
+        .login__form-input-row
+          formInput(
+            v-for="item in login.input",
+            :key="item.id",
+            :elId="item.id",
+            :elType="item.type",
+            :elClass="item.class",
+            :elValue="item.value",
+            :elPlaceholder="item.placeholder",
+            @inputAction="loginInputSave(item.id)"
+          )
+          mainBtn(
+            :elText="login.btnText",
+            elClass="login__form-btn",
+            @clickAction="loginFirebase()"
+          )
         p.login__form-text
           span {{ login.btnRegister }}
           button.title-gradient(
@@ -80,7 +81,8 @@ export default {
 
 .login__form {
   position: relative;
-  display: inline-block;
+  display: grid;
+  gap: 20px;
   padding: 15px;
   width: 100%;
   background: linear-gradient(var(--bgMain) 0 0) padding-box,
@@ -95,8 +97,9 @@ export default {
   }
 
   @media (min-width: 720px) {
+    gap: 30px;
     width: 600px;
-    height: 800px;
+    padding: 40px 20px;
 
     &::before {
       position: absolute;
@@ -135,12 +138,7 @@ export default {
   width: 200px;
   height: 200px;
   margin: 0 auto;
-  margin-bottom: 20px;
   overflow: hidden;
-
-  @media (min-width: 720px) {
-    margin-bottom: 30px;
-  }
 
   img {
     position: absolute;
@@ -154,9 +152,13 @@ export default {
   }
 }
 
+.login__form-input-row {
+  display: grid;
+  gap: 15px;
+}
+
 .login__form-title {
   display: block;
-  margin-bottom: 20px;
   text-align: center;
   font-size: 32px;
   line-height: 42px;
@@ -165,14 +167,9 @@ export default {
   color: white;
 
   @media (min-width: 720px) {
-    margin-bottom: 30px;
     font-size: 36px;
     line-height: 46px;
   }
-}
-
-.login__form-btn {
-  margin-bottom: 20px;
 }
 
 .login__form-text {

@@ -6,8 +6,21 @@ import FastRegistration from "./modules/FastRegistration";
 import FastToDoList from "./modules/FastToDoList";
 
 export default createStore({
-  state: {},
-  getters: {},
+  state: {
+    hiddenBody: false,
+    scrollBody: {
+      x: "",
+      y: ""
+    }
+  },
+  getters: {
+    hiddenBody(state) {
+      return state.hiddenBody;
+    },
+    scrollBody(state) {
+      return state.scrollBody;
+    },
+  },
   mutations: {
     mainBtnAnimMove(_, btn) {
       const rect = btn.target.getBoundingClientRect();
@@ -20,7 +33,15 @@ export default createStore({
       btn.target.style.background = `transparent`;
     },
   },
-  actions: {},
+  actions: {
+    hiddenBodyFunc({ state, commit, dispatch }) {
+      if (state.hiddenBody == false) {
+        state.scrollBody.x = window.pageXOffset
+        state.scrollBody.y = window.pageYOffset
+      }
+      return (state.hiddenBody = !state.hiddenBody);
+    }
+  },
   modules: {
     userSelected,
     FastFirstStart,

@@ -7,6 +7,7 @@ section#formRename.form-rename
       :elPlaceholder="profile.rename.placeholder",
       elClass="form-rename__form-input",
       elId="formRenameInput"
+      @inputAction="renameInputSave()"
     )
     mainBtn(
       elType="button",
@@ -15,6 +16,10 @@ section#formRename.form-rename
       @clickAction="changeUserName()",
       :elText="profile.rename.btn"
     )
+    button.form-rename__form-btn-exit(
+      type="button",
+      @click="toggleRenameFormModule()"
+    ) Отменить
 </template>
 <script>
 import { mapGetters } from "vuex";
@@ -31,6 +36,12 @@ export default {
   methods: {
     async changeUserName() {
       await this.$store.dispatch("changeUserName");
+    },
+    async toggleRenameFormModule() {
+      await this.$store.dispatch("toggleRenameFormModule");
+    },
+    renameInputSave() {
+      this.$store.commit("renameInputSave");
     },
   },
 };
@@ -60,6 +71,8 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  display: grid;
+  gap: 20px;
   padding: 20px;
   width: 400px;
   background: linear-gradient(var(--bgMain) 0 0) padding-box,
@@ -70,7 +83,6 @@ export default {
 
 .form-rename__form-title {
   display: block;
-  margin-bottom: 20px;
   text-align: center;
   font-size: 26px;
   line-height: 34px;
@@ -81,6 +93,27 @@ export default {
   @media (min-width: 720px) {
     font-size: 22px;
     line-height: 26px;
+  }
+}
+
+.form-rename__form-btn-exit {
+  position: relative;
+  width: fit-content;
+  display: block;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+  line-height: 21px;
+  letter-spacing: .5px;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  transition: color .4s linear;
+
+  &:hover {
+    color: rgb(250, 169, 169);
   }
 }
 </style>

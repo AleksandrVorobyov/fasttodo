@@ -9,7 +9,7 @@ import {
   update,
   onValue,
 } from "firebase/database";
-import { getAuth } from "firebase/auth";
+import uploadImage from "./uploadImage";
 export default {
   state: {
     profile: {
@@ -29,10 +29,19 @@ export default {
       rename: {
         title: "Напишите новое имя",
         placeholder: "...",
+        inputValue: "",
         btn: "Изменить",
         errorMin: "Слишком короткое имя! Минимум 5 букв",
         errorMax: "Слишком длинное имя! Максимум 20 букв",
       },
+      changeAvatar: {
+        title: "Выберите новый аватар",
+        inputLoad: false,
+        inputFile: "Перетащите изображение...",
+        inputFileSucess: "Изображение загружено!",
+        btnSubmit: "Отправить",
+        btnExit: "Отменить",
+      }
     },
   },
   getters: {
@@ -48,11 +57,9 @@ export default {
       hamburger.classList.toggle("todo-profile--active");
       state.profile.menu.show = !state.profile.menu.show;
     },
-    openRenameFormModule(state) {
-      document
-        .getElementById("formRename")
-        .classList.toggle("form-rename--active");
-    },
+    renameInputSave(state) {
+      return state.profile.rename.inputValue = document.getElementById("formRenameInput").value;
+    }
   },
   actions: {
     todoMenuSmartHiding({ state, commit, dispatch }, e) {
@@ -71,28 +78,27 @@ export default {
         return;
       }
     },
+    async toggleRenameFormModule({ state, dispatch, }) {
+      const formRename = document.getElementById("formRename")
+      formRename.classList.toggle("form-rename--active");
+      await dispatch("hiddenBodyFunc");
+    },
+    async toggleChangeAvatarFormModule({ state, dispatch, }) {
+      const changeAvatar = document.getElementById("changeAvatar")
+      changeAvatar.classList.toggle("change-avatar--active");
+      await dispatch("hiddenBodyFunc");
+    },
     async changeUserName({ state, commit, dispatch }) {
-      const formRenameInput = document.getElementById("formRenameInput").value;
-      if (formRenameInput.length >= 5 && formRenameInput.length <= 20) {
+      if (state.profile.rename.inputValue.length >= 5 && state.profile.rename.inputValue.length <= 20) {
         try {
           const db = getDatabase();
           const uid = await dispatch("getUid");
-
-            const updates = {};
-
-            const username = {
-              username: formRenameInput,
-            };
-
-            updates[`users/${uid}/info/`] = username;
-
-            formRenameInput = "";
-            commit("openRenameFormModule");
-            return update(ref(db), updates);
+          await set(ref(db, `users/${uid}/info/username/`), state.profile.rename.inputValue);
+          return await dispatch("toggleRenameFormModule"), state.profile.rename.inputValue = "", await dispatch("loadUserName");
         } catch (error) {
-          return await dispatch("getNotificationError", error);
+          return await dispatch("getNotificationError", error), console.log(error, "1");;
         }
-      } else if (formRenameInput.length > 20) {
+      } else if (state.profile.rename.inputValue.length > 20) {
         return await dispatch(
           "getNotificationError",
           state.profile.rename.errorMax
@@ -103,5 +109,11 @@ export default {
         state.profile.rename.errorMin
       );
     },
+    loadProfileInputFile({ state }) {
+      return state.profile.changeAvatar.inputLoad = !state.profile.changeAvatar.inputLoad
+    }
   },
+  modules: {
+    uploadImage
+  }
 };
