@@ -72,14 +72,20 @@ export default {
 
       if (email && password) {
         try {
-          await firebase.auth().signInWithEmailAndPassword(email, password);
-          const uid = await dispatch("getUid");
-          await dispatch("loadProfileBase");
-          await dispatch("loadPersonRecord");
-          await dispatch("loadAvatarImage")
-          state.user.selected = true;
-          state.user.uid = uid;
-          return router.push("/");
+          await firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+            dispatch("loadProfileBase");
+            dispatch("loadPersonRecord");
+            return
+          }).then(() => {
+            const uid = dispatch("getUid");
+            state.user.selected = true;
+            state.user.uid = uid;
+            router.push("/");
+            return
+          }).then(() => {
+            dispatch("loadAvatarImage")
+            return
+          });
         } catch (error) {
           return router.push("/start"), console.log("error", error);
         }
@@ -165,34 +171,34 @@ export default {
     ) {
       const emailValidate = await dispatch("emailValid", email);
       const passwordValide = await dispatch("passwordValid", { password });
-      console.log(email);
-      console.log(password);
+      await dispatch("getInputReadonly", true);
 
-      dispatch("getInputReadonly", true);
       if (emailValidate && passwordValide) {
         try {
           await firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
             .then(() => {
-              console.log("yes");
+              const uid = dispatch("getUid");
+              state.user.uid = uid;
+              state.user.selected = true;
+              let emailPerson = localStorage.setItem("fastTodoEmail", email);
+              let passwordPerson = localStorage.setItem(
+                "fastTodoPssword",
+                password
+              );
+              dispatch("loadPersonRecord");
+              dispatch("loadProfileBase");
+              router.push("/");
+            }).then(() => {
+              dispatch("loadAvatarImage")
             })
             .catch((error) => {
-              console.log(error);
+              dispatch(
+                "getNotificationError",
+                error
+              )
             });
-          const uid = await dispatch("getUid");
-          state.user.uid = uid;
-          state.user.selected = true;
-          let emailPerson = localStorage.setItem("fastTodoEmail", email);
-          let passwordPerson = localStorage.setItem(
-            "fastTodoPssword",
-            password
-          );
-          await dispatch("loadPersonRecord");
-          await dispatch("loadProfileBase");
-          setTimeout(() => {
-            router.push("/");
-          }, 1500);
           return;
         } catch (e) {
           return (
@@ -201,7 +207,7 @@ export default {
               "getNotificationError",
               "Ошибка! Неверные почта или пароль!"
             ),
-            dispatch("getInputReadonly", false)
+            await dispatch("getInputReadonly", false)
           );
         }
       } else {

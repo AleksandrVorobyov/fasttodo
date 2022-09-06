@@ -12,19 +12,29 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
+  data() {
+    return {
+      clock: () => {
+        this.runClock();
+      },
+    };
+  },
   computed: {
-    ...mapGetters(["header"]),
+    ...mapGetters(["fastToDoList"]),
   },
   methods: {
     runClock() {
-      this.$store.dispatch("runClock")
-    }
+      this.clock = setInterval(() => {
+        this.$store.dispatch("runClock");
+      }, 1000);
+    },
   },
   mounted() {
-      this.runClock();
+    this.runClock();
   },
-  beforeDestroy() {
-    delete this.runClock();
+
+  beforeUnmount() {
+    clearInterval(this.clock);
   },
 };
 </script>

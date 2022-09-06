@@ -43,7 +43,6 @@ export default {
   mutations: {},
   actions: {
     runClock() {
-      setInterval(() => {
         const deg = 6;
         const hr = document.getElementById("hr");
         const mn = document.getElementById("mn");
@@ -57,7 +56,6 @@ export default {
         hr.style.transform = `rotateZ(${hh + mm / 12}deg)`;
         mn.style.transform = `rotateZ(${mm}deg)`;
         sc.style.transform = `rotateZ(${ss}deg)`;
-      }, 1000);
     },
   },
   modules: {
