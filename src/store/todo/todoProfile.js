@@ -33,6 +33,7 @@ export default {
         btn: "Изменить",
         errorMin: "Слишком короткое имя! Минимум 5 букв",
         errorMax: "Слишком длинное имя! Максимум 20 букв",
+        btnExit: "Отменить",
       },
       changeAvatar: {
         title: "Выберите новый аватар",
@@ -80,8 +81,13 @@ export default {
     },
     async toggleRenameFormModule({ state, dispatch, }) {
       const formRename = document.getElementById("formRename")
+      const formRenameInput = document.getElementById("formRenameInput")
       formRename.classList.toggle("form-rename--active");
       await dispatch("hiddenBodyFunc");
+
+      if (formRenameInput.value.length > 0) {
+        return formRenameInput.value = ""
+      }
     },
     async toggleChangeAvatarFormModule({ state, dispatch, }) {
       const changeAvatar = document.getElementById("changeAvatar")

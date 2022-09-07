@@ -14,9 +14,7 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      clock: () => {
-        this.runClock();
-      },
+      clock: {},
     };
   },
   computed: {
