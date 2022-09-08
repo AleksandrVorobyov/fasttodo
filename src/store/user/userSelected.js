@@ -19,6 +19,8 @@ export default {
     user: {
       selected: false,
       uid: "",
+      loginSuccess: "Вы успешно вошли в аккаунт!",
+      registerSuccess: "Вы успешно зарегистрировали аккаунт!",
     },
     webUser: {
       username: "",
@@ -140,6 +142,7 @@ export default {
           );
           await dispatch("loadPersonRecord");
           await dispatch("loadProfileBase");
+          dispatch("getNotificationSuccess", state.user.registerSuccess);
           setTimeout(() => {
             router.push("/");
           }, 1500);
@@ -189,6 +192,7 @@ export default {
               );
               dispatch("loadPersonRecord");
               dispatch("loadProfileBase");
+              dispatch("getNotificationSuccess", state.user.loginSuccess);
               router.push("/");
             }).then(() => {
               dispatch("loadAvatarImage")

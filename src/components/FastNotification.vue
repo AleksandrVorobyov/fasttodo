@@ -1,16 +1,16 @@
 <template lang="pug">
 .notification(v-show="notification.visible")
-  component(:is="notification.type")
+  notifications(:notificationInfo="notification")
 </template>
 <script>
 import { mapGetters } from "vuex";
-import notificationError from "./parts/notificationError.vue";
+import notifications from "./parts/notifications.vue";
 export default {
   computed: {
     ...mapGetters(["notification"]),
   },
   components: {
-    notificationError,
+    notifications,
   },
 };
 </script>
@@ -22,5 +22,6 @@ export default {
   top: 0;
   right: 0;
   z-index: 4000;
+  user-select: none;
 }
 </style>

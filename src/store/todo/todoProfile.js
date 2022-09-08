@@ -34,6 +34,7 @@ export default {
         errorMin: "Слишком короткое имя! Минимум 5 букв",
         errorMax: "Слишком длинное имя! Максимум 20 букв",
         btnExit: "Отменить",
+        success: "Вы успешно сменили имя!",
       },
       changeAvatar: {
         title: "Выберите новый аватар",
@@ -42,7 +43,7 @@ export default {
         inputFileSucess: "Изображение загружено!",
         btnSubmit: "Отправить",
         btnExit: "Отменить",
-      }
+      },
     },
   },
   getters: {
@@ -59,8 +60,9 @@ export default {
       state.profile.menu.show = !state.profile.menu.show;
     },
     renameInputSave(state) {
-      return state.profile.rename.inputValue = document.getElementById("formRenameInput").value;
-    }
+      return (state.profile.rename.inputValue =
+        document.getElementById("formRenameInput").value);
+    },
   },
   actions: {
     todoMenuSmartHiding({ state, commit, dispatch }, e) {
@@ -79,30 +81,47 @@ export default {
         return;
       }
     },
-    async toggleRenameFormModule({ state, dispatch, }) {
-      const formRename = document.getElementById("formRename")
-      const formRenameInput = document.getElementById("formRenameInput")
+    async toggleRenameFormModule({ state, dispatch }) {
+      const formRename = document.getElementById("formRename");
+      const formRenameInput = document.getElementById("formRenameInput");
       formRename.classList.toggle("form-rename--active");
       await dispatch("hiddenBodyFunc");
 
       if (formRenameInput.value.length > 0) {
-        return formRenameInput.value = ""
+        return (formRenameInput.value = "");
       }
     },
-    async toggleChangeAvatarFormModule({ state, dispatch, }) {
-      const changeAvatar = document.getElementById("changeAvatar")
+    async toggleChangeAvatarFormModule({ state, dispatch }) {
+      const changeAvatar = document.getElementById("changeAvatar");
       changeAvatar.classList.toggle("change-avatar--active");
       await dispatch("hiddenBodyFunc");
     },
     async changeUserName({ state, commit, dispatch }) {
-      if (state.profile.rename.inputValue.length >= 5 && state.profile.rename.inputValue.length <= 20) {
+      if (
+        state.profile.rename.inputValue.length >= 5 &&
+        state.profile.rename.inputValue.length <= 20
+      ) {
         try {
           const db = getDatabase();
           const uid = await dispatch("getUid");
-          await set(ref(db, `users/${uid}/info/username/`), state.profile.rename.inputValue);
-          return await dispatch("toggleRenameFormModule"), state.profile.rename.inputValue = "", await dispatch("loadUserName");
+          await set(
+            ref(db, `users/${uid}/info/username/`),
+            state.profile.rename.inputValue
+          );
+          return (
+            await dispatch("toggleRenameFormModule"),
+            (state.profile.rename.inputValue = ""),
+            await dispatch("loadUserName"),
+            await dispatch(
+              "getNotificationSuccess",
+              state.profile.rename.success
+            )
+          );
         } catch (error) {
-          return await dispatch("getNotificationError", error), console.log(error, "1");;
+          return (
+            await dispatch("getNotificationError", error),
+            console.log(error, "1")
+          );
         }
       } else if (state.profile.rename.inputValue.length > 20) {
         return await dispatch(
@@ -116,10 +135,11 @@ export default {
       );
     },
     loadProfileInputFile({ state }) {
-      return state.profile.changeAvatar.inputLoad = !state.profile.changeAvatar.inputLoad
-    }
+      return (state.profile.changeAvatar.inputLoad =
+        !state.profile.changeAvatar.inputLoad);
+    },
   },
   modules: {
-    uploadImage
-  }
+    uploadImage,
+  },
 };

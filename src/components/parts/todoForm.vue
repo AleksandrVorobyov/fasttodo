@@ -43,7 +43,7 @@ import mainBtn from "./mainBtn.vue";
 import iconTrash from "@/assets/img/iconVue/trash.vue";
 export default {
   computed: {
-    ...mapGetters(["todoForm", "todoOptions", "personRecord"]),
+    ...mapGetters(["todoForm", "personRecord"]),
   },
   components: {
     draggable,

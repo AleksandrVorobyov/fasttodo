@@ -17,20 +17,11 @@ export default {
       btnText: "Добавить",
       inputErrorEmpty: "Поле для ваших дел пустое! Заполните его!",
     },
-    todoOptions: {
-      animation: 0,
-      group: "description",
-      disabled: true,
-      ghostClass: "ghost",
-    },
     personRecord: [],
   },
   getters: {
     todoForm(state) {
       return state.todoForm;
-    },
-    todoOptions(state) {
-      return state.todoOptions;
     },
     personRecord(state) {
       return state.personRecord;
