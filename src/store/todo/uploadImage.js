@@ -41,25 +41,19 @@ export default {
         state.userImage.preloadingImage = image;
         await dispatch("loadProfileInputFile");
 
-        const changeAvatarFormFileLabel = document.querySelector(
-          ".change-avatar__form-file-label"
-        );
+        let inputDiv = e.target.closest("form");
+        let labelDiv = inputDiv.querySelector("label");
 
-        changeAvatarFormFileLabel.classList.add(
-          "change-avatar__form-file-label--sucess"
-        );
+        labelDiv.classList.add("image-file-input__label--sucess");
       } catch (error) {
         return await dispatch("getNotificationError", error);
       }
     },
-    delPreloadImage({ state, commit, dispatch }) {
-      const changeAvatarFormFileLabel = document.querySelector(
-        ".change-avatar__form-file-label"
-      );
+    delPreloadImage({ state, commit, dispatch }, e) {
+      let inputDiv = e.target.closest("form");
+      let labelDiv = inputDiv.querySelector("label");
 
-      changeAvatarFormFileLabel.classList.remove(
-        "change-avatar__form-file-label--sucess"
-      );
+      labelDiv.classList.remove("image-file-input__label--sucess");
     },
     async loadAvatarImage({ state, commit, dispatch }) {
       const uid = await dispatch("getUid");

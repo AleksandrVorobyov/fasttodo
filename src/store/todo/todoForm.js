@@ -12,10 +12,10 @@ import {
 export default {
   state: {
     todoForm: {
-      title: "Список дел в данной теме пуст! Добавьте новое дело!",
-      inputPlaceholder: "Поле для ваших дел...",
+      title: "Список задач в данной теме пуст! Добавьте новую задачу!",
+      inputPlaceholder: "Поле для ваших задач...",
       btnText: "Добавить",
-      inputErrorEmpty: "Поле для ваших дел пустое! Заполните его!",
+      inputErrorEmpty: "Поле для ваших задач пустое! Заполните его!",
     },
     personRecord: [],
   },

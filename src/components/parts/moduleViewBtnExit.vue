@@ -3,7 +3,7 @@ button.module-view__btn-exit(
   :type="btnType",
   :class="btnClass",
   :id="btnId",
-  @click="$emit('clickAction')"
+  @click="$emit('clickAction', $event)"
 ) {{ btnText }}
 </template>
 <script>
