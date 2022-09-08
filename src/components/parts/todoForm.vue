@@ -14,25 +14,19 @@
   hr(v-if="personRecord.length != 0")
   .todolist__form-body
     h3.todolist__form-body-title(v-if="personRecord.length == 0") {{ todoForm.title }}
-    draggable#list.todolist__form-body-list(
+    draggable#list.todolist__form-body-list.list-group(
       v-else,
-      v-model="personRecord",
       tag="ul",
-      @end="dragSave()",
-      v-bind="todoOptions",
-      :move="checkMove",
-      ghost-class="ghost"
+      :list="personRecord",
+      handle=".handle",
+      item-key="name",
+      @end="dragRecordSave()"
     )
-      transition-group(type="transition", name="flip-list")
-        li.todolist__form-body-item(
-          v-for="(item, index) in personRecord",
-          :key="item.id"
-        )
-          span {{ index + 1 + ')' + ' ' + item.text }}
-          button.todolist__form-body-drag(
+      template(#item="{ element, index }")
+        li.todolist__form-body-item
+          span {{ index + 1 + ')' + ' ' + element.text }}
+          button.todolist__form-body-drag.handle(
             type="button",
-            @mouseover="dragCheck($event)",
-            @mouseout="dragCheck($event)"
           )
             span
           button.todolist__form-body-del(
@@ -40,22 +34,21 @@
             @click="delRecord(index)"
           )
             iconTrash
-
   hr
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { VueDraggableNext } from "vue-draggable-next";
+import draggable from "vuedraggable";
 import mainBtn from "./mainBtn.vue";
-import iconTrash from "@/assets/img/iconVue/trash.vue"
+import iconTrash from "@/assets/img/iconVue/trash.vue";
 export default {
   computed: {
     ...mapGetters(["todoForm", "todoOptions", "personRecord"]),
   },
   components: {
-    draggable: VueDraggableNext,
+    draggable,
     mainBtn: mainBtn,
-    iconTrash
+    iconTrash,
   },
   data() {
     return {
@@ -68,18 +61,12 @@ export default {
     async delRecord(elemIndex) {
       await this.$store.dispatch("delRecord", elemIndex);
     },
-    loadTodoList() {
-      this.$store.dispatch("loadTodoList");
-    },
     async getNewRecord() {
       const message = document.getElementById("todoFormInput").value;
       await this.$store.dispatch("getNewRecord", message);
     },
-    dragSave() {
-      this.$store.commit("dragSave");
-    },
-    dragCheck(event) {
-      this.$store.commit("dragCheck", event);
+    async dragRecordSave() {
+      await this.$store.dispatch("dragRecordSave");
     },
   },
 };
@@ -154,7 +141,8 @@ form > hr {
   position: relative;
   padding: 10px 5px;
   width: 100%;
-  background: linear-gradient(var(--bgInputMain) 0 0) padding-box, var(--linearMain) border-box;
+  background: linear-gradient(var(--bgInputMain) 0 0) padding-box,
+    var(--linearMain) border-box;
   border: 2px solid transparent;
   transition: background 0.4s linear, transform 0.4s linear,
     box-shadow 0.4s linear;
@@ -169,7 +157,8 @@ form > hr {
   }
 
   &:hover {
-    background: linear-gradient(var(--bgInputMain) 0 0) padding-box, gray border-box;
+    background: linear-gradient(var(--bgInputMain) 0 0) padding-box,
+      gray border-box;
 
     .todolist__form-body-drag,
     .todolist__form-body-del {
@@ -203,7 +192,7 @@ form > hr {
 
   svg {
     object-fit: contain;
-    transition: fill .4s linear;
+    transition: fill 0.4s linear;
     pointer-events: none;
   }
 
