@@ -1,7 +1,6 @@
 <template lang="pug">
 .start-page
-  main
-    FastFirstStart
+  FastFirstStart
 </template>
 
 <script>

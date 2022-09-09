@@ -1,11 +1,13 @@
 import theme from "../todo/theme";
-import todoForm from "../todo/todoForm";
-import todoProfile from "../todo/todoProfile";
+import todoListForm from "../todo/todoListForm";
+import todoListProfile from "../todo/todoListProfile";
 
 export default {
   state: {
     fastToDoList: {
       title: `fast<span class="title-gradient">todo</span>`,
+      glitchImgOne: "clock/bg-1.png",
+      glitchImgTwo: "clock/bg-2.png",
     },
     categoriesCard: {
       list: [
@@ -43,24 +45,24 @@ export default {
   mutations: {},
   actions: {
     runClock() {
-        const deg = 6;
-        const hr = document.getElementById("hr");
-        const mn = document.getElementById("mn");
-        const sc = document.getElementById("sc");
+      const deg = 6;
+      const hr = document.getElementById("hr");
+      const mn = document.getElementById("mn");
+      const sc = document.getElementById("sc");
 
-        let day = new Date();
-        let hh = day.getHours() * 30;
-        let mm = day.getMinutes() * deg;
-        let ss = day.getSeconds() * deg;
+      let day = new Date();
+      let hh = day.getHours() * 30;
+      let mm = day.getMinutes() * deg;
+      let ss = day.getSeconds() * deg;
 
-        hr.style.transform = `rotateZ(${hh + mm / 12}deg)`;
-        mn.style.transform = `rotateZ(${mm}deg)`;
-        sc.style.transform = `rotateZ(${ss}deg)`;
+      hr.style.transform = `rotateZ(${hh + mm / 12}deg)`;
+      mn.style.transform = `rotateZ(${mm}deg)`;
+      sc.style.transform = `rotateZ(${ss}deg)`;
     },
   },
   modules: {
     theme,
-    todoForm,
-    todoProfile,
+    todoListForm,
+    todoListProfile,
   },
 };

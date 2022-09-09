@@ -1,7 +1,6 @@
 <template lang="pug">
 .login-page
-  main
-    Login
+  Login
 </template>
 
 <script>

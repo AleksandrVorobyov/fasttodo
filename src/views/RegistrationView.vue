@@ -1,7 +1,6 @@
 <template lang="pug">
 .registration-page
-  main
-    FastRegistration
+  FastRegistration
 </template>
 
 <script>

@@ -1,17 +1,19 @@
 <template lang="pug">
-section.todolist
+.todolist
   .container
     .todolist-wrap
-      .totolist__nav
+      nav.totolist__nav
         .totolist__nav-col
           todoTitle(:title="fastToDoList.title")
         .totolist__nav-col
           todoListProfile
           todoListMenu
       .todolist__clock-wrap
-        span
+        .todolist__img
+          glitchImg(:glitchImg="fastToDoList.glitchImgOne" :glitchClass="'glitch-one'")
         todoListClock
-        span
+        .todolist__img
+          glitchImg(:glitchImg="fastToDoList.glitchImgTwo" :glitchClass="'glitch-two'")
       .totolist__categories-wrap
         todoListCategories
       .totolist__theme-wrap
@@ -32,6 +34,7 @@ import todoListClock from "./parts/clock.vue";
 import todoListForm from "./parts/todoListForm.vue";
 import changeName from "./parts/changeNameModuleView.vue";
 import changeAvatar from "./parts/changeAvatarModuleView.vue";
+import glitchImg from "./parts/glitchImg.vue";
 
 export default {
   components: {
@@ -44,9 +47,10 @@ export default {
     todoListForm,
     changeName,
     changeAvatar,
+    glitchImg,
   },
   computed: {
-    ...mapGetters(["todolist", "login", "clientTime", "fastToDoList"]),
+    ...mapGetters(["login", "clientTime", "fastToDoList"]),
   },
   methods: {
     localeTime() {
@@ -134,24 +138,7 @@ export default {
   justify-content: center;
   gap: 30px;
   margin-bottom: 40px;
-
-  & > span {
-    width: 250px;
-    height: 250px;
-    border: 5px solid transparent;
-    box-sizing: content-box;
-    border-image: var(--linearMain);
-    border-image-slice: 1;
-  }
-
-  span:first-child {
-    background: url("~@/assets/img/clock/bg-1.png") center center / contain
-      no-repeat;
-  }
-
-  span:last-child {
-    background: url("~@/assets/img/clock/bg-2.png") center center / contain
-      no-repeat;
-  }
 }
+
+
 </style>

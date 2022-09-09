@@ -1,9 +1,6 @@
 <template lang="pug">
 .home-page
-  header
-  main
-    FastToDoList
-  footer
+  FastToDoList
 </template>
 
 <script>
