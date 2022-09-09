@@ -6,18 +6,18 @@ section.todolist
         .totolist__nav-col
           todoTitle(:title="fastToDoList.title")
         .totolist__nav-col
-          todoProfile
-          todoMenu
+          todoListProfile
+          todoListMenu
       .todolist__clock-wrap
         span
-        todoClock
+        todoListClock
         span
       .totolist__categories-wrap
         todoListCategories
       .totolist__theme-wrap
         todoListTheme
       .todolist__form-wrap
-        todoForm
+        todoListForm
   changeName
   changeAvatar
 </template>
@@ -26,10 +26,10 @@ import { mapGetters } from "vuex";
 import todoTitle from "./parts/todoTitle.vue";
 import todoListCategories from "./parts/todoListCategories.vue";
 import todoListTheme from "./parts/todoListTheme.vue";
-import todoForm from "./parts/todoForm.vue";
-import todoProfile from "./parts/todoProfile.vue";
-import todoMenu from "./parts/todoMenu.vue";
-import todoClock from "./parts/clock.vue";
+import todoListProfile from "./parts/todoListProfile.vue";
+import todoListMenu from "./parts/todoListMenu.vue";
+import todoListClock from "./parts/clock.vue";
+import todoListForm from "./parts/todoListForm.vue";
 import changeName from "./parts/changeNameModuleView.vue";
 import changeAvatar from "./parts/changeAvatarModuleView.vue";
 
@@ -38,10 +38,10 @@ export default {
     todoTitle,
     todoListCategories,
     todoListTheme,
-    todoForm,
-    todoProfile,
-    todoMenu,
-    todoClock,
+    todoListProfile,
+    todoListMenu,
+    todoListClock,
+    todoListForm,
     changeName,
     changeAvatar,
   },

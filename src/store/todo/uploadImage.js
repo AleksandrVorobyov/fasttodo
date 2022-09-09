@@ -69,7 +69,7 @@ export default {
           xhr.responseType = "blob";
           xhr.open("GET", url);
 
-          const img = document.getElementById("todoProfileImg");
+          const img = document.getElementById("todolistProfileImg");
           img.setAttribute("src", url);
           console.log("load confirm");
         })

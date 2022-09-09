@@ -1,18 +1,18 @@
 <template lang="pug">
-#todo-profile__menu.todo-profile__menu
-  ul.todo-profile__menu-list
-    li.todo-profile__menu-item
-      button.todo-profile__menu-btn(
+#todolistProfileMenu.todolist-profile__menu
+  ul.todolist-profile__menu-list
+    li.todolist-profile__menu-item
+      button.todolist-profile__menu-btn(
         type="button",
         @click="toggleRenameFormModule(), todoMenuActive()"
       ) {{ profile.menu.btn.renameTextBtn }}
-    li.todo-profile__menu-item
-      button.todo-profile__menu-btn(
+    li.todolist-profile__menu-item
+      button.todolist-profile__menu-btn(
         type="button",
         @click="toggleChangeAvatarFormModule(), todoMenuActive()"
       ) {{ profile.menu.btn.renameImgBtn }}
-    li.todo-profile__menu-item
-      button.todo-profile__menu-btn(
+    li.todolist-profile__menu-item
+      button.todolist-profile__menu-btn(
         @click="logout(), todoMenuActive(), loginToRouter()",
         type="button"
       ) {{ profile.menu.btn.exitBtn }}
@@ -44,7 +44,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.todo-profile__menu {
+.todolist-profile__menu {
   position: absolute;
   padding: 8px;
   display: grid;
@@ -67,17 +67,17 @@ export default {
   }
 }
 
-.todo-profile__menu--active {
+.todolist-profile__menu--active {
   right: 0;
   pointer-events: all;
   opacity: 1;
 }
 
-.todo-profile__menu-item {
+.todolist-profile__menu-item {
   width: 100%;
 }
 
-.todo-profile__menu-list {
+.todolist-profile__menu-list {
   min-width: 200px;
   min-height: 100px;
   display: grid;
@@ -85,7 +85,7 @@ export default {
   background: white;
 }
 
-.todo-profile__menu-btn {
+.todolist-profile__menu-btn {
   position: relative;
   width: 100%;
   background: rgba(162, 138, 202, 0.6);

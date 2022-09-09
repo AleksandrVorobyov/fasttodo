@@ -1,8 +1,8 @@
 <template lang="pug">
-button#todo-profile.todo-profile(type="button")
-  h5.todo-profile__username {{ webUser.username }}
-  .todo-profile__img
-    img#todoProfileImg(
+button#todolistProfile.todolist-profile(type="button")
+  h5.todolist-profile__username {{ webUser.username }}
+  .todolist-profile__img
+    img#todolistProfileImg(
       :src="require('@/assets/img/' + (profile.avatarImg.userСhoice ? profile.avatarImg.userСhoice : profile.avatarImg.default))"
     )
     span 
@@ -22,7 +22,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.todo-profile {
+.todolist-profile {
   position: relative;
   display: flex;
   gap: 5px;
@@ -44,7 +44,7 @@ export default {
   }
 }
 
-.todo-profile.todo-profile--active {
+.todolist-profile.todolist-profile--active {
   img {
     opacity: 0.6;
   }
@@ -55,7 +55,7 @@ export default {
   }
 }
 
-.todo-profile__username {
+.todolist-profile__username {
   display: inline-block;
   font-size: 18px;
   line-height: 20px;
@@ -63,7 +63,7 @@ export default {
   color: #fff;
 }
 
-.todo-profile__img {
+.todolist-profile__img {
   position: relative;
   width: 60px;
   height: 60px;

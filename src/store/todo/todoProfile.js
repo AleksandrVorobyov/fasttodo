@@ -53,10 +53,10 @@ export default {
   },
   mutations: {
     todoMenuActive(state, payload) {
-      const hamburger = document.getElementById("todo-profile");
-      const menu = document.getElementById("todo-profile__menu");
-      menu.classList.toggle("todo-profile__menu--active");
-      hamburger.classList.toggle("todo-profile--active");
+      const hamburger = document.getElementById("todolistProfile");
+      const menu = document.getElementById("todolistProfileMenu");
+      menu.classList.toggle("todolist-profile__menu--active");
+      hamburger.classList.toggle("todolist-profile--active");
       state.profile.menu.show = !state.profile.menu.show;
     },
     renameInputSave(state) {
@@ -66,9 +66,9 @@ export default {
   },
   actions: {
     todoMenuSmartHiding({ state, commit, dispatch }, e) {
-      if (document.getElementById("todo-profile")) {
-        const hamburger = document.getElementById("todo-profile");
-        const menu = document.getElementById("todo-profile__menu");
+      if (document.getElementById("todolistProfile")) {
+        const hamburger = document.getElementById("todolistProfile");
+        const menu = document.getElementById("todolistProfileMenu");
         let target = e.target;
         let its_menu = target == menu || menu.contains(target);
 
