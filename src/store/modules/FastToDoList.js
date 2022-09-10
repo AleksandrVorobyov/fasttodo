@@ -9,7 +9,7 @@ export default {
       glitchImgOne: "clock/bg-1.png",
       glitchImgTwo: "clock/bg-2.png",
     },
-    categoriesCard: {
+    themeControl: {
       list: [
         {
           id: "todo-categories-create",
@@ -30,19 +30,80 @@ export default {
       all: [],
     },
     clientTime: "",
+    todolistWorkplace: {
+      col: [
+        {
+          component: [
+            {
+              name: "workplaceTitle",
+              text: "Придумайте название новой темы",
+            },
+            {
+              name: "workplaceInput",
+              value: null,
+              place: "Имя темы...",
+              class: "todolist__workplace-input",
+              id: "todolistWorkplaceInputThemeAdd",
+              type: "text",
+            },
+          ],
+        },
+        {
+          component: [
+            {
+              name: "workplaceTitle",
+              text: "Выберите картинку для темы",
+            },
+            {
+              name: "workplaceFileInput",
+              class: "todolist__workplace-file-input",
+              id: "workplaceFileInputAdd",
+              labelClass: "workplaceFileInputAddLabel",
+              labelId: "workplaceFileInputAddLabelName",
+              load: false,
+              success: "Картинка загружена!",
+              file: "Перетащите картинку для темы...",
+            },
+          ],
+        },
+        {
+          component: [
+            {
+              name: "workplaceTitle",
+              text: "Можете отправить тему",
+            },
+            {
+              name: "workplaceBtn",
+              text: "Отправить",
+              id: "workplaceBtnThemeAdd",
+              class: "todolist__workplace-btn",
+            },
+          ],
+        },
+      ],
+    },
   },
   getters: {
     fastToDoList(state) {
       return state.fastToDoList;
     },
-    categoriesCard(state) {
-      return state.categoriesCard;
+    themeControl(state) {
+      return state.themeControl;
     },
     clientTime(state) {
       return state.clientTime;
     },
+    todolistWorkplace(state) {
+      return state.todolistWorkplace;
+    },
   },
-  mutations: {},
+  mutations: {
+    activeWorkPlace(state, e) {
+      document
+        .getElementById("todoListWorkPlace")
+        .classList.toggle("todolist__workplace--active");
+    },
+  },
   actions: {
     runClock() {
       const deg = 6;

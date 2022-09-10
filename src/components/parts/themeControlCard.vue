@@ -1,19 +1,20 @@
 <template lang="pug">
-.categories-card
-  h4.categories-card__title.title-gradient {{ categoriesTitle }}
-  .categories-card__img
-    img(:src="require('@/assets/img/categories/' + categoriesImg)")
+.theme-control-card(@click="$emit('actionClick', $event)")
+  h4.theme-control-card__title.title-gradient {{ themeControlTitle }}
+  .theme-control-card__img
+    img(:src="require('@/assets/img/categories/' + themeControlImg)")
 </template>
 <script>
 export default {
   props: {
-    categoriesTitle: String,
-    categoriesImg: String,
+    themeControlTitle: String,
+    themeControlImg: String,
   },
+  emits: ["actionClick"],
 };
 </script>
 <style scoped lang="scss">
-.categories-card {
+.theme-control-card {
   position: relative;
   display: flex;
   justify-content: space-between;
@@ -58,7 +59,7 @@ export default {
   }
 }
 
-.categories-card__img {
+.theme-control-card__img {
   position: relative;
   width: 60px;
   height: 60px;
@@ -77,7 +78,7 @@ export default {
   }
 }
 
-.categories-card__title {
+.theme-control-card__title {
   position: relative;
   z-index: 40;
   font-size: 22px;

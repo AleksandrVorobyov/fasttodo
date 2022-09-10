@@ -14,8 +14,9 @@
         todoListClock
         .todolist__img
           glitchImg(:glitchImg="fastToDoList.glitchImgTwo" :glitchClass="'glitch-two'")
-      .totolist__categories-wrap
-        todoListCategories
+      .totolist__theme-control-wrap
+        todoListThemeControl
+        todoListWorkPlace
       .totolist__theme-wrap
         todoListTheme
       .todolist__form-wrap
@@ -26,7 +27,8 @@
 <script>
 import { mapGetters } from "vuex";
 import todoTitle from "./parts/todoTitle.vue";
-import todoListCategories from "./parts/todoListCategories.vue";
+import todoListThemeControl from "./parts/todoListThemeControl.vue";
+import todoListWorkPlace from "./parts/todoListWorkPlace.vue";
 import todoListTheme from "./parts/todoListTheme.vue";
 import todoListProfile from "./parts/todoListProfile.vue";
 import todoListMenu from "./parts/todoListMenu.vue";
@@ -39,7 +41,8 @@ import glitchImg from "./parts/glitchImg.vue";
 export default {
   components: {
     todoTitle,
-    todoListCategories,
+    todoListThemeControl,
+    todoListWorkPlace,
     todoListTheme,
     todoListProfile,
     todoListMenu,
@@ -127,7 +130,7 @@ export default {
 }
 
 .totolist__nav,
-.totolist__categories-wrap {
+.totolist__theme-control-wrap {
   position: relative;
   margin-bottom: 40px;
 }
