@@ -1,5 +1,5 @@
 <template lang="pug">
-section#todoListWorkPlace.todolist__workplace.todolist__workplace--active
+section#todoListWorkPlace.todolist__workplace
   .todolist__workplace-col(v-for="item in todolistWorkplace.col", :key="item")
     template(v-for="(comp, index) in item.component", :key="item")
       component(:is="comp.name", :data="comp")
@@ -35,9 +35,32 @@ export default {
   background: linear-gradient(var(--bgMain) 0 0) padding-box,
     var(--linearSectionMain) border-box;
   z-index: 50;
-  transition: height 0.5s linear 0s, border 0s linear 0.5s,
-    visibility 0s linear 0.5s;
+  transition: height 0.5s linear .3s, border 0s linear 0.8s,
+    visibility 0s linear 0.8s;
   overflow: hidden;
+
+  &::before,
+  &::after {
+    position: absolute;
+    bottom: 10px;
+    content: "";
+    height: 140px;
+    width: 350px;
+    opacity: 0;
+    transition: opacity .3s linear;
+  }
+
+  &::before {
+    left: 10px;
+    background: url("~@/assets/img/workplace/arrow-dash-first.png") top center /
+      contain no-repeat;
+  }
+
+  &::after {
+    right: 10px;
+    background: url("~@/assets/img/workplace/arrow-dash-second.png") top center /
+      contain no-repeat;
+  }
 }
 
 .todolist__workplace--active {
@@ -46,6 +69,12 @@ export default {
   border: 5px solid transparent;
   border-top: 0px;
   transition: height linear 0.5s;
+
+  &::before,
+  &::after {
+    opacity: 1;
+    transition: opacity .3s linear .5s;
+  }
 }
 
 .todolist__workplace-col {

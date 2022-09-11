@@ -28,7 +28,7 @@ export default {
   overflow: hidden;
   background: rgba(233, 228, 228, 0.3);
   cursor: pointer;
-  transition: box-shadow 0.4s linear;
+  transition: box-shadow 0.4s linear, all 0.4s linear;
 
   * {
     pointer-events: none;
@@ -56,6 +56,35 @@ export default {
     background: rgba(0, 0, 255, 0.3);
     opacity: 0;
     transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+  }
+}
+
+.theme-control-card.theme-control-card--active {
+  box-shadow: 0px 0px 12px var(--activeMain);
+
+  .categories-card__img {
+    opacity: 1;
+  }
+
+  &::before {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+.theme-control-card[data-disabled="true"] {
+  opacity: 0.7;
+
+  &:hover {
+    box-shadow: 0;
+
+    &::before {
+      opacity: 0;
+      width: 0;
+    }
+    .categories-card__img {
+      opacity: 0.4;
+    }
   }
 }
 

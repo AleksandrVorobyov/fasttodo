@@ -6,15 +6,23 @@ export default {
       preloadingImage: "",
       success: "Вы успешно сменили аватар!",
     },
+    themes: {
+      uploadImage: "",
+      preloadingImage: "",
+      success: "Вы успешно загрузили картинку!",
+    }
   },
   getters: {
     userImage(state) {
       return state.userImage;
     },
+    themes(state) {
+      return state.themes;
+    },
   },
   mutations: {},
   actions: {
-    async uploadImage({ state, commit, dispatch }) {
+    async uploadImageAvatar({ state, commit, dispatch }) {
       try {
         const uid = await dispatch("getUid");
         const image = state.userImage.preloadingImage;
@@ -33,15 +41,13 @@ export default {
         return await dispatch("getNotificationError", error);
       }
     },
-    async preloadingImage({ state, commit, dispatch }, e) {
+    async preloadingImageAvatar({ state, commit, dispatch }, e) {
       try {
         const image = e.target.files[0];
-        const reader = new FileReader();
-        reader.readAsDataURL(image);
         state.userImage.preloadingImage = image;
         await dispatch("loadProfileInputFile");
 
-        let inputDiv = e.target.closest("form");
+        let inputDiv = e.target.closest("div");
         let labelDiv = inputDiv.querySelector("label");
 
         labelDiv.classList.add("image-file-input__label--sucess");
@@ -49,11 +55,14 @@ export default {
         return await dispatch("getNotificationError", error);
       }
     },
-    delPreloadImage({ state, commit, dispatch }, e) {
-      let inputDiv = e.target.closest("form");
-      let labelDiv = inputDiv.querySelector("label");
+    delPreloadImageAvatar({ state, commit, dispatch }, e) {
+      if (e) {
+        let inputDiv = e.target.closest("form");
+        let labelDiv = inputDiv.querySelector("label");
 
-      labelDiv.classList.remove("image-file-input__label--sucess");
+        return labelDiv.classList.remove("image-file-input__label--sucess");
+      }
+      return document.getElementById("changeAvatarFormFileLabel").classList.remove("image-file-input__label--sucess");
     },
     async loadAvatarImage({ state, commit, dispatch }) {
       const uid = await dispatch("getUid");
@@ -79,15 +88,15 @@ export default {
     },
     async changeAvatar({ state, commit, dispatch }) {
       try {
-        await dispatch("uploadImage")
+        await dispatch("uploadImageAvatar")
+          .then(() => {
+            return dispatch("loadAvatarImage");
+          })
           .then(() => {
             return dispatch("toggleChangeAvatarFormModule");
           })
           .then(() => {
-            return dispatch("delPreloadImage");
-          })
-          .then(() => {
-            return dispatch("loadAvatarImage");
+            return dispatch("delPreloadImageAvatar");
           })
           .then(() => {
             return dispatch("getNotificationSuccess", state.userImage.success);
@@ -96,5 +105,69 @@ export default {
         return await dispatch("getNotificationError", error);
       }
     },
+
+    async preloadingImageThemeAdd({ state, commit, dispatch }, e) {
+      try {
+        const image = e.target.files[0];
+        state.themes.preloadingImage = image;
+        await dispatch("loadThemeCreateInputLoad");
+
+        let inputDiv = e.target.closest("div");
+        let labelDiv = inputDiv.querySelector("label");
+
+        labelDiv.classList.add("image-file-input__label--sucess");
+      } catch (error) {
+        return await dispatch("getNotificationError", error);
+      }
+    },
+    delPreloadImageThemeAdd({ state, commit, dispatch }, e) {
+      if (e) {
+        let inputDiv = e.target.closest("form");
+        let labelDiv = inputDiv.querySelector("label");
+
+        return labelDiv.classList.remove("image-file-input__label--sucess");
+      }
+      return document.getElementById("workplaceFileInputAddLabelName").classList.remove("image-file-input__label--sucess");
+    },
+    async uploadImageAvatarThemeAdd({ state, commit, dispatch }) {
+      try {
+        const uid = await dispatch("getUid");
+        const image = state.themes.preloadingImage;
+
+        const storage = getStorage();
+        const spaceRef = ref(storage, `users/${uid}/themes/`);
+
+        const metadata = {
+          contentType: "image/jpeg",
+        };
+
+        await uploadBytes(spaceRef, image, metadata).then((snapshot) => {
+          console.log("Uploaded a blob or file!");
+        });
+      } catch (error) {
+        return await dispatch("getNotificationError", error);
+      }
+    },
+    async createNewTheme({ state, commit, dispatch, getters }) {
+      if (getters.inputCreateNameThemeBoolean && getters.todolistWorkplace.create.inputLoad) {
+        try {
+          await dispatch("uploadImageAvatarThemeAdd")
+            .then(() => {
+              return commit("activeWorkPlace"), commit("clearInputCreateNameTheme");
+            })
+            .then(() => {
+              return dispatch("delPreloadImageThemeAdd");
+            })
+            .then(() => {
+              return dispatch("getNotificationSuccess", state.userImage.success);
+            });
+        } catch (error) {
+          return await dispatch("getNotificationError", error);
+        }
+      } else {
+        return await dispatch("getNotificationError", "Сперва выберите картинку и напишите название!");
+      }
+    },
   },
 };
+

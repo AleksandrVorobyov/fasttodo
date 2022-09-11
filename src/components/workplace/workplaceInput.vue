@@ -5,7 +5,7 @@ formInput(
   :elPlaceholder="data.place",
   :elClass="data.class",
   :elId="data.id",
-  @inputAction="col(data.id)"
+  @inputAction="inputCreateNameTheme(data.id)"
 )
 </template>
 <script>
@@ -18,8 +18,8 @@ export default {
     data: Object,
   },
   methods: {
-    col(id) {
-        console.log(id);
+    inputCreateNameTheme(id) {
+        this.$store.commit("inputCreateNameTheme", id)
     }
   }
 };

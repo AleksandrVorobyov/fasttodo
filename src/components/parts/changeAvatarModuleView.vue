@@ -14,7 +14,7 @@ moduleView(viewClass="change-avatar", viewId="changeAvatar")
       :inputLoad="profile.changeAvatar.inputLoad",
       :inputFileSucess="profile.changeAvatar.inputFileSucess",
       :inputFile="profile.changeAvatar.inputFile",
-      @changeAction="preloadingImage($event)"
+      @changeAction="preloadingImageAvatar($event)"
     )
     mainBtn(
       elType="button",
@@ -27,7 +27,7 @@ moduleView(viewClass="change-avatar", viewId="changeAvatar")
       btnType="button",
       btnClass="change-avatar__form-btn-exit",
       :btnText="profile.changeAvatar.btnExit",
-      @clickAction="toggleChangeAvatarFormModule(), loadProfileInputFile(), delPreloadImage($event);"
+      @clickAction="toggleChangeAvatarFormModule(), loadProfileInputFile(), delPreloadImageAvatar($event);"
     )
 </template>
 <script>
@@ -57,14 +57,14 @@ export default {
     async changeAvatar() {
       await this.$store.dispatch("changeAvatar");
     },
-    async preloadingImage(e) {
-      await this.$store.dispatch("preloadingImage", e);
+    async preloadingImageAvatar(e) {
+      await this.$store.dispatch("preloadingImageAvatar", e);
     },
     loadProfileInputFile() {
       this.$store.dispatch("loadProfileInputFile");
     },
-    delPreloadImage(e) {
-      this.$store.dispatch("delPreloadImage", e);
+    delPreloadImageAvatar(e) {
+      this.$store.dispatch("delPreloadImageAvatar", e);
     },
   },
 };

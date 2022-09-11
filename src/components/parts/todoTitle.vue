@@ -1,5 +1,5 @@
 <template lang="pug">
-h2.todolist__title(v-html="title")
+h1.todolist__title(v-html="title")
 </template>
 <script>
 export default {

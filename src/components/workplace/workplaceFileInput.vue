@@ -7,7 +7,8 @@ imageFileInput(
   :labelId="data.labelId",
   :inputLoad="data.load",
   :inputFileSucess="data.success",
-  :inputFile="data.file"
+  :inputFile="data.file",
+  @changeAction="preloadingImageThemeAdd($event)"
 )
 </template>
 <script>
@@ -17,8 +18,13 @@ export default {
     imageFileInput,
   },
   props: {
-    data: Object
-  }
+    data: Object,
+  },
+  methods: {
+    async preloadingImageThemeAdd(e) {
+      await this.$store.dispatch("preloadingImageThemeAdd", e);
+    },
+  },
 };
 </script>
 <style scoped lang="scss">
