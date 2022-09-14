@@ -15,16 +15,19 @@ export default {
           id: "todo-categories-create",
           img: "create-group.png",
           title: "Создать новую тему",
+          funcSection: "workplaceGetTheme"
         },
         {
           id: "todo-categories-rename",
           img: "rename-group.png",
           title: "Переименовать тему",
+          funcSection: "workplaceRenameTheme"
         },
         {
           id: "todo-categories-remove",
           img: "remove-group.png",
           title: "Удалить тему",
+          funcSection: "workplaceRemoveTheme"
         },
       ],
       all: [],
@@ -84,7 +87,8 @@ export default {
       create: {
         themeInput: "",
         inputLoad: false
-      }
+      },
+      activeComponent: "workplaceGetTheme"
     },
   },
   getters: {
@@ -106,23 +110,19 @@ export default {
   },
   mutations: {
     activeWorkPlace(state, e) {
-      if (!e.target.hasAttribute("data-disabled")) {
+      let controlCard = e.target
+
+      if (!controlCard.hasAttribute("data-disabled")) {
         let allControlCard = document.querySelectorAll(".theme-control-card");
         allControlCard.forEach((item) => {
-          item.setAttribute("data-disabled", true)
+          if (item.hasAttribute("data-disabled")) {
+            return item.removeAttribute("data-disabled")
+          }
+          return item.setAttribute("data-disabled", true)
         })
         document.getElementById("todoListWorkPlace").classList.toggle("todolist__workplace--active");
-        e.target.classList.toggle("theme-control-card--active");
-        return e.target.setAttribute("data-disabled", false)
-      } else if (e.target.getAttribute("data-disabled")) {
-        return
-      } else {
-        let allControlCard = document.querySelectorAll(".theme-control-card");
-        allControlCard.forEach((item) => {
-          item.removeAttribute("data-disabled")
-        })
-        document.getElementById("todoListWorkPlace").classList.toggle("todolist__workplace--active");
-        return e.target.classList.toggle("theme-control-card--active");
+        controlCard.classList.toggle("theme-control-card--active");
+        return controlCard.removeAttribute("data-disabled")
       }
     },
     inputCreateNameTheme(state, id) {
@@ -130,6 +130,12 @@ export default {
     },
     clearInputCreateNameTheme(state) {
       return state.todolistWorkplace.create.themeInput = ""
+    },
+    changeTodolistWorkplaceActiveComp(state, { e, item }) {
+      let controlCard = e.target
+      if (!controlCard.hasAttribute("data-disabled")) {
+        return state.todolistWorkplace.activeComponent = item
+      }
     }
   },
   actions: {

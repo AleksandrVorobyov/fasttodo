@@ -6,7 +6,7 @@
     :id="item.id",
     :themeControlTitle="item.title",
     :themeControlImg="item.img",
-    @actionClick="activeWorkPlace($event)"
+    @actionClick="changeTodolistWorkplaceActiveComp($event, item.funcSection), activeWorkPlace($event)"
   )
 </template>
 <script>
@@ -22,6 +22,11 @@ export default {
   methods: {
     activeWorkPlace(e) {
       this.$store.commit("activeWorkPlace", e);
+    },
+    changeTodolistWorkplaceActiveComp(e, item) {
+      this.$store.commit("changeTodolistWorkplaceActiveComp", {
+        e, item
+      });
     },
   },
 };
