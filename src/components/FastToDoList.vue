@@ -10,10 +10,16 @@
           todoListMenu
       .todolist__clock-wrap
         .todolist__img
-          glitchImg(:glitchImg="fastToDoList.glitchImgOne" :glitchClass="'glitch-one'")
+          glitchImg(
+            :glitchImg="fastToDoList.glitchImgOne",
+            :glitchClass="'glitch-one'"
+          )
         todoListClock
         .todolist__img
-          glitchImg(:glitchImg="fastToDoList.glitchImgTwo" :glitchClass="'glitch-two'")
+          glitchImg(
+            :glitchImg="fastToDoList.glitchImgTwo",
+            :glitchClass="'glitch-two'"
+          )
       .totolist__theme-control-wrap
         todoListThemeControl
         todoListWorkPlace
@@ -142,6 +148,4 @@ export default {
   gap: 30px;
   margin-bottom: 40px;
 }
-
-
 </style>

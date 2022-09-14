@@ -25,9 +25,7 @@
       template(#item="{ element, index }")
         li.todolist__form-body-item
           span {{ index + 1 + ')' + ' ' + element.text }}
-          button.todolist__form-body-drag.handle(
-            type="button",
-          )
+          button.todolist__form-body-drag.handle(type="button")
             span
           button.todolist__form-body-del(
             type="button",
@@ -50,13 +48,6 @@ export default {
     mainBtn: mainBtn,
     iconTrash,
   },
-  data() {
-    return {
-      checkMove: function (evt) {
-        return console.log(evt.draggedContext.element);
-      },
-    };
-  },
   methods: {
     async delRecord(elemIndex) {
       await this.$store.dispatch("delRecord", elemIndex);
@@ -77,8 +68,10 @@ export default {
   display: grid;
 }
 
-form > hr {
-  margin-top: 10px;
+.todolist__form > hr {
+  border: 3px solid transparent;
+  border-image: var(--linearMainSecond);
+  border-image-slice: 1;
 }
 
 .todolist__form-nav {
@@ -134,7 +127,7 @@ form > hr {
   gap: 5px;
   list-style: none;
   text-align: left;
-  padding: 10px 40px;
+  padding: 20px 40px;
 }
 
 .todolist__form-body-item {
@@ -257,10 +250,5 @@ form > hr {
 
 .no-move {
   transition: transform 0s;
-}
-
-.ghost {
-  opacity: 0.5;
-  background: #c8ebfb;
 }
 </style>

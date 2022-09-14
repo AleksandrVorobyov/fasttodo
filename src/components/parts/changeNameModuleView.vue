@@ -30,10 +30,10 @@ moduleView(viewClass="form-rename", viewId="formRename")
 import { mapGetters } from "vuex";
 import formInput from "./formInput.vue";
 import mainBtn from "./mainBtn.vue";
-import moduleView from "./moduleView.vue";
-import moduleViewForm from "./moduleViewForm.vue";
-import moduleViewBtnExit from "./moduleViewBtnExit.vue";
-import moduleViewTitle from "./moduleViewTitle.vue";
+import moduleView from "../moduleView/moduleView.vue";
+import moduleViewForm from "../moduleView/moduleViewForm.vue";
+import moduleViewBtnExit from "../moduleView/moduleViewBtnExit.vue";
+import moduleViewTitle from "../moduleView/moduleViewTitle.vue";
 export default {
   computed: {
     ...mapGetters(["profile"]),

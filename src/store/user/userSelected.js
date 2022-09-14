@@ -113,7 +113,6 @@ export default {
         passwordConfirm,
       });
       dispatch("getInputReadonly", true);
-
       if (
         emailValidate &&
         passwordValide &&
@@ -130,7 +129,6 @@ export default {
             userId: uid,
             email: email,
             password: password,
-            bill: 10000,
             defProp: defProp,
           });
           state.user.selected = true;
