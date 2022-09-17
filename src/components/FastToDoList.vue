@@ -8,6 +8,7 @@
         .totolist__nav-col
           todoListProfile
           todoListMenu
+          button(@click="defaultUploadDefPropTheme()") submit
       .todolist__clock-wrap
         .todolist__img
           glitchImg(
@@ -62,8 +63,8 @@ export default {
     ...mapGetters(["login", "clientTime", "fastToDoList"]),
   },
   methods: {
-    localeTime() {
-      this.$store.commit("localeTime");
+    async defaultUploadDefPropTheme() {
+      await this.$store.dispatch("defaultUploadDefPropTheme");
     },
   },
 };

@@ -1,4 +1,10 @@
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  uploadString,
+} from "firebase/storage";
 export default {
   state: {
     userImage: {
@@ -10,7 +16,7 @@ export default {
       uploadImage: "",
       preloadingImage: "",
       success: "Вы успешно загрузили картинку!",
-    }
+    },
   },
   getters: {
     userImage(state) {
@@ -62,7 +68,9 @@ export default {
 
         return labelDiv.classList.remove("image-file-input__label--sucess");
       }
-      return document.getElementById("changeAvatarFormFileLabel").classList.remove("image-file-input__label--sucess");
+      return document
+        .getElementById("changeAvatarFormFileLabel")
+        .classList.remove("image-file-input__label--sucess");
     },
     async loadAvatarImage({ state, commit, dispatch }) {
       const uid = await dispatch("getUid");
@@ -105,7 +113,6 @@ export default {
         return await dispatch("getNotificationError", error);
       }
     },
-
     async preloadingImageThemeAdd({ state, commit, dispatch }, e) {
       try {
         const image = e.target.files[0];
@@ -127,7 +134,9 @@ export default {
 
         return labelDiv.classList.remove("image-file-input__label--sucess");
       }
-      return document.getElementById("workplaceFileInputAddLabelName").classList.remove("image-file-input__label--sucess");
+      return document
+        .getElementById("workplaceFileInputAddLabelName")
+        .classList.remove("image-file-input__label--sucess");
     },
     async uploadImageAvatarThemeAdd({ state, commit, dispatch }) {
       try {
@@ -149,25 +158,75 @@ export default {
       }
     },
     async createNewTheme({ state, commit, dispatch, getters }) {
-      if (getters.inputCreateNameThemeBoolean && getters.todolistWorkplace.create.inputLoad) {
+      if (
+        getters.inputCreateNameThemeBoolean &&
+        getters.todolistWorkplace.create.inputLoad
+      ) {
         try {
           await dispatch("uploadImageAvatarThemeAdd")
             .then(() => {
-              return commit("activeWorkPlace"), commit("clearInputCreateNameTheme");
+              return (
+                commit("activeWorkPlace"), commit("clearInputCreateNameTheme")
+              );
             })
             .then(() => {
               return dispatch("delPreloadImageThemeAdd");
             })
             .then(() => {
-              return dispatch("getNotificationSuccess", state.userImage.success);
+              return dispatch(
+                "getNotificationSuccess",
+                state.userImage.success
+              );
             });
         } catch (error) {
           return await dispatch("getNotificationError", error);
         }
       } else {
-        return await dispatch("getNotificationError", "Сперва выберите картинку и напишите название!");
+        return await dispatch(
+          "getNotificationError",
+          "Сперва выберите картинку и напишите название!"
+        );
+      }
+    },
+    async defaultUploadAvatarImg({ state, commit, dispatch, getters }) {
+      try {
+        const uid = await dispatch("getUid");
+        const defaultImg = new Image();
+        defaultImg.src = require("@/assets/img/avatar/main.png");
+
+        const storage = getStorage();
+        const spaceRef = ref(storage, `users/${uid}/avatar/`);
+
+        await uploadString(spaceRef, defaultImg.src, "data_url").then(
+          (snapshot) => {
+            console.log("Uploaded a data_url string!");
+          }
+        );
+      } catch (error) {
+        return await dispatch("getNotificationError", error);
+      }
+    },
+    async uploadDefaultThemeImg(
+      { state, commit, dispatch, getters },
+      { itemImg, itemRef }
+    ) {
+      try {
+        const uid = await dispatch("getUid");
+        const storage = getStorage();
+        const spaceRef = ref(storage, `users/${uid}/${itemRef}/`);
+
+        const defaultImg = new Image();
+        defaultImg.src = require(`@/assets/img/${itemImg}`);
+
+        await uploadString(spaceRef, defaultImg.src, "data_url").then(
+          (snapshot) => {
+            console.log("Uploaded a data_url string!");
+          }
+        );
+
+      } catch (error) {
+        return await dispatch("getNotificationError", error);
       }
     },
   },
 };
-

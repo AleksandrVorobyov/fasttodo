@@ -24,7 +24,6 @@ export default {
     },
     webUser: {
       username: "",
-      themeCards: "",
     },
   },
   getters: {
@@ -74,20 +73,24 @@ export default {
 
       if (email && password) {
         try {
-          await firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
-            dispatch("loadProfileBase");
-            dispatch("loadPersonRecord");
-            return
-          }).then(() => {
-            const uid = dispatch("getUid");
-            state.user.selected = true;
-            state.user.uid = uid;
-            router.push("/");
-            return
-          }).then(() => {
-            dispatch("loadAvatarImage")
-            return
-          });
+          await firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(() => {
+              dispatch("loadUserName");
+              dispatch("loadTheme");
+              dispatch("loadPersonRecord");
+            })
+            .then(() => {
+              const uid = dispatch("getUid");
+              state.user.selected = true;
+              state.user.uid = uid;
+              router.push("/");
+            })
+            .then(() => {
+              dispatch("loadAvatarImage");
+              dispatch("getThemeStyle");
+            });
         } catch (error) {
           return router.push("/start"), console.log("error", error);
         }
@@ -123,27 +126,39 @@ export default {
           await firebase.auth().createUserWithEmailAndPassword(email, password);
           const uid = await dispatch("getUid");
           const db = getDatabase();
-          const defProp = defaultProperties.state.defaultProperties;
-          set(ref(db, `/users/${uid}/info`), {
+          await set(ref(db, `/users/${uid}/info`), {
             username: name,
             userId: uid,
             email: email,
             password: password,
-            defProp: defProp,
-          });
-          state.user.selected = true;
-          state.user.uid = uid;
-          let emailPerson = localStorage.setItem("fastTodoEmail", email);
-          let passwordPerson = localStorage.setItem(
-            "fastTodoPssword",
-            password
-          );
-          await dispatch("loadPersonRecord");
-          await dispatch("loadProfileBase");
-          dispatch("getNotificationSuccess", state.user.registerSuccess);
-          setTimeout(() => {
-            router.push("/");
-          }, 1500);
+          })
+            .then(() => {
+              dispatch("defaultUploadDefPropTheme");
+            })
+            .then(() => {
+              dispatch("defaultUploadAvatarImg");
+              state.user.selected = true;
+              state.user.uid = uid;
+              let emailPerson = localStorage.setItem("fastTodoEmail", email);
+              let passwordPerson = localStorage.setItem(
+                "fastTodoPssword",
+                password
+              );
+            })
+            .then(() => {
+              dispatch("loadPersonRecord");
+              dispatch("loadUserName");
+              dispatch("loadTheme");
+              dispatch("getNotificationSuccess", state.user.registerSuccess);
+            })
+            .then(() => {
+              setTimeout(() => {
+                router.push("/");
+              }, 1500);
+            })
+            .then(() => {
+              dispatch("getThemeStyle");
+            });
           return;
         } catch (e) {
           return dispatch("getInputReadonly", false);
@@ -189,17 +204,19 @@ export default {
                 password
               );
               dispatch("loadPersonRecord");
-              dispatch("loadProfileBase");
+              dispatch("loadUserName");
+              dispatch("loadTheme");
               dispatch("getNotificationSuccess", state.user.loginSuccess);
               router.push("/");
-            }).then(() => {
-              dispatch("loadAvatarImage")
+            })
+            .then(() => {
+              dispatch("loadAvatarImage");
+            })
+            .then(() => {
+              dispatch("getThemeStyle");
             })
             .catch((error) => {
-              dispatch(
-                "getNotificationError",
-                error
-              )
+              dispatch("getNotificationError", error);
             });
           return;
         } catch (e) {
@@ -226,21 +243,6 @@ export default {
       await firebase.auth().signOut();
       localStorage.clear();
     },
-    async loadProfileBase({ state, dispatch }) {
-      const uid = await dispatch("getUid");
-      const dbRef = ref(getDatabase());
-
-      await get(child(dbRef, `users/${uid}`)).then((snapshot) => {
-        if (snapshot.exists()) {
-          let user = snapshot.val().info.username;
-          let themeCards = snapshot.val().info.defProp.themeCardsDefault;
-          return (
-            (state.webUser.username = user),
-            (state.webUser.themeCards = themeCards)
-          );
-        }
-      });
-    },
     async loadUserName({ state, dispatch }) {
       const uid = await dispatch("getUid");
       const dbRef = ref(getDatabase());
@@ -248,7 +250,7 @@ export default {
       await get(child(dbRef, `users/${uid}`)).then((snapshot) => {
         if (snapshot.exists()) {
           let user = snapshot.val().info.username;
-          return state.webUser.username = user;
+          return (state.webUser.username = user);
         }
       });
     },

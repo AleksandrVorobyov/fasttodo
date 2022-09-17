@@ -1,88 +1,121 @@
+import {
+  getDatabase,
+  ref,
+  get,
+  child,
+  push,
+  update,
+  
+} from "firebase/database";
 export default {
-    state: {
-        theme: {
-            activeTheme: "Спорт",
-            themeCardsDefault: [
-                {
-                    title: "Спорт",
-                    src: "categories/themeCards/sport.jpg",
-                    idx: 0
-                },
-                {
-                    title: "Кулинария",
-                    src: "categories/themeCards/cooking.jpg",
-                    idx: 1
-                },
-                {
-                    title: "Работа",
-                    src: "categories/themeCards/work.jpg",
-                    idx: 2
-                },
-                {
-                    title: "Отдых",
-                    src: "categories/themeCards/recreation.jpg",
-                    idx: 3
-                },
-            ],
-            title: "Активная тема:",
-            btnIcon: "arrow"
-        },
+  state: {
+    theme: {
+      activeTheme: "Спорт",
+      themeCards: [],
+      title: "Активная тема:",
+      btnIcon: "arrow",
     },
-    getters: {
-        theme(state) {
-            return state.theme;
-        },
+  },
+  getters: {
+    theme(state) {
+      return state.theme;
     },
-    mutations: {
-        getThemeStyle(state) {
-            const todolistThemeCards = document.querySelectorAll(
-                ".todolist__theme-cards > .todolist__theme-cards-item"
-            );
-            todolistThemeCards.forEach((item, index) => {
-                let dataItem = item.dataset.theme
-                if (dataItem >= 0) {
-                    item.style.left = 50 + 5 * dataItem + "%";
-                    item.style.zIndex = 50 - dataItem;
-                    item.style.opacity = 1 - 0.25 * dataItem;
-                } else {
-                    item.style.left = 50 + 5 * dataItem + "%";
-                    item.style.zIndex = 50 + dataItem;
-                    item.style.opacity = 1 + 0.25 * dataItem;
-                }
-            });
-        },
-        findActiveTheme(state) {
-            return state.activeTheme = state.theme.themeCardsDefault.find((e) => e.idx == 0).title
+  },
+  mutations: {
+    findActiveTheme(state) {
+      return (state.activeTheme = state.theme.themeCards.find(
+        (e) => e.idx == 0
+      ).title);
+    },
+  },
+  actions: {
+    async themeIndexPlus({ state, commit, dispatch }) {
+      let last = state.theme.themeCards[state.theme.themeCards.length - 1];
+      if (last.idx > 0) {
+        state.theme.themeCards.forEach((item) => {
+          item.idx = item.idx - 1;
+        });
+        await commit("findActiveTheme");
+        await dispatch("getThemeStyle");
+      }
+    },
+    async themeIndexmin({ state, commit, dispatch }) {
+      let first = state.theme.themeCards[0];
+      if (first.idx < 0) {
+        state.theme.themeCards.forEach((item) => {
+          item.idx = item.idx + 1;
+        });
+        await commit("findActiveTheme");
+        await dispatch("getThemeStyle");
+      }
+    },
+    async defaultUploadDefPropTheme({ state, getters, dispatch }) {
+      try {
+        const uid = await dispatch("getUid");
+        const db = getDatabase();
+        const defProp = getters.defaultProperties.themeCardsDefault;
+
+        await defProp.forEach((item, index) => {
+          const newPostKey = push(child(ref(db), "themeList")).key;
+          const updates = {};
+
+          dispatch("uploadDefaultThemeImg", {
+            itemImg: item.src,
+            itemRef: newPostKey,
+          });
+
+          updates[`users/${uid}/info/themeList/${newPostKey}`] = {
+            title: item.title,
+            src: item.src,
+            idx: index,
+          };
+
+          return update(ref(db), updates);
+        });
+      } catch (error) {
+        return await dispatch("getNotificationError", error);
+      }
+    },
+    async loadTheme({ state, dispatch }) {
+      const uid = await dispatch("getUid");
+      const dbRef = ref(getDatabase());
+
+      await get(child(dbRef, `users/${uid}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+          let themeCards = snapshot.val().info.themeList;
+          let themeCardsMod = Object.entries(themeCards);
+          let newThemeCardsMod = [];
+
+          themeCardsMod.forEach((item) => {
+            let oblectOne = {
+              id: item[0],
+            };
+            let oblectTwo = item[1];
+            item.splice(0, 2);
+            let objectThree = Object.assign(oblectOne, oblectTwo);
+            return newThemeCardsMod.push(objectThree);
+          });
+
+          return (state.theme.themeCards = newThemeCardsMod);
         }
+      });
     },
-    actions: {
-        themeIndexPlus({ state, commit }) {
-            let last = state.theme.themeCardsDefault[state.theme.themeCardsDefault.length - 1]
-            if (last.idx > 0) {
-                state.theme.themeCardsDefault.forEach((item, index) => {
-                    item.idx = item.idx - 1;
-                });
-
-                commit("findActiveTheme")
-
-                setTimeout(() => {
-                    commit("getThemeStyle")
-                }, 200);
-            }
-        },
-        themeIndexmin({ state, commit }) {
-            let first = state.theme.themeCardsDefault[0]
-            if (first.idx < 0) {
-                state.theme.themeCardsDefault.forEach((item, index) => {
-                    item.idx = item.idx + 1;
-                });
-
-                commit("findActiveTheme")
-
-                setTimeout(() => {
-                    commit("getThemeStyle")
-                }, 200);
-            }
-        },
-    }
-}
+    async getThemeStyle() {
+      const todolistThemeCards = document.querySelectorAll(
+        ".todolist__theme-cards > .todolist__theme-cards-item"
+      );
+      await todolistThemeCards.forEach((item, index) => {
+        let dataItem = item.dataset.theme;
+        if (dataItem >= 0) {
+          item.style.left = 50 + 5 * dataItem + "%";
+          item.style.zIndex = 50 - dataItem;
+          item.style.opacity = 1 - 0.25 * dataItem;
+        } else {
+          item.style.left = 50 + 5 * dataItem + "%";
+          item.style.zIndex = 50 + dataItem;
+          item.style.opacity = 1 + 0.25 * dataItem;
+        }
+      });
+    },
+  },
+};
