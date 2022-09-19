@@ -7,7 +7,8 @@ section.todolist__theme
         .todolist__theme-cards-item(
           v-for="(item, index) in theme.themeCards",
           :key="item",
-          :data-theme="item.idx"
+          :data-theme="item.idx",
+          :style="{left: item.style.left, opacity: item.style.opacity, zIndex: item.style.zIndex}"
         )
           h4.todolist__theme-cards-item-title {{ item.title }}
           .todolist__theme-cards-item-img

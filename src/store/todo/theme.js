@@ -5,7 +5,7 @@ import {
   child,
   push,
   update,
-  
+
 } from "firebase/database";
 export default {
   state: {
@@ -85,10 +85,14 @@ export default {
           let themeCards = snapshot.val().info.themeList;
           let themeCardsMod = Object.entries(themeCards);
           let newThemeCardsMod = [];
-
-          themeCardsMod.forEach((item) => {
+          themeCardsMod.forEach((item, index) => {
             let oblectOne = {
               id: item[0],
+              style: {
+                zIndex: 50 - index,
+                opacity: 1 - 0.25 * index,
+                left: 50 + 5 * index + "%"
+              }
             };
             let oblectTwo = item[1];
             item.splice(0, 2);
@@ -100,12 +104,9 @@ export default {
         }
       });
     },
-    async getThemeStyle() {
-      const todolistThemeCards = document.querySelectorAll(
-        ".todolist__theme-cards > .todolist__theme-cards-item"
-      );
-      await todolistThemeCards.forEach((item, index) => {
-        let dataItem = item.dataset.theme;
+    async getThemeStyle({state}) {
+      await state.theme.themeCards.forEach((item, index) => {
+        let dataItem = item.idx;
         if (dataItem >= 0) {
           item.style.left = 50 + 5 * dataItem + "%";
           item.style.zIndex = 50 - dataItem;
