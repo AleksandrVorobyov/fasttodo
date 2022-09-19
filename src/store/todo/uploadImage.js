@@ -213,20 +213,42 @@ export default {
       try {
         const uid = await dispatch("getUid");
         const storage = getStorage();
-        const spaceRef = ref(storage, `users/${uid}/${itemRef}/`);
+        const spaceRef = ref(storage, `users/theme/${uid}/${itemRef}/`);
 
         const defaultImg = new Image();
         defaultImg.src = require(`@/assets/img/${itemImg}`);
 
-        await uploadString(spaceRef, defaultImg.src, "data_url").then(
-          (snapshot) => {
-            console.log("Uploaded a data_url string!");
-          }
-        );
+        await fetch(defaultImg.src)
+          .then((res) => res.blob())
+          .then((blob) => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              uploadString(spaceRef, reader.result, "data_url").then(
+                (snapshot) => {
+                  console.log("Uploaded a data_url string!");
+                }
+              );
+            };
+            reader.readAsDataURL(blob);
+          });
+
 
       } catch (error) {
         return await dispatch("getNotificationError", error);
       }
     },
+    async toDataURL(url, callback) {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        const reader = new FileReader();
+        reader.onloadend = function () {
+          callback(reader.result);
+        }
+        reader.readAsDataURL(xhr.response);
+      };
+      xhr.open('GET', url);
+      xhr.responseType = 'blob';
+      xhr.send();
+    }
   },
 };

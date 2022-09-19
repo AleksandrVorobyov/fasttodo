@@ -99,22 +99,21 @@ export default {
             let objectThree = Object.assign(oblectOne, oblectTwo);
             return newThemeCardsMod.push(objectThree);
           });
-
           return (state.theme.themeCards = newThemeCardsMod);
         }
       });
     },
-    async getThemeStyle({state}) {
+    async getThemeStyle({ state }) {
       await state.theme.themeCards.forEach((item, index) => {
-        let dataItem = item.idx;
-        if (dataItem >= 0) {
-          item.style.left = 50 + 5 * dataItem + "%";
-          item.style.zIndex = 50 - dataItem;
-          item.style.opacity = 1 - 0.25 * dataItem;
+        let themeIdx = item.idx;
+        if (themeIdx >= 0) {
+          item.style.left = 50 + 5 * themeIdx + "%";
+          item.style.zIndex = 50 - themeIdx;
+          item.style.opacity = 1 - 0.25 * themeIdx;
         } else {
-          item.style.left = 50 + 5 * dataItem + "%";
-          item.style.zIndex = 50 + dataItem;
-          item.style.opacity = 1 + 0.25 * dataItem;
+          item.style.left = 50 + 5 * themeIdx + "%";
+          item.style.zIndex = 50 + themeIdx;
+          item.style.opacity = 1 + 0.25 * themeIdx;
         }
       });
     },
