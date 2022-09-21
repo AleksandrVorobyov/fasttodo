@@ -3,7 +3,7 @@ mainBtn(
   :elText="data.text",
   :elClass="data.class",
   :elId="data.id",
-  @clickAction="createNewTheme()"
+  @clickAction="getNewTheme()"
 )
 </template>
 <script>
@@ -16,8 +16,8 @@ export default {
     data: Object,
   },
   methods: {
-    async createNewTheme() {
-      await this.$store.dispatch("createNewTheme");
+    async getNewTheme() {
+      await this.$store.dispatch("getNewTheme");
     },
   },
 };

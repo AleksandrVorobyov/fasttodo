@@ -4,6 +4,7 @@ import {
   uploadBytes,
   getDownloadURL,
   uploadString,
+  deleteObject
 } from "firebase/storage";
 export default {
   state: {
@@ -26,7 +27,8 @@ export default {
       return state.themes;
     },
   },
-  mutations: {},
+  mutations: {
+  },
   actions: {
     async uploadImageAvatar({ state, commit, dispatch }) {
       try {
@@ -138,13 +140,13 @@ export default {
         .getElementById("workplaceFileInputAddLabelName")
         .classList.remove("image-file-input__label--sucess");
     },
-    async uploadImageAvatarThemeAdd({ state, commit, dispatch }) {
+    async uploadImageThemeAdd({ state, commit, dispatch }, themeRef) {
       try {
         const uid = await dispatch("getUid");
         const image = state.themes.preloadingImage;
 
         const storage = getStorage();
-        const spaceRef = ref(storage, `users/${uid}/themes/`);
+        const spaceRef = ref(storage, `users/${uid}/theme/${themeRef}`);
 
         const metadata = {
           contentType: "image/jpeg",
@@ -157,35 +159,46 @@ export default {
         return await dispatch("getNotificationError", error);
       }
     },
-    async createNewTheme({ state, commit, dispatch, getters }) {
-      if (
-        getters.inputCreateNameThemeBoolean &&
-        getters.todolistWorkplace.create.inputLoad
-      ) {
+    async createNewTheme({ state, commit, dispatch, getters }, themeRef) {
+      try {
         try {
-          await dispatch("uploadImageAvatarThemeAdd")
-            .then(() => {
-              return (
-                commit("activeWorkPlace"), commit("clearInputCreateNameTheme")
-              );
-            })
-            .then(() => {
-              return dispatch("delPreloadImageThemeAdd");
-            })
-            .then(() => {
-              return dispatch(
-                "getNotificationSuccess",
-                state.userImage.success
-              );
-            });
+          await dispatch("uploadImageThemeAdd", themeRef)
         } catch (error) {
-          return await dispatch("getNotificationError", error);
+          console.log("error - uploadImageThemeAdd");
         }
-      } else {
-        return await dispatch(
-          "getNotificationError",
-          "Сперва выберите картинку и напишите название!"
-        );
+        // await dispatch("uploadImageThemeAdd", themeRef)
+
+        try {
+          await commit("hiddenWorkPlace");
+        } catch (error) {
+          console.log("error - hiddenWorkPlace");
+        }
+        try {
+          await commit("clearInputCreateNameTheme");
+        } catch (error) {
+          console.log("error - clearInputCreateNameTheme");
+        }
+
+        try {
+          await dispatch("delPreloadImageThemeAdd");
+        } catch (error) {
+          console.log("error - delPreloadImageThemeAdd");
+        }
+        try {
+          await dispatch("getNotificationSuccess", state.themes.success);
+        } catch (error) {
+          console.log("error - getNotificationSuccess");
+        }
+
+        // await commit("activeWorkPlace")
+        // await commit("clearInputCreateNameTheme")
+        // await dispatch("delPreloadImageThemeAdd")
+        // await dispatch(
+        //   "getNotificationSuccess",
+        //   state.themes.success
+        // )
+      } catch (error) {
+        return await dispatch("getNotificationError", error);
       }
     },
     async defaultUploadAvatarImg({ state, commit, dispatch, getters }) {
@@ -213,7 +226,7 @@ export default {
       try {
         const uid = await dispatch("getUid");
         const storage = getStorage();
-        const spaceRef = ref(storage, `users/theme/${uid}/${itemRef}/`);
+        const spaceRef = ref(storage, `users/${uid}/theme/${itemRef}/`);
 
         const defaultImg = new Image();
         defaultImg.src = require(`@/assets/img/${itemImg}`);
@@ -237,18 +250,42 @@ export default {
         return await dispatch("getNotificationError", error);
       }
     },
-    async toDataURL(url, callback) {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        const reader = new FileReader();
-        reader.onloadend = function () {
-          callback(reader.result);
-        }
-        reader.readAsDataURL(xhr.response);
-      };
-      xhr.open('GET', url);
-      xhr.responseType = 'blob';
-      xhr.send();
+    async loadThemeImg({ state, dispatch, getters }, themeId) {
+      try {
+        const uid = await dispatch("getUid");
+        const storage = getStorage();
+        const httpsReference = ref(
+          storage,
+          `gs://fasttodo-91684.appspot.com/users/${uid}/theme/${themeId}`
+        );
+        await getDownloadURL(ref(storage, httpsReference))
+          .then((url) => {
+            const xhr = new XMLHttpRequest();
+            xhr.responseType = "blob";
+            xhr.open("GET", url)
+            const themeImg = new Image();
+            themeImg.src = url;
+            dispatch("getThemeImg", {
+              url: url,
+              id: themeId
+            })
+          })
+      } catch (error) {
+        return await dispatch("getNotificationError", error);
+      }
+    },
+    async delThemeImg({ state, dispatch, getters }, themeId) {
+      try {
+        const uid = await dispatch("getUid");
+        const storage = getStorage();
+        const desertRef = ref(storage, `users/${uid}/theme/${themeId}`);
+
+        await deleteObject(desertRef).then(() => {
+          console.log("File deleted successfully");
+        })
+      } catch (error) {
+        return await dispatch("getNotificationError", error);
+      }
     }
   },
 };

@@ -88,7 +88,10 @@ export default {
         themeInput: "",
         inputLoad: false
       },
-      activeComponent: "workplaceGetTheme"
+      activeComponent: "workplaceGetTheme",
+      remove: {
+        
+      }
     },
   },
   getters: {
@@ -125,11 +128,23 @@ export default {
         return controlCard.removeAttribute("data-disabled")
       }
     },
+    hiddenWorkPlace(state) {
+      document.getElementById("todoListWorkPlace").classList.remove("todolist__workplace--active");
+      let allControlCard = document.querySelectorAll(".theme-control-card");
+      allControlCard.forEach((item) => {
+        if (item.hasAttribute("data-disabled")) {
+          item.removeAttribute("data-disabled")
+        }
+        if (item.classList.contains("theme-control-card--active")) {
+          item.classList.remove("theme-control-card--active")
+        }
+      })
+    },
     inputCreateNameTheme(state, id) {
       return state.todolistWorkplace.create.themeInput = document.getElementById(id).value
     },
     clearInputCreateNameTheme(state) {
-      return state.todolistWorkplace.create.themeInput = ""
+      return document.getElementById('todolistWorkplaceInputThemeAdd').value = ""
     },
     changeTodolistWorkplaceActiveComp(state, { e, item }) {
       let controlCard = e.target

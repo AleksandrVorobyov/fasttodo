@@ -8,11 +8,13 @@ section.todolist__theme
           v-for="(item, index) in theme.themeCards",
           :key="item",
           :data-theme="item.idx",
-          :style="{left: item.style.left, opacity: item.style.opacity, zIndex: item.style.zIndex}"
+          :style="{ left: item.style.left, opacity: item.style.opacity, zIndex: item.style.zIndex }"
         )
           h4.todolist__theme-cards-item-title {{ item.title }}
           .todolist__theme-cards-item-img
-            img(:src="require('@/assets/img/' + item.src)")
+            img(
+              :src="item.imgLoad == 'web' ? item.src : require('@/assets/img/' + item.src)"
+            )
         button.todolist__theme-cards-next.arrow(@click="themeIndexPlus") 
           arrow
         button.todolist__theme-cards-prev.arrow(@click="themeIndexmin") 
