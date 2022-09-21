@@ -90,7 +90,10 @@ export default {
       },
       activeComponent: "workplaceGetTheme",
       remove: {
-        
+
+      },
+      rename: {
+        themeListRenameBtnText: "Изменить"
       }
     },
   },

@@ -6,8 +6,13 @@ ul.workplace__theme-list
         :src="item.imgLoad == 'web' ? item.src : require('@/assets/img/' + item.src)"
       )
     h5.workplace__theme-list-title {{ item.title }}
-    button.workplace__theme-list-del(type="button", @click="delTheme(item.id)")
+    button.workplace__theme-list-del(
+      type="button",
+      v-if="remove",
+      @click="delTheme(item.id)"
+    )
       iconTrash
+    button.workplace__theme-list-rename(type="button", v-else) {{ rename.themeListRenameBtnText }}
 </template>
 <script>
 import iconTrash from "@/assets/img/iconVue/trash.vue";
@@ -15,6 +20,7 @@ export default {
   props: {
     list: Object,
     remove: Object,
+    rename: Object,
   },
   components: {
     iconTrash,
@@ -47,12 +53,21 @@ export default {
   border: 2px solid transparent;
   transition: background 0.4s linear;
   cursor: pointer;
+  overflow: hidden;
 
   &:hover {
     background: linear-gradient(var(--bgInputMain) 0 0) padding-box,
       gray border-box;
-    .workplace__theme-list-del {
+
+    .workplace__theme-list-del,
+    .workplace__theme-list-rename {
       opacity: 1;
+    }
+
+    .workplace__theme-list-rename {
+      animation: themeListRenameBtn 0.5s linear 0s;
+      top: 50%;
+      transform: translate(-50%, -50%);
     }
   }
 }
@@ -62,6 +77,7 @@ export default {
   line-height: 22px;
   letter-spacing: 0.5px;
   color: #fff;
+  z-index: 10;
 }
 
 .workplace__theme-list-img {
@@ -70,6 +86,7 @@ export default {
   height: 50px;
   border-radius: 12px;
   overflow: hidden;
+  z-index: 10;
 
   img {
     position: absolute;
@@ -108,6 +125,41 @@ export default {
 
   &:hover svg {
     fill: red;
+  }
+}
+
+.workplace__theme-list-rename {
+  position: absolute;
+  padding: 10px 25px;
+  top: -50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  opacity: 0;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.5s linear;
+  border: 2px solid #fff;
+  color: #fff;
+  background: transparent;
+  cursor: pointer;
+  z-index: 20;
+  overflow: hidden;
+
+  &:hover {
+    border-color: #65b37a;
+  }
+}
+
+@keyframes themeListRenameBtn {
+  from {
+    top: 100%;
+    transform: translate(-50%, -100%);
+  }
+  to {
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 </style>
