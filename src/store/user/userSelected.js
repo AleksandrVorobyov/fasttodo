@@ -1,12 +1,6 @@
 import router from "@/router";
 import firebase from "firebase/compat/app";
-import {
-  getDatabase,
-  ref,
-  set,
-  get,
-  child,
-} from "firebase/database";
+import { getDatabase, ref, set, get, child } from "firebase/database";
 import { getAuth } from "firebase/auth";
 
 export default {
@@ -73,6 +67,7 @@ export default {
             .signInWithEmailAndPassword(email, password)
             .then(() => {
               dispatch("loadUserName");
+              dispatch("loadActiveThemeToServer");
               dispatch("loadTheme");
               dispatch("loadPersonRecord");
             })
@@ -100,7 +95,7 @@ export default {
       });
     },
     async registerPerson(
-      { commit, state, dispatch },
+      { commit, state, dispatch, getters },
       { name, email, password, passwordConfirm }
     ) {
       const nameValide = await dispatch("nameValid", name);
@@ -126,6 +121,7 @@ export default {
             userId: uid,
             email: email,
             password: password,
+            activeTheme: getters.theme.activeTheme,
           })
             .then(() => {
               dispatch("defaultUploadDefPropTheme");
@@ -142,6 +138,7 @@ export default {
             })
             .then(() => {
               dispatch("loadPersonRecord");
+              dispatch("uploadActiveThemeToServer", uid);
               dispatch("loadUserName");
               dispatch("loadTheme");
               dispatch("getNotificationSuccess", state.user.registerSuccess);

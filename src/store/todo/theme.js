@@ -15,10 +15,9 @@ export default {
   },
   mutations: {
     findActiveTheme(state) {
-      return (
-        (state.activeTheme = state.theme.themeCards.find((e) => e.idx == 0).id),
-        console.log(state.activeTheme)
-      );;
+      return (state.activeTheme = state.theme.themeCards.find(
+        (e) => e.idx == 0
+      ).id);
     },
   },
   actions: {
@@ -30,6 +29,7 @@ export default {
         });
         await commit("findActiveTheme");
         await dispatch("changeThemeStyle");
+        await dispatch("changeActiveThemeToServer");
       }
     },
     async activeThemePrev({ state, commit, dispatch }) {
@@ -40,6 +40,7 @@ export default {
         });
         await commit("findActiveTheme");
         await dispatch("changeThemeStyle");
+        await dispatch("changeActiveThemeToServer");
       }
     },
     async changeThemeStyle({ state }) {
@@ -178,7 +179,37 @@ export default {
         );
       }
     },
-    async changeActionThemeToServer({ state, getters, dispatch }) {},
-    async loadActionThemeFromServer({ state, getters, dispatch }) {},
+    async uploadActiveThemeToServer({ state, getters, dispatch, commit }, uid) {
+      await commit("findActiveTheme");
+      const db = getDatabase();
+      const updates = {};
+      const activeTheme = state.activeTheme;
+
+      updates[`users/${uid}/info/activeTheme/`] = activeTheme;
+
+      return update(ref(db), updates);
+    },
+    async changeActiveThemeToServer({ state, getters, commit, dispatch }) {
+      const uid = await dispatch("getUid");
+      const db = getDatabase();
+      const updates = {};
+      const activeTheme = state.activeTheme;
+
+      updates[`users/${uid}/info/activeTheme/`] = activeTheme;
+
+      return update(ref(db), updates);
+    },
+    async loadActiveThemeToServer({ state, getters, dispatch, commit }) {
+      const uid = await dispatch("getUid");
+      const dbRef = ref(getDatabase());
+
+      await get(child(dbRef, `users/${uid}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+          state.theme.activeTheme = snapshot.val().info.activeTheme;
+        }
+      });
+
+      await dispatch("changeThemeStyle");
+    },
   },
 };

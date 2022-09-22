@@ -7,9 +7,9 @@ import FastToDoList from "./modules/FastToDoList";
 import notification from "./user/notification";
 import defaultProperties from "./user/defaultProperties";
 import uploadImage from "./todo/uploadImage";
-import theme from "./todo/theme";
 import todoListForm from "./todo/todoListForm";
 import todoListProfile from "./todo/todoListProfile";
+import theme from "./todo/theme";
 
 export default createStore({
   state: {
