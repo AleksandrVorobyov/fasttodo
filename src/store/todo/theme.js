@@ -158,13 +158,23 @@ export default {
       try {
         const uid = await dispatch("getUid");
         const db = getDatabase();
-        const updates = {};
-        updates[`users/${uid}/info/themeList/${id}`] = {};
-        await update(ref(db), updates);
+        let newThemeList = state.theme.themeCards.filter((e) => e.id != id);
+        await newThemeList.forEach((item, index) => {
+          item.idx = index;
+          item.style = null
+          const updates = {};
+          updates[`users/${uid}/info/themeList/${item.id}`] = item;
+          return update(ref(db), updates);
+        });
+
+        const delUpdate = {};
+        delUpdate[`users/${uid}/info/themeList/${id}`] = {};
+        await update(ref(db), delUpdate);
+
         await dispatch("delThemeImg", id);
         return await dispatch("loadTheme");
       } catch (error) {
-        return await dispatch("getNotificationError", error);
+        return await dispatch("getNotificationError", error + "delTheme - main");
       }
     },
   },
