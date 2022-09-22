@@ -15,9 +15,9 @@ section.todolist__theme
             img(
               :src="item.imgLoad == 'web' ? item.src : require('@/assets/img/' + item.src)"
             )
-        button.todolist__theme-cards-next.arrow(@click="themeIndexPlus") 
+        button.todolist__theme-cards-next.arrow(@click="activeThemeNext()") 
           arrow
-        button.todolist__theme-cards-prev.arrow(@click="themeIndexmin") 
+        button.todolist__theme-cards-prev.arrow(@click="activeThemePrev()") 
           arrow
 </template>
 <script>
@@ -31,11 +31,11 @@ export default {
     arrow,
   },
   methods: {
-    async themeIndexPlus() {
-      await this.$store.dispatch("themeIndexPlus");
+    async activeThemeNext() {
+      await this.$store.dispatch("activeThemeNext");
     },
-    async themeIndexmin() {
-      await this.$store.dispatch("themeIndexmin");
+    async activeThemePrev() {
+      await this.$store.dispatch("activeThemePrev");
     },
   },
 };

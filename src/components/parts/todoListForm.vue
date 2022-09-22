@@ -24,21 +24,19 @@
     )
       template(#item="{ element, index }")
         li.todolist__form-body-item
-          span {{ index + 1 + ')' + ' ' + element.text }}
+          span {{ index + 1 + ')'}}
+          span {{element.text}}
           button.todolist__form-body-drag.handle(type="button")
             span
-          button.todolist__form-body-del(
-            type="button",
-            @click="delRecord(index)"
-          )
-            iconTrash
+          .todolist__form-body-del
+            buttonDelWithIcon(@clickAction="delRecord(index)")
   hr
 </template>
 <script>
 import { mapGetters } from "vuex";
 import draggable from "vuedraggable";
 import mainBtn from "./mainBtn.vue";
-import iconTrash from "@/assets/img/iconVue/trash.vue";
+import buttonDelWithIcon from "../parts/buttonDelWithIcon.vue";
 export default {
   computed: {
     ...mapGetters(["todoForm", "personRecord"]),
@@ -46,7 +44,7 @@ export default {
   components: {
     draggable,
     mainBtn: mainBtn,
-    iconTrash,
+    buttonDelWithIcon
   },
   methods: {
     async delRecord(elemIndex) {
@@ -149,6 +147,10 @@ export default {
     font-weight: 400;
   }
 
+  span + span {
+    margin-left: 8px;
+  }
+
   &:hover {
     background: linear-gradient(var(--bgInputMain) 0 0) padding-box,
       gray border-box;
@@ -165,39 +167,10 @@ export default {
   box-shadow: 0px 0px 3px gray;
 }
 
-.todolist__form-body-del {
-  position: absolute;
-  padding: 3px;
-  top: 50%;
-  right: 5px;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  line-height: 16px;
-  transform: translateY(-50%);
-  border-radius: 50%;
-  border: none;
-  outline: none;
-  cursor: pointer;
-
-  svg {
-    object-fit: contain;
-    transition: fill 0.4s linear;
-    pointer-events: none;
-  }
-
-  &:hover svg {
-    fill: red;
-  }
-}
-
 .todolist__form-body-del,
 .todolist__form-body-drag {
   opacity: 0;
-  transition: opacity 0.4s linear;
+  transition: opacity 0.5s linear;
 }
 
 .todolist__form-body-drag {

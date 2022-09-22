@@ -14,7 +14,6 @@ export default {
       themeCards: [],
       title: "Активная тема:",
       btnIcon: "arrow",
-      lastTheme: ""
     },
   },
   getters: {
@@ -30,25 +29,39 @@ export default {
     },
   },
   actions: {
-    async themeIndexPlus({ state, commit, dispatch }) {
+    async activeThemeNext({ state, commit, dispatch }) {
       let last = state.theme.themeCards[state.theme.themeCards.length - 1];
       if (last.idx > 0) {
         state.theme.themeCards.forEach((item) => {
           item.idx = item.idx - 1;
         });
         await commit("findActiveTheme");
-        await dispatch("getThemeStyle");
+        await dispatch("changeThemeStyle");
       }
     },
-    async themeIndexmin({ state, commit, dispatch }) {
+    async activeThemePrev({ state, commit, dispatch }) {
       let first = state.theme.themeCards[0];
       if (first.idx < 0) {
         state.theme.themeCards.forEach((item) => {
           item.idx = item.idx + 1;
         });
         await commit("findActiveTheme");
-        await dispatch("getThemeStyle");
+        await dispatch("changeThemeStyle");
       }
+    },
+    async changeThemeStyle({ state }) {
+      await state.theme.themeCards.forEach((item, index) => {
+        let themeIdx = item.idx;
+        if (themeIdx >= 0) {
+          item.style.left = 50 + 5 * themeIdx + "%";
+          item.style.zIndex = 50 - themeIdx;
+          item.style.opacity = 1 - 0.25 * themeIdx;
+        } else {
+          item.style.left = 50 + 5 * themeIdx + "%";
+          item.style.zIndex = 50 + themeIdx;
+          item.style.opacity = 1 + 0.25 * themeIdx;
+        }
+      });
     },
     async defaultUploadDefPropTheme({ state, getters, dispatch }) {
       try {
@@ -86,7 +99,7 @@ export default {
         try {
           const uid = await dispatch("getUid");
           const db = getDatabase();
-          const inputText = getters.todolistWorkplace.create.themeInput
+          const inputText = getters.todolistWorkplace.create.themeInput;
 
           const newPostKey = push(child(ref(db), "themeList")).key;
           const updates = {};
@@ -96,33 +109,19 @@ export default {
           updates[`users/${uid}/info/themeList/${newPostKey}`] = {
             title: inputText,
             imgRef: newPostKey,
-            idx: state.theme.themeCards.length
+            idx: state.theme.themeCards.length,
           };
 
           await update(ref(db), updates);
-          return await dispatch("loadTheme")
+          return await dispatch("loadTheme");
         } catch (error) {
           return await dispatch("getNotificationError", error);
         }
       }
     },
-    async getThemeStyle({ state }) {
-      await state.theme.themeCards.forEach((item, index) => {
-        let themeIdx = item.idx;
-        if (themeIdx >= 0) {
-          item.style.left = 50 + 5 * themeIdx + "%";
-          item.style.zIndex = 50 - themeIdx;
-          item.style.opacity = 1 - 0.25 * themeIdx;
-        } else {
-          item.style.left = 50 + 5 * themeIdx + "%";
-          item.style.zIndex = 50 + themeIdx;
-          item.style.opacity = 1 + 0.25 * themeIdx;
-        }
-      });
-    },
     async getThemeImg({ state, getters, dispatch }, { url, id }) {
       let newSrc = state.theme.themeCards.find((e) => e.id == id);
-      newSrc.src = url
+      newSrc.src = url;
     },
     async loadTheme({ state, dispatch, getters }) {
       const uid = await dispatch("getUid");
@@ -139,13 +138,13 @@ export default {
               style: {
                 zIndex: 50 - index,
                 opacity: 1 - 0.25 * index,
-                left: 50 + 5 * index + "%"
-              }
-            }
+                left: 50 + 5 * index + "%",
+              },
+            };
             let objectTwo = item[1];
             if (objectTwo.src == undefined) {
-              dispatch("loadThemeImg", item[0])
-              objectTwo.imgLoad = "web"
+              dispatch("loadThemeImg", item[0]);
+              objectTwo.imgLoad = "web";
             }
             item.splice(0, 2);
             let objectThree = Object.assign(objectOne, objectTwo);
@@ -162,11 +161,11 @@ export default {
         const updates = {};
         updates[`users/${uid}/info/themeList/${id}`] = {};
         await update(ref(db), updates);
-        await dispatch("delThemeImg", id)
-        return await dispatch("loadTheme")
+        await dispatch("delThemeImg", id);
+        return await dispatch("loadTheme");
       } catch (error) {
         return await dispatch("getNotificationError", error);
       }
-    }
+    },
   },
 };

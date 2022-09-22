@@ -6,16 +6,12 @@ ul.workplace__theme-list
         :src="item.imgLoad == 'web' ? item.src : require('@/assets/img/' + item.src)"
       )
     h5.workplace__theme-list-title {{ item.title }}
-    button.workplace__theme-list-del(
-      type="button",
-      v-if="remove",
-      @click="delTheme(item.id)"
-    )
-      iconTrash
+    .workplace__theme-list-del(v-if="remove")
+      buttonDelWithIcon(@clickAction="delTheme(item.id)")
     button.workplace__theme-list-rename(type="button", v-else) {{ rename.themeListRenameBtnText }}
 </template>
 <script>
-import iconTrash from "@/assets/img/iconVue/trash.vue";
+import buttonDelWithIcon from "../parts/buttonDelWithIcon.vue";
 export default {
   props: {
     list: Object,
@@ -23,7 +19,7 @@ export default {
     rename: Object,
   },
   components: {
-    iconTrash,
+    buttonDelWithIcon,
   },
   methods: {
     async delTheme(id) {
@@ -99,33 +95,8 @@ export default {
 }
 
 .workplace__theme-list-del {
-  position: absolute;
-  padding: 3px;
-  top: 50%;
-  right: 5px;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  line-height: 16px;
-  transform: translateY(-50%);
-  border-radius: 50%;
-  border: none;
-  outline: none;
-  cursor: pointer;
+  transition: opacity 0.5s linear;
   opacity: 0;
-
-  svg {
-    object-fit: contain;
-    transition: fill 0.4s linear;
-    pointer-events: none;
-  }
-
-  &:hover svg {
-    fill: red;
-  }
 }
 
 .workplace__theme-list-rename {

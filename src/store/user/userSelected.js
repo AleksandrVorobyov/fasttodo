@@ -89,7 +89,7 @@ export default {
             })
             .then(() => {
               dispatch("loadAvatarImage");
-              dispatch("getThemeStyle");
+              dispatch("changeThemeStyle");
             });
         } catch (error) {
           return router.push("/start"), console.log("error", error);
@@ -157,7 +157,7 @@ export default {
               }, 1500);
             })
             .then(() => {
-              dispatch("getThemeStyle");
+              dispatch("changeThemeStyle");
             });
           return;
         } catch (e) {
@@ -213,7 +213,7 @@ export default {
               dispatch("loadAvatarImage");
             })
             .then(() => {
-              dispatch("getThemeStyle");
+              dispatch("changeThemeStyle");
             })
             .catch((error) => {
               dispatch("getNotificationError", error);
