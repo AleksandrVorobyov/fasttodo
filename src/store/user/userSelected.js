@@ -6,13 +6,8 @@ import {
   set,
   get,
   child,
-  push,
-  update,
-  onValue,
 } from "firebase/database";
 import { getAuth } from "firebase/auth";
-import notification from "./notification";
-import defaultProperties from "./defaultProperties";
 
 export default {
   state: {
@@ -254,9 +249,5 @@ export default {
         }
       });
     },
-  },
-  modules: {
-    notification,
-    defaultProperties,
   },
 };

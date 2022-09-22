@@ -4,14 +4,20 @@ import FastFirstStart from "./modules/FastFirstStart";
 import FastLogin from "./modules/FastLogin";
 import FastRegistration from "./modules/FastRegistration";
 import FastToDoList from "./modules/FastToDoList";
+import notification from "./user/notification";
+import defaultProperties from "./user/defaultProperties";
+import uploadImage from "./todo/uploadImage";
+import theme from "./todo/theme";
+import todoListForm from "./todo/todoListForm";
+import todoListProfile from "./todo/todoListProfile";
 
 export default createStore({
   state: {
     hiddenBody: false,
     scrollBody: {
       x: "",
-      y: ""
-    }
+      y: "",
+    },
   },
   getters: {
     hiddenBody(state) {
@@ -36,11 +42,11 @@ export default createStore({
   actions: {
     hiddenBodyFunc({ state, commit, dispatch }) {
       if (state.hiddenBody == false) {
-        state.scrollBody.x = window.pageXOffset
-        state.scrollBody.y = window.pageYOffset
+        state.scrollBody.x = window.pageXOffset;
+        state.scrollBody.y = window.pageYOffset;
       }
       return (state.hiddenBody = !state.hiddenBody);
-    }
+    },
   },
   modules: {
     userSelected,
@@ -48,5 +54,11 @@ export default createStore({
     FastLogin,
     FastRegistration,
     FastToDoList,
+    defaultProperties,
+    notification,
+    uploadImage,
+    theme,
+    todoListForm,
+    todoListProfile,
   },
 });

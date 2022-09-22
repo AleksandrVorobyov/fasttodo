@@ -2,7 +2,7 @@ import { getDatabase, ref, get, child, push, update } from "firebase/database";
 export default {
   state: {
     theme: {
-      activeTheme: "Спорт",
+      activeTheme: "001def",
       themeCards: [],
       title: "Активная тема:",
       btnIcon: "arrow",
@@ -15,9 +15,10 @@ export default {
   },
   mutations: {
     findActiveTheme(state) {
-      return (state.activeTheme = state.theme.themeCards.find(
-        (e) => e.idx == 0
-      ).title);
+      return (
+        (state.activeTheme = state.theme.themeCards.find((e) => e.idx == 0).id),
+        console.log(state.activeTheme)
+      );;
     },
   },
   actions: {
@@ -177,5 +178,7 @@ export default {
         );
       }
     },
+    async changeActionThemeToServer({ state, getters, dispatch }) {},
+    async loadActionThemeFromServer({ state, getters, dispatch }) {},
   },
 };

@@ -1,4 +1,3 @@
-import firebase from "firebase/compat/app";
 import {
   getDatabase,
   ref,
@@ -7,7 +6,6 @@ import {
   child,
   push,
   update,
-  onValue,
 } from "firebase/database";
 export default {
   state: {
@@ -49,25 +47,13 @@ export default {
 
         updates[`users/${uid}/info/recordList/${newPostKey}`] = yourMessage;
 
-        let content = [];
-
-        if (JSON.parse(localStorage.getItem("webListTodo"))) {
-          content = JSON.parse(localStorage.getItem("webListTodo"));
-        }
-
         let item = {
           id: newPostKey,
           text: yourMessage,
         };
 
-        content.push(item);
-
-        localStorage.setItem("webListTodo", JSON.stringify(content));
-
         productInput.value = "";
-
         state.personRecord.push(item);
-
         return update(ref(db), updates);
       } else {
         return await dispatch(
@@ -79,7 +65,6 @@ export default {
     async dragRecordSave({ state, dispatch }) {
       try {
         let newRecordList = state.personRecord;
-        console.log(newRecordList);
         const db = getDatabase();
         const uid = await dispatch("getUid");
         await set(ref(db, `users/${uid}/info/recordList/`), {
@@ -101,16 +86,11 @@ export default {
       try {
         const db = getDatabase();
         const uid = await dispatch("getUid");
-
+        const delElem = state.personRecord[record].id;
         state.personRecord.splice(record, 1);
 
-        let content = JSON.parse(localStorage.getItem("webListTodo"));
-
-        let delElem = content.splice(record, 1);
-
-        localStorage.setItem("webListTodo", JSON.stringify(content));
         const updates = {};
-        updates[`users/${uid}/info/recordList/${delElem[0].id}`] = null;
+        updates[`users/${uid}/info/recordList/${delElem}`] = {};
         await update(ref(db), updates);
       } catch (error) {
         return await dispatch("getNotificationError", error);
@@ -139,8 +119,6 @@ export default {
               delete obj["1"];
               return obj;
             });
-
-            localStorage.setItem("webListTodo", JSON.stringify(keys));
 
             return (state.personRecord = keys);
           } else {

@@ -1,15 +1,4 @@
-import firebase from "firebase/compat/app";
-import {
-  getDatabase,
-  ref,
-  set,
-  get,
-  child,
-  push,
-  update,
-  onValue,
-} from "firebase/database";
-import uploadImage from "./uploadImage";
+import { getDatabase, ref, set } from "firebase/database";
 export default {
   state: {
     profile: {
@@ -138,8 +127,5 @@ export default {
       return (state.profile.changeAvatar.inputLoad =
         !state.profile.changeAvatar.inputLoad);
     },
-  },
-  modules: {
-    uploadImage,
   },
 };

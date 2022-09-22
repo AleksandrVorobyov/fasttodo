@@ -1,7 +1,3 @@
-import theme from "../todo/theme";
-import todoListForm from "../todo/todoListForm";
-import todoListProfile from "../todo/todoListProfile";
-
 export default {
   state: {
     fastToDoList: {
@@ -176,10 +172,5 @@ export default {
       return (state.todolistWorkplace.create.inputLoad =
         !state.todolistWorkplace.create.inputLoad);
     },
-  },
-  modules: {
-    theme,
-    todoListForm,
-    todoListProfile,
   },
 };
