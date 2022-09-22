@@ -16,10 +16,8 @@ export default {
 </script>
 <style scoped lang="scss">
 .btn-del__icon {
-  position: absolute;
+  display: block;
   padding: 3px;
-  top: 50%;
-  right: 5px;
   width: 32px;
   height: 32px;
   display: flex;
@@ -27,7 +25,6 @@ export default {
   justify-content: center;
   font-size: 16px;
   line-height: 16px;
-  transform: translateY(-50%);
   border-radius: 50%;
   border: none;
   outline: none;

@@ -61,7 +61,6 @@ export default {
     }
 
     .workplace__theme-list-rename {
-      animation: themeListRenameBtn 0.5s linear 0s;
       top: 50%;
       transform: translate(-50%, -50%);
     }
@@ -95,6 +94,10 @@ export default {
 }
 
 .workplace__theme-list-del {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
   transition: opacity 0.5s linear;
   opacity: 0;
 }
@@ -102,35 +105,24 @@ export default {
 .workplace__theme-list-rename {
   position: absolute;
   padding: 10px 25px;
-  top: -50%;
   left: 50%;
-  transform: translate(-50%, 50%);
+  top: 50%;
+  transform: translate(-50%, -50%);
   opacity: 0;
   font-size: 14px;
   font-weight: bold;
   text-align: center;
   text-decoration: none;
+  background: var(--linearSectionMain);
   transition: all 0.5s linear;
-  border: 2px solid #fff;
   color: #fff;
-  background: transparent;
   cursor: pointer;
   z-index: 20;
   overflow: hidden;
+  border: 2px solid #fff;
 
   &:hover {
     border-color: #65b37a;
-  }
-}
-
-@keyframes themeListRenameBtn {
-  from {
-    top: 100%;
-    transform: translate(-50%, -100%);
-  }
-  to {
-    top: 50%;
-    transform: translate(-50%, -50%);
   }
 }
 </style>

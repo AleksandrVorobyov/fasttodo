@@ -31,6 +31,11 @@ export default {
     visibility 0s linear 0.8s;
   overflow: hidden;
   z-index: 50;
+
+  & > * {
+    opacity: 0;
+    transition: opacity 0.3s linear;
+  }
 }
 
 .todolist__workplace--active {
@@ -39,6 +44,11 @@ export default {
   border: 5px solid transparent;
   border-top: 0px;
   transition: height 0.5s linear;
+
+  & > * {
+    transition: opacity 0.3s linear;
+    opacity: 1;
+  }
 
   .todolist__workplace-get-theme::before,
   .todolist__workplace-get-theme::after {

@@ -24,8 +24,8 @@
     )
       template(#item="{ element, index }")
         li.todolist__form-body-item
-          span {{ index + 1 + ')'}}
-          span {{element.text}}
+          span {{ index + 1 + ')' }}
+          span {{ element.text }}
           button.todolist__form-body-drag.handle(type="button")
             span
           .todolist__form-body-del
@@ -44,7 +44,7 @@ export default {
   components: {
     draggable,
     mainBtn: mainBtn,
-    buttonDelWithIcon
+    buttonDelWithIcon,
   },
   methods: {
     async delRecord(elemIndex) {
@@ -68,7 +68,7 @@ export default {
 
 .todolist__form > hr {
   border: 3px solid transparent;
-  border-image: var(--linearMainSecond);
+  border-image: var(--linearMain);
   border-image-slice: 1;
 }
 
@@ -165,6 +165,13 @@ export default {
 .todolist__form-body-item--active {
   transform: scale(1.05);
   box-shadow: 0px 0px 3px gray;
+}
+
+.todolist__form-body-del {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  transform: translateY(-50%);
 }
 
 .todolist__form-body-del,

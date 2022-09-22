@@ -1,12 +1,4 @@
-import {
-  getDatabase,
-  ref,
-  get,
-  child,
-  push,
-  update,
-
-} from "firebase/database";
+import { getDatabase, ref, get, child, push, update } from "firebase/database";
 export default {
   state: {
     theme: {
@@ -110,6 +102,7 @@ export default {
             title: inputText,
             imgRef: newPostKey,
             idx: state.theme.themeCards.length,
+            id: newPostKey,
           };
 
           await update(ref(db), updates);
@@ -156,12 +149,13 @@ export default {
     },
     async delTheme({ state, getters, dispatch }, id) {
       try {
+        const delThemeItem = state.theme.themeCards.find((e) => e.id === id);
         const uid = await dispatch("getUid");
         const db = getDatabase();
         let newThemeList = state.theme.themeCards.filter((e) => e.id != id);
         await newThemeList.forEach((item, index) => {
           item.idx = index;
-          item.style = null
+          item.style = {};
           const updates = {};
           updates[`users/${uid}/info/themeList/${item.id}`] = item;
           return update(ref(db), updates);
@@ -171,10 +165,16 @@ export default {
         delUpdate[`users/${uid}/info/themeList/${id}`] = {};
         await update(ref(db), delUpdate);
 
-        await dispatch("delThemeImg", id);
+        if (delThemeItem.imgLoad == "web") {
+          await dispatch("delThemeImg", id);
+        }
+
         return await dispatch("loadTheme");
       } catch (error) {
-        return await dispatch("getNotificationError", error + "delTheme - main");
+        return await dispatch(
+          "getNotificationError",
+          error + "delTheme - main"
+        );
       }
     },
   },
