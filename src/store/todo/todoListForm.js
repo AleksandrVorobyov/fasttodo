@@ -35,7 +35,7 @@ export default {
       const result = [first, ...rest].join("");
       return result;
     },
-    async getNewRecord({ state, dispatch, commit }, message) {
+    async getNewRecord({ state, getters, commit, dispatch }, message) {
       const productInput = document.getElementById("todoFormInput");
       if (productInput.value != "") {
         const yourMessage = await dispatch("getUpperFirstletter", message);
@@ -44,8 +44,10 @@ export default {
 
         const newPostKey = push(child(ref(db), "recordList")).key;
         const updates = {};
+        const idTheme = await getters.theme.activeTheme;
 
-        updates[`users/${uid}/info/recordList/${newPostKey}`] = yourMessage;
+        updates[`users/${uid}/info/recordList/${idTheme}/${newPostKey}`] =
+          yourMessage;
 
         let item = {
           id: newPostKey,
@@ -62,19 +64,21 @@ export default {
         );
       }
     },
-    async dragRecordSave({ state, dispatch }) {
+    async dragRecordSave({ state, getters, dispatch }) {
       try {
         let newRecordList = state.personRecord;
         const db = getDatabase();
         const uid = await dispatch("getUid");
-        await set(ref(db, `users/${uid}/info/recordList/`), {
+        const idTheme = await getters.theme.activeTheme;
+        await set(ref(db, `users/${uid}/info/recordList/${idTheme}`), {
           item: null,
         });
 
         await newRecordList.forEach((item, index) => {
           let updates = {};
           let newPostKey = push(child(ref(db), "recordList")).key;
-          updates[`users/${uid}/info/recordList/${newPostKey}`] = item.text;
+          updates[`users/${uid}/info/recordList/${idTheme}/${newPostKey}`] =
+            item.text;
           return update(ref(db), updates);
         });
         await dispatch("loadPersonRecord");
@@ -82,28 +86,30 @@ export default {
         return await dispatch("getNotificationError", error);
       }
     },
-    async delRecord({ state, dispatch }, record) {
+    async delRecord({ state, getters, dispatch }, record) {
       try {
         const db = getDatabase();
         const uid = await dispatch("getUid");
+        const idTheme = await getters.theme.activeTheme;
         const delElem = state.personRecord[record].id;
         state.personRecord.splice(record, 1);
 
         const updates = {};
-        updates[`users/${uid}/info/recordList/${delElem}`] = {};
+        updates[`users/${uid}/info/recordList/${idTheme}/${delElem}`] = {};
         await update(ref(db), updates);
       } catch (error) {
         return await dispatch("getNotificationError", error);
       }
     },
-    async loadPersonRecord({ state, dispatch }) {
+    async loadPersonRecord({ state, getters, dispatch }) {
       const uid = await dispatch("getUid");
       const dbRef = ref(getDatabase());
+      const idTheme = await getters.theme.activeTheme;
 
-      await get(child(dbRef, `users/${uid}`))
+      await get(child(dbRef, `users/${uid}/info/recordList/${idTheme}/`))
         .then((snapshot) => {
           if (snapshot.exists()) {
-            let allTheme = snapshot.val().info.recordList;
+            let allTheme = snapshot.val();
             let result = Object.entries(allTheme);
             let keys = [];
 
@@ -122,11 +128,14 @@ export default {
 
             return (state.personRecord = keys);
           } else {
-            console.log("No data available");
+            return (
+              (state.personRecord = new Array()),
+              console.log("No data available")
+            );
           }
         })
         .catch((error) => {
-          return false;
+          return dispatch("getNotificationError", error);
         });
     },
   },

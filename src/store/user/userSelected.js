@@ -62,28 +62,18 @@ export default {
 
       if (email && password) {
         try {
-          await firebase
-            .auth()
-            .signInWithEmailAndPassword(email, password)
-            .then(() => {
-              dispatch("loadUserName");
-              dispatch("loadTheme");
-            })
-            .then(() => {
-              dispatch("changeActiveThemeToServerDef");
-              dispatch("loadActiveThemeFromServer");
-              dispatch("loadPersonRecord");
-            })
-            .then(() => {
-              const uid = dispatch("getUid");
-              state.user.selected = true;
-              state.user.uid = uid;
-              router.push("/");
-            })
-            .then(() => {
-              dispatch("loadAvatarImage");
-              dispatch("changeThemeStyle");
-            });
+          await firebase.auth().signInWithEmailAndPassword(email, password);
+          await dispatch("loadUserName");
+          await dispatch("loadTheme");
+          await dispatch("changeActiveThemeToServerDef");
+          await dispatch("loadActiveThemeFromServer");
+          await dispatch("loadPersonRecord");
+          const uid = dispatch("getUid");
+          state.user.selected = true;
+          state.user.uid = uid;
+          router.push("/");
+          await dispatch("loadAvatarImage");
+          await dispatch("changeThemeStyle");
         } catch (error) {
           return router.push("/start"), console.log("error", error);
         }

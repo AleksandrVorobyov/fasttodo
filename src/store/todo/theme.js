@@ -30,6 +30,7 @@ export default {
         await commit("findActiveTheme");
         await dispatch("changeThemeStyle");
         await dispatch("changeActiveThemeToServer");
+        await dispatch("loadPersonRecord");
       }
     },
     async activeThemePrev({ state, commit, dispatch }) {
@@ -41,6 +42,7 @@ export default {
         await commit("findActiveTheme");
         await dispatch("changeThemeStyle");
         await dispatch("changeActiveThemeToServer");
+        await dispatch("loadPersonRecord");
       }
     },
     async changeThemeStyle({ state }) {
@@ -173,10 +175,7 @@ export default {
 
         return await dispatch("loadTheme");
       } catch (error) {
-        return await dispatch(
-          "getNotificationError",
-          error + "delTheme - main"
-        );
+        return await dispatch("getNotificationError", error);
       }
     },
     async uploadActiveThemeToServer({ state, getters, dispatch, commit }, uid) {
