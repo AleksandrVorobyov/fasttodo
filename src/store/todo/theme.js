@@ -15,7 +15,7 @@ export default {
   },
   mutations: {
     findActiveTheme(state) {
-      return (state.activeTheme = state.theme.themeCards.find(
+      return (state.theme.activeTheme = state.theme.themeCards.find(
         (e) => e.idx == 0
       ).id);
     },
@@ -180,26 +180,25 @@ export default {
       }
     },
     async uploadActiveThemeToServer({ state, getters, dispatch, commit }, uid) {
-      await commit("findActiveTheme");
       const db = getDatabase();
       const updates = {};
-      const activeTheme = state.activeTheme;
+      const activeTheme = state.theme.activeTheme;
 
       updates[`users/${uid}/info/activeTheme/`] = activeTheme;
 
-      return update(ref(db), updates);
+      return await update(ref(db), updates);
     },
     async changeActiveThemeToServer({ state, getters, commit, dispatch }) {
       const uid = await dispatch("getUid");
       const db = getDatabase();
       const updates = {};
-      const activeTheme = state.activeTheme;
+      const activeTheme = state.theme.activeTheme;
 
       updates[`users/${uid}/info/activeTheme/`] = activeTheme;
 
-      return update(ref(db), updates);
+      return await update(ref(db), updates);
     },
-    async loadActiveThemeToServer({ state, getters, dispatch, commit }) {
+    async loadActiveThemeFromServer({ state, getters, dispatch, commit }) {
       const uid = await dispatch("getUid");
       const dbRef = ref(getDatabase());
 
@@ -210,6 +209,27 @@ export default {
       });
 
       await dispatch("changeThemeStyle");
+    },
+    async changeActiveThemeToServerDef({ state, getters, dispatch, commit }) {
+      const db = getDatabase();
+      const uid = await dispatch("getUid");
+      const updates = {};
+      const dbRef = ref(getDatabase());
+
+      let firstTheme = "";
+
+      await get(child(dbRef, `users/${uid}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+          return (firstTheme =
+            snapshot.val().info.themeList[
+              Object.keys(snapshot.val().info.themeList)[0]
+            ]);
+        }
+      });
+
+      updates[`users/${uid}/info/activeTheme/`] = firstTheme.imgRef;
+
+      return await update(ref(db), updates);
     },
   },
 };

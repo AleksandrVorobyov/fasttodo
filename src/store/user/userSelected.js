@@ -67,8 +67,11 @@ export default {
             .signInWithEmailAndPassword(email, password)
             .then(() => {
               dispatch("loadUserName");
-              dispatch("loadActiveThemeToServer");
               dispatch("loadTheme");
+            })
+            .then(() => {
+              dispatch("changeActiveThemeToServerDef");
+              dispatch("loadActiveThemeFromServer");
               dispatch("loadPersonRecord");
             })
             .then(() => {
@@ -195,6 +198,8 @@ export default {
                 "fastTodoPssword",
                 password
               );
+              dispatch("changeActiveThemeToServerDef");
+              dispatch("loadActiveThemeFromServer");
               dispatch("loadPersonRecord");
               dispatch("loadUserName");
               dispatch("loadTheme");
