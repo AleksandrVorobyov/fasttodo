@@ -6,6 +6,7 @@ export default {
       themeCards: [],
       title: "Активная тема:",
       btnIcon: "arrow",
+      btnDisabled: "prev-theme"
     },
   },
   getters: {
@@ -19,6 +20,22 @@ export default {
         (e) => e.idx == 0
       ).id);
     },
+    checkToThemeBtnDisabled(state) {
+      let btnDisFirst = state.theme.themeCards.find(
+        (e) => e.idx == '-1'
+      )
+      let btnDisLast = state.theme.themeCards.find(
+        (e) => e.idx == '1'
+      )
+
+      if (btnDisFirst != undefined && btnDisLast != undefined) {
+        return state.theme.btnDisabled = "none"
+      } else if (btnDisFirst == undefined && btnDisLast != undefined) {
+        return state.theme.btnDisabled = "prev-theme"
+      } else if (btnDisFirst != undefined && btnDisLast == undefined) {
+        return state.theme.btnDisabled = "next-theme"
+      }
+    }
   },
   actions: {
     async activeThemeNext({ state, commit, dispatch }) {
@@ -31,6 +48,7 @@ export default {
         await dispatch("changeThemeStyle");
         await dispatch("changeActiveThemeToServer");
         await dispatch("loadPersonRecord");
+        await commit("checkToThemeBtnDisabled")
       }
     },
     async activeThemePrev({ state, commit, dispatch }) {
@@ -43,6 +61,7 @@ export default {
         await dispatch("changeThemeStyle");
         await dispatch("changeActiveThemeToServer");
         await dispatch("loadPersonRecord");
+        await commit("checkToThemeBtnDisabled")
       }
     },
     async changeThemeStyle({ state }) {

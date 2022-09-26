@@ -15,9 +15,15 @@ section.todolist__theme
             img(
               :src="item.imgLoad == 'web' ? item.src : require('@/assets/img/' + item.src)"
             )
-        button.todolist__theme-cards-next.arrow(@click="activeThemeNext()") 
+        button.todolist__theme-cards-next.arrow(
+          :class="theme.btnDisabled == 'next-theme' ? 'todolist__theme-cards-btn--disabled' : ''",
+          @click="activeThemeNext()"
+        ) 
           arrow
-        button.todolist__theme-cards-prev.arrow(@click="activeThemePrev()") 
+        button.todolist__theme-cards-prev.arrow(
+          :class="theme.btnDisabled == 'prev-theme' ? 'todolist__theme-cards-btn--disabled' : ''",
+          @click="activeThemePrev()"
+        ) 
           arrow
 </template>
 <script>
@@ -126,6 +132,7 @@ export default {
   transform: translateY(-50%);
   padding: 5px 10px;
   z-index: 100;
+  transition: opacity .3s linear;
 }
 
 .todolist__theme-cards-next {
@@ -135,6 +142,11 @@ export default {
 .todolist__theme-cards-prev {
   transform: translateY(-50%) rotate(180deg);
   left: 0;
+}
+
+.todolist__theme-cards-btn--disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 @import url("~@/assets/scss/parts/arrowTheme.scss");
