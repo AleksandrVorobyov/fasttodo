@@ -18,6 +18,10 @@ export default createStore({
       x: "",
       y: "",
     },
+    disconnect: {
+      title: "Мы потеряли связь с интернетом! Подождите пока связь появится или попробуйте перезагрузить страницу!",
+      btn: "Перезагрузить страницу",
+    },
   },
   getters: {
     hiddenBody(state) {
@@ -25,6 +29,9 @@ export default createStore({
     },
     scrollBody(state) {
       return state.scrollBody;
+    },
+    disconnect(state) {
+      return state.disconnect;
     },
   },
   mutations: {
@@ -34,9 +41,11 @@ export default createStore({
       const y = btn.clientY - rect.top;
       btn.target.style.background = `radial-gradient(circle at ${x}px ${y}px , rgba(0, 255, 133 ,0.4),rgba(0, 255, 133 ,0) )`;
     },
-
     mainBtnAnimLeave(state, btn) {
       btn.target.style.background = `transparent`;
+    },
+    rebootPage() {
+      location.reload();
     },
   },
   actions: {

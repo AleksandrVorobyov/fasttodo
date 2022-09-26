@@ -1,18 +1,28 @@
 <template lang="pug">
 Preloader
-FastNotification 
-router-view
+FastNotification
+FastDisconnect(v-if="disconnect.status")
+router-view(v-else)
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import Preloader from "@/components/FastPreloader.vue";
 import FastNotification from "@/components/FastNotification.vue";
+import FastDisconnect from "@/components/FastDisconnect.vue";
 
 export default {
+  data() {
+    return {
+      disconnect: {
+        status: false,
+      },
+    };
+  },
   components: {
     Preloader,
     FastNotification,
+    FastDisconnect,
   },
   computed: {
     ...mapGetters(["user", "hiddenBody", "scrollBody"]),
@@ -24,11 +34,15 @@ export default {
     todoMenuSmartHiding(e) {
       this.$store.dispatch("todoMenuSmartHiding", e);
     },
+    changeDisconnectStatus() {
+      this.$store.commit("changeDisconnectStatus");
+    },
   },
   created() {
     this.authLocalVerification();
   },
   mounted() {
+    const that = this;
     setTimeout(() => {
       const preloader = document.querySelector(".preloader");
       preloader.classList.add("preloader-remove");
@@ -42,6 +56,13 @@ export default {
         let scrollLeft = this.scrollBody.x;
         window.scrollTo(scrollLeft, scrollTop);
       }
+    });
+    window.addEventListener("offline", () => {
+      return that.disconnect.status = true, console.log(that.disconnect.status);;
+    });
+
+    window.addEventListener("online", () => {
+      return that.disconnect.status = false, console.log(that.disconnect.status);;
     });
   },
 };
