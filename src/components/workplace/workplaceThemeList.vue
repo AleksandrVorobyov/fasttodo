@@ -8,7 +8,11 @@ ul.workplace__theme-list
     h5.workplace__theme-list-title {{ item.title }}
     .workplace__theme-list-del(v-if="remove")
       buttonDelWithIcon(@clickAction="delTheme(item.id)")
-    button.workplace__theme-list-rename(type="button", v-else) {{ rename.themeListRenameBtnText }}
+    button.workplace__theme-list-rename(
+      type="button",
+      v-else,
+      @click="toggleThemeRenameFormModule(), saveInfoForRenameTheme(item.id)"
+    ) {{ rename.themeListRenameBtnText }}
 </template>
 <script>
 import buttonDelWithIcon from "../parts/buttonDelWithIcon.vue";
@@ -24,6 +28,12 @@ export default {
   methods: {
     async delTheme(id) {
       await this.$store.dispatch("delTheme", id);
+    },
+    async toggleThemeRenameFormModule() {
+      await this.$store.dispatch("toggleThemeRenameFormModule");
+    },
+    saveInfoForRenameTheme(id) {
+      this.$store.commit("saveInfoForRenameTheme", id);
     },
   },
 };

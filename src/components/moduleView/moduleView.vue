@@ -1,6 +1,6 @@
 <template lang="pug">
 section.module-view(:class="viewClass", :id="viewId")
-    slot
+  slot
 </template>
 <script>
 export default {
@@ -19,14 +19,6 @@ export default {
   height: 100%;
   z-index: 2000;
   background: rgba(0, 0, 0, 0.7);
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
-}
-
-.module-view--active {
   opacity: 1;
-  pointer-events: all;
-  visibility: visible;
 }
 </style>

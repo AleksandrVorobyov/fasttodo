@@ -24,6 +24,7 @@ export default {
         errorMax: "Слишком длинное имя! Максимум 20 букв",
         btnExit: "Отменить",
         success: "Вы успешно сменили имя!",
+        show: false
       },
       changeAvatar: {
         title: "Выберите новый аватар",
@@ -32,6 +33,7 @@ export default {
         inputFileSucess: "Изображение загружено!",
         btnSubmit: "Отправить",
         btnExit: "Отменить",
+        show: false
       },
     },
   },
@@ -71,18 +73,20 @@ export default {
       }
     },
     async toggleRenameFormModule({ state, dispatch }) {
-      const formRename = document.getElementById("formRename");
-      const formRenameInput = document.getElementById("formRenameInput");
-      formRename.classList.toggle("form-rename--active");
+      state.profile.rename.show = !state.profile.rename.show
       await dispatch("hiddenBodyFunc");
+      const formRenameInput = document.getElementById("formRenameInput");
 
       if (formRenameInput.value.length > 0) {
         return (formRenameInput.value = "");
       }
     },
     async toggleChangeAvatarFormModule({ state, dispatch }) {
-      const changeAvatar = document.getElementById("changeAvatar");
-      changeAvatar.classList.toggle("change-avatar--active");
+      if (state.profile.changeAvatar.show) {
+        state.profile.changeAvatar.show = false
+      } else {
+        state.profile.changeAvatar.show = true
+      }
       await dispatch("hiddenBodyFunc");
     },
     async changeUserName({ state, commit, dispatch }) {

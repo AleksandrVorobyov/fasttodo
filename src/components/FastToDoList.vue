@@ -27,8 +27,11 @@
         todoListTheme
       .todolist__form-wrap
         todoListForm
-  changeName
-  changeAvatar
+  changeName(v-show="profile.rename.show")
+  changeAvatar(v-show="profile.changeAvatar.show")
+  themeRename(v-show="theme.rename.show")
+  themeRenameTtl(v-show="theme.rename.ttl.show")
+  themeRenameImg(v-show="theme.rename.img.show")
 </template>
 <script>
 import { mapGetters } from "vuex";
@@ -40,8 +43,11 @@ import todoListProfile from "./parts/todoListProfile.vue";
 import todoListMenu from "./parts/todoListMenu.vue";
 import todoListClock from "./parts/clock.vue";
 import todoListForm from "./parts/todoListForm.vue";
-import changeName from "./parts/changeNameModuleView.vue";
-import changeAvatar from "./parts/changeAvatarModuleView.vue";
+import changeName from "./moduleViewSection/changeNameModuleView.vue";
+import changeAvatar from "./moduleViewSection/changeAvatarModuleView.vue";
+import themeRename from "./moduleViewSection/themeRenameModuleView.vue";
+import themeRenameTtl from "./moduleViewSection/themeRenameTtlModuleView.vue";
+import themeRenameImg from "./moduleViewSection/themeRenameImgModuleView.vue";
 import glitchImg from "./parts/glitchImg.vue";
 
 export default {
@@ -56,10 +62,13 @@ export default {
     todoListForm,
     changeName,
     changeAvatar,
+    themeRename,
+    themeRenameTtl,
+    themeRenameImg,
     glitchImg,
   },
   computed: {
-    ...mapGetters(["login", "clientTime", "fastToDoList"]),
+    ...mapGetters(["fastToDoList", "profile", "theme"]),
   },
 };
 </script>

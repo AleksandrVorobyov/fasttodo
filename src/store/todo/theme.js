@@ -6,7 +6,36 @@ export default {
       themeCards: [],
       title: "Активная тема:",
       btnIcon: "arrow",
-      btnDisabled: "prev-theme"
+      btnDisabled: "prev-theme",
+      rename: {
+        title: "Выберите что то из перечисленного:",
+        btnTtlRenameText: "Изменить текст...",
+        btnTtlRenameimg: "Изменить картинку...",
+        show: false,
+        btnExit: "Отменить",
+        saveTheme: "",
+        ttl: {
+          title: "Придумайте новое название для темы!",
+          btnSub: "Отправить",
+          btnExit: "Отменить",
+          show: false,
+          inputPlace: "Новое название...",
+          inputValue: "",
+          error: "должно быть минимум 3 символа!",
+          success: "Вы успешно изменили название темы!"
+        },
+        img: {
+          title: "Выберите новую картинку!",
+          btnSub: "Отправить",
+          btnExit: "Отменить",
+          show: false,
+          inputLoad: false,
+          inputFile: "Перетащите изображение...",
+          inputFileSucess: "Изображение загружено!",
+          file: "",
+          success: "Вы успешно изменили картинку темы!"
+        }
+      }
     },
   },
   getters: {
@@ -35,9 +64,24 @@ export default {
       } else if (btnDisFirst != undefined && btnDisLast == undefined) {
         return state.theme.btnDisabled = "next-theme"
       }
-    }
+    },
+    saveInfoForRenameTheme(state, id) {
+      return state.theme.rename.saveTheme = id
+    },
+    delInfoForRenameTheme(state) {
+      return state.theme.rename.saveTheme = ""
+    },
+    saveInputTtlThemeRename(state, id) {
+      return state.theme.rename.ttl.inputValue = document.getElementById(id).value
+    },
   },
   actions: {
+    validateiIputTtlThemeRename(state, text) {
+      if (text.length >= 3) {
+        return true;
+      }
+      return false;
+    },
     async activeThemeNext({ state, commit, dispatch }) {
       let last = state.theme.themeCards[state.theme.themeCards.length - 1];
       if (last.idx > 0) {
@@ -240,7 +284,7 @@ export default {
         if (snapshot.exists()) {
           return (firstTheme =
             snapshot.val().info.themeList[
-              Object.keys(snapshot.val().info.themeList)[0]
+            Object.keys(snapshot.val().info.themeList)[0]
             ]);
         }
       });
@@ -248,6 +292,58 @@ export default {
       updates[`users/${uid}/info/activeTheme/`] = firstTheme.imgRef;
 
       return await update(ref(db), updates);
+    },
+    async toggleThemeRenameFormModule({ state, dispatch }) {
+      state.theme.rename.show = !state.theme.rename.show
+      await dispatch("hiddenBodyFunc");
+    },
+    async toggleThemeRenameTtlFormModule({ state, dispatch }) {
+      state.theme.rename.ttl.show = !state.theme.rename.ttl.show
+      await dispatch("hiddenBodyFunc");
+    },
+    async toggleThemeRenameImgFormModule({ state, dispatch }) {
+      state.theme.rename.img.show = !state.theme.rename.img.show
+      await dispatch("hiddenBodyFunc");
+    },
+    async changeThemeRenameTtlFormModule({ state, commit, dispatch }) {
+      try {
+        const newThemeTtl = state.theme.rename.ttl.inputValue;
+        const newThemeTtlValid = await dispatch("validateiIputTtlThemeRename", newThemeTtl)
+        if (newThemeTtlValid) {
+          const uid = await dispatch("getUid");
+          const db = getDatabase();
+          const updates = {};
+          const themeId = state.theme.rename.saveTheme
+          updates[`users/${uid}/info/themeList/${themeId}/title`] = newThemeTtl;
+          await update(ref(db), updates);
+          await dispatch("loadTheme")
+          await dispatch("loadActiveThemeFromServer")
+          await dispatch("getNotificationSuccess", state.theme.rename.ttl.success);
+        } else {
+          return await dispatch("getNotificationError", state.theme.rename.ttl.error);
+        }
+      } catch (error) {
+        return await dispatch("getNotificationError", error);
+      }
+    },
+    async preloadThemeRenameImgFormModule({ state, dispatch }, e) {
+      try {
+        const image = e.target.files[0];
+        let inputDiv = e.target.closest("div");
+        let labelDiv = inputDiv.querySelector("label");
+
+        labelDiv.classList.add("image-file-input__label--sucess");
+        return state.theme.rename.img.file = image, state.theme.rename.img.inputLoad = true;
+      } catch (error) {
+        return await dispatch("getNotificationError", error);
+      }
+    },
+    delThemeRenameImgFormModule({ state, dispatch }, e) {
+      let inputDiv = e.target.closest("form");
+      let labelDiv = inputDiv.querySelector("label");
+
+      labelDiv.classList.remove("image-file-input__label--sucess");
+      return state.theme.rename.img.file = "", state.theme.rename.img.inputLoad = false;
     },
   },
 };

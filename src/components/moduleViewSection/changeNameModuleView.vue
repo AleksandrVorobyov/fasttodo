@@ -28,8 +28,8 @@ moduleView(viewClass="form-rename", viewId="formRename")
 </template>
 <script>
 import { mapGetters } from "vuex";
-import formInput from "./formInput.vue";
-import mainBtn from "./mainBtn.vue";
+import formInput from "../parts/formInput.vue";
+import mainBtn from "../parts/mainBtn.vue";
 import moduleView from "../moduleView/moduleView.vue";
 import moduleViewForm from "../moduleView/moduleViewForm.vue";
 import moduleViewBtnExit from "../moduleView/moduleViewBtnExit.vue";
@@ -60,9 +60,4 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.form-rename.form-rename--active {
-  opacity: 1;
-  pointer-events: all;
-  visibility: visible;
-}
 </style>

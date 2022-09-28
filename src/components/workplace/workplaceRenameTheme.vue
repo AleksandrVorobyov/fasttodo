@@ -2,7 +2,7 @@
 #todoListWorkPlaceRenameTheme.todolist__workplace-rename-theme
   workplaceThemeList(
     :rename="todolistWorkplace.rename",
-    :list="theme.themeCards"
+    :list="theme.themeCards",
   )
 </template>
 <script>

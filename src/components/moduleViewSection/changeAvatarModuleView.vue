@@ -32,12 +32,12 @@ moduleView(viewClass="change-avatar", viewId="changeAvatar")
 </template>
 <script>
 import { mapGetters } from "vuex";
-import mainBtn from "./mainBtn.vue";
+import mainBtn from "../parts/mainBtn.vue";
 import moduleView from "../moduleView/moduleView.vue";
 import moduleViewForm from "../moduleView/moduleViewForm.vue";
 import moduleViewBtnExit from "../moduleView/moduleViewBtnExit.vue";
 import moduleViewTitle from "../moduleView/moduleViewTitle.vue";
-import imageFileInput from "./imageFileInput.vue";
+import imageFileInput from "../parts/imageFileInput.vue";
 export default {
   computed: {
     ...mapGetters(["profile"]),
@@ -70,9 +70,4 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.change-avatar.change-avatar--active {
-  opacity: 1;
-  pointer-events: all;
-  visibility: visible;
-}
 </style>

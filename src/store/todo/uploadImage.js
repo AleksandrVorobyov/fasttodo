@@ -129,6 +129,29 @@ export default {
         return await dispatch("getNotificationError", error);
       }
     },
+    async uploadThemeRenameImgFormModule({ state, getters, commit, dispatch }, e) {
+      try {
+        const image = await getters.theme.rename.img.file;
+        const uid = await dispatch("getUid");
+        const storage = getStorage();
+        const themeId = await getters.theme.rename.saveTheme
+        const success = await getters.theme.rename.img.success
+
+        const spaceRef = ref(storage, `users/${uid}/theme/${themeId}`);
+
+        const metadata = {
+          contentType: "image/jpeg",
+        };
+
+        await uploadBytes(spaceRef, image, metadata).then((snapshot) => {
+          console.log("Uploaded a blob or file!");
+        });
+        await dispatch("getNotificationSuccess", success);
+        return await dispatch("loadTheme")
+      } catch (error) {
+        return await dispatch("getNotificationError", error);
+      }
+    },
     delPreloadImageThemeAdd({ state, commit, dispatch }, e) {
       if (e) {
         let inputDiv = e.target.closest("form");
@@ -166,7 +189,6 @@ export default {
         } catch (error) {
           console.log("error - uploadImageThemeAdd");
         }
-        // await dispatch("uploadImageThemeAdd", themeRef)
 
         try {
           await commit("hiddenWorkPlace");
@@ -189,14 +211,6 @@ export default {
         } catch (error) {
           console.log("error - getNotificationSuccess");
         }
-
-        // await commit("activeWorkPlace")
-        // await commit("clearInputCreateNameTheme")
-        // await dispatch("delPreloadImageThemeAdd")
-        // await dispatch(
-        //   "getNotificationSuccess",
-        //   state.themes.success
-        // )
       } catch (error) {
         return await dispatch("getNotificationError", error);
       }
