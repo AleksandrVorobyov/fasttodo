@@ -20,8 +20,6 @@ export default {
         placeholder: "...",
         inputValue: "",
         btn: "Изменить",
-        errorMin: "Слишком короткое имя! Минимум 5 букв",
-        errorMax: "Слишком длинное имя! Максимум 20 букв",
         btnExit: "Отменить",
         success: "Вы успешно сменили имя!",
         show: false
@@ -35,6 +33,10 @@ export default {
         btnExit: "Отменить",
         show: false
       },
+      errors: {
+        renameTtlMin: "Слишком короткое имя! Минимум 5 букв",
+        renameTtlMax: "Слишком длинное имя! Максимум 20 букв",
+      }
     },
   },
   getters: {
@@ -90,42 +92,36 @@ export default {
       await dispatch("hiddenBodyFunc");
     },
     async changeUserName({ state, commit, dispatch }) {
-      if (
-        state.profile.rename.inputValue.length >= 5 &&
-        state.profile.rename.inputValue.length <= 20
-      ) {
-        try {
-          const db = getDatabase();
-          const uid = await dispatch("getUid");
-          await set(
-            ref(db, `users/${uid}/info/username/`),
-            state.profile.rename.inputValue
-          );
-          return (
-            await dispatch("toggleRenameFormModule"),
-            (state.profile.rename.inputValue = ""),
-            await dispatch("loadUserName"),
-            await dispatch(
-              "getNotificationSuccess",
-              state.profile.rename.success
-            )
-          );
-        } catch (error) {
-          return (
-            await dispatch("getNotificationError", error),
-            console.log(error, "1")
-          );
+      try {
+        const db = getDatabase();
+        const uid = await dispatch("getUid");
+
+        if (state.profile.rename.inputValue.length < 5) {
+          throw new SyntaxError(state.profile.errors.renameTtlMin);
         }
-      } else if (state.profile.rename.inputValue.length > 20) {
-        return await dispatch(
-          "getNotificationError",
-          state.profile.rename.errorMax
+
+        if (state.profile.rename.inputValue.length > 20) {
+          throw new SyntaxError(state.profile.errors.renameTtlMax);
+        }
+
+        await set(
+          ref(db, `users/${uid}/info/username/`),
+          state.profile.rename.inputValue
+        );
+        return (
+          await dispatch("toggleRenameFormModule"),
+          (state.profile.rename.inputValue = ""),
+          await dispatch("loadUserName"),
+          await dispatch(
+            "getNotificationSuccess",
+            state.profile.rename.success
+          )
+        );
+      } catch (err) {
+        return (
+          await dispatch("getNotificationError", err.message)
         );
       }
-      return await dispatch(
-        "getNotificationError",
-        state.profile.rename.errorMin
-      );
     },
     loadProfileInputFile({ state }) {
       return (state.profile.changeAvatar.inputLoad =

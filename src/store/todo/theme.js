@@ -21,8 +21,6 @@ export default {
           show: false,
           inputPlace: "Новое название...",
           inputValue: "",
-          error: "должно быть минимум 3 символа!",
-          success: "Вы успешно изменили название темы!"
         },
         img: {
           title: "Выберите новую картинку!",
@@ -33,8 +31,14 @@ export default {
           inputFile: "Перетащите изображение...",
           inputFileSucess: "Изображение загружено!",
           file: "",
-          success: "Вы успешно изменили картинку темы!"
         }
+      },
+      errors: {
+        themeGetDuble: "Такая тема уже существует",
+        themeGetMinThree: "Должно быть минимум 3 символа!",
+        themeGetImg: "Выберите картинку для вашей темы!",
+        themeRenameTtl: "Вы успешно изменили название темы!",
+        themeRenameImg: "Вы успешно изменили картинку темы!",
       }
     },
   },
@@ -76,11 +80,20 @@ export default {
     },
   },
   actions: {
-    validateiIputTtlThemeRename(state, text) {
+    validateiIputTtlThemeRename({ state }, text) {
       if (text.length >= 3) {
         return true;
       }
       return false;
+    },
+    checkingForDuplicationThemeTitle({ state }, title) {
+      let error = true
+      state.theme.themeCards.forEach((item) => {
+        if (item.title == title) {
+          return error = false
+        }
+      })
+      return error
     },
     async activeThemeNext({ state, commit, dispatch }) {
       let last = state.theme.themeCards[state.theme.themeCards.length - 1];
@@ -146,37 +159,45 @@ export default {
 
           return update(ref(db), updates);
         });
-      } catch (error) {
-        return await dispatch("getNotificationError", error);
+      } catch (err) {
+        return await dispatch("getNotificationError", err);
       }
     },
     async getNewTheme({ state, getters, dispatch }) {
-      if (
-        getters.inputCreateNameThemeBoolean &&
-        getters.todolistWorkplace.create.inputLoad
-      ) {
-        try {
-          const uid = await dispatch("getUid");
-          const db = getDatabase();
-          const inputText = getters.todolistWorkplace.create.themeInput;
+      try {
+        const inputText = getters.todolistWorkplace.create.themeInput;
+        const validDublicate = await dispatch("checkingForDuplicationThemeTitle", inputText)
+        const uid = await dispatch("getUid");
+        const db = getDatabase();
 
-          const newPostKey = push(child(ref(db), "themeList")).key;
-          const updates = {};
-
-          await dispatch("createNewTheme", newPostKey);
-
-          updates[`users/${uid}/info/themeList/${newPostKey}`] = {
-            title: inputText,
-            imgRef: newPostKey,
-            idx: state.theme.themeCards.length,
-            id: newPostKey,
-          };
-
-          await update(ref(db), updates);
-          return await dispatch("loadTheme");
-        } catch (error) {
-          return await dispatch("getNotificationError", error);
+        if (!getters.inputCreateNameThemeBoolean) {
+          throw new SyntaxError(state.theme.errors.themeGetMinThree);
         }
+
+        if (!getters.todolistWorkplace.create.inputLoad) {
+          throw new SyntaxError(state.theme.errors.themeGetImg);
+        }
+
+        if (!validDublicate) {
+          throw new SyntaxError(state.theme.errors.themeGetDuble);
+        }
+
+        const newPostKey = push(child(ref(db), "themeList")).key;
+        const updates = {};
+
+        await dispatch("createNewTheme", newPostKey);
+
+        updates[`users/${uid}/info/themeList/${newPostKey}`] = {
+          title: inputText,
+          imgRef: newPostKey,
+          idx: state.theme.themeCards.length,
+          id: newPostKey,
+        };
+
+        await update(ref(db), updates);
+        return await dispatch("loadTheme");
+      } catch (err) {
+        return await dispatch("getNotificationError", err.message);
       }
     },
     async getThemeImg({ state, getters, dispatch }, { url, id }) {
@@ -184,35 +205,39 @@ export default {
       newSrc.src = url;
     },
     async loadTheme({ state, dispatch, getters }) {
-      const uid = await dispatch("getUid");
-      const dbRef = ref(getDatabase());
+      try {
+        const uid = await dispatch("getUid");
+        const dbRef = ref(getDatabase());
 
-      await get(child(dbRef, `users/${uid}`)).then((snapshot) => {
-        if (snapshot.exists()) {
-          let themeCards = snapshot.val().info.themeList;
-          let themeCardsMod = Object.entries(themeCards);
-          let newThemeCardsMod = [];
-          themeCardsMod.forEach((item, index) => {
-            let objectOne = {
-              id: item[0],
-              style: {
-                zIndex: 50 - index,
-                opacity: 1 - 0.25 * index,
-                left: 50 + 5 * index + "%",
-              },
-            };
-            let objectTwo = item[1];
-            if (objectTwo.src == undefined) {
-              dispatch("loadThemeImg", item[0]);
-              objectTwo.imgLoad = "web";
-            }
-            item.splice(0, 2);
-            let objectThree = Object.assign(objectOne, objectTwo);
-            return newThemeCardsMod.push(objectThree);
-          });
-          return (state.theme.themeCards = newThemeCardsMod);
-        }
-      });
+        await get(child(dbRef, `users/${uid}`)).then((snapshot) => {
+          if (snapshot.exists()) {
+            let themeCards = snapshot.val().info.themeList;
+            let themeCardsMod = Object.entries(themeCards);
+            let newThemeCardsMod = [];
+            themeCardsMod.forEach((item, index) => {
+              let objectOne = {
+                id: item[0],
+                style: {
+                  zIndex: 50 - index,
+                  opacity: 1 - 0.25 * index,
+                  left: 50 + 5 * index + "%",
+                },
+              };
+              let objectTwo = item[1];
+              if (objectTwo.src == undefined) {
+                dispatch("loadThemeImg", item[0]);
+                objectTwo.imgLoad = "web";
+              }
+              item.splice(0, 2);
+              let objectThree = Object.assign(objectOne, objectTwo);
+              return newThemeCardsMod.push(objectThree);
+            });
+            return (state.theme.themeCards = newThemeCardsMod);
+          }
+        });
+      } catch (err) {
+        return await dispatch("getNotificationError", err);
+      }
     },
     async delTheme({ state, getters, dispatch }, id) {
       try {
@@ -237,61 +262,82 @@ export default {
         }
 
         return await dispatch("loadTheme");
-      } catch (error) {
-        return await dispatch("getNotificationError", error);
+      } catch (err) {
+        return await dispatch("getNotificationError", err);
       }
     },
     async uploadActiveThemeToServer({ state, getters, dispatch, commit }, uid) {
-      const db = getDatabase();
-      const updates = {};
-      const activeTheme = state.theme.activeTheme;
+      try {
+        const db = getDatabase();
+        const updates = {};
+        const activeTheme = state.theme.activeTheme;
 
-      updates[`users/${uid}/info/activeTheme/`] = activeTheme;
+        updates[`users/${uid}/info/activeTheme/`] = activeTheme;
 
-      return await update(ref(db), updates);
+        return await update(ref(db), updates);
+      } catch (err) {
+        return await dispatch(
+          "getNotificationError",
+          err
+        );
+      }
     },
     async changeActiveThemeToServer({ state, getters, commit, dispatch }) {
-      const uid = await dispatch("getUid");
-      const db = getDatabase();
-      const updates = {};
-      const activeTheme = state.theme.activeTheme;
+      try {
+        const uid = await dispatch("getUid");
+        const db = getDatabase();
+        const updates = {};
+        const activeTheme = state.theme.activeTheme;
 
-      updates[`users/${uid}/info/activeTheme/`] = activeTheme;
+        updates[`users/${uid}/info/activeTheme/`] = activeTheme;
 
-      return await update(ref(db), updates);
+        return await update(ref(db), updates);
+      } catch (err) {
+        return await dispatch(
+          "getNotificationError",
+          err
+        );
+      }
     },
     async loadActiveThemeFromServer({ state, getters, dispatch, commit }) {
-      const uid = await dispatch("getUid");
-      const dbRef = ref(getDatabase());
+      try {
+        const uid = await dispatch("getUid");
+        const dbRef = ref(getDatabase());
 
-      await get(child(dbRef, `users/${uid}`)).then((snapshot) => {
-        if (snapshot.exists()) {
-          state.theme.activeTheme = snapshot.val().info.activeTheme;
-        }
-      });
-
-      await dispatch("changeThemeStyle");
+        await get(child(dbRef, `users/${uid}`)).then((snapshot) => {
+          if (snapshot.exists()) {
+            state.theme.activeTheme = snapshot.val().info.activeTheme;
+          }
+        });
+        await dispatch("changeThemeStyle");
+      } catch (err) {
+        return await dispatch("getNotificationError", err);
+      }
     },
     async changeActiveThemeToServerDef({ state, getters, dispatch, commit }) {
-      const db = getDatabase();
-      const uid = await dispatch("getUid");
-      const updates = {};
-      const dbRef = ref(getDatabase());
+      try {
+        const db = getDatabase();
+        const uid = await dispatch("getUid");
+        const updates = {};
+        const dbRef = ref(getDatabase());
 
-      let firstTheme = "";
+        let firstTheme = "";
 
-      await get(child(dbRef, `users/${uid}`)).then((snapshot) => {
-        if (snapshot.exists()) {
-          return (firstTheme =
-            snapshot.val().info.themeList[
-            Object.keys(snapshot.val().info.themeList)[0]
-            ]);
-        }
-      });
+        await get(child(dbRef, `users/${uid}`)).then((snapshot) => {
+          if (snapshot.exists()) {
+            return (firstTheme =
+              snapshot.val().info.themeList[
+              Object.keys(snapshot.val().info.themeList)[0]
+              ]);
+          }
+        });
 
-      updates[`users/${uid}/info/activeTheme/`] = firstTheme.imgRef;
+        updates[`users/${uid}/info/activeTheme/`] = firstTheme.imgRef;
 
-      return await update(ref(db), updates);
+        return await update(ref(db), updates);
+      } catch (err) {
+        return await dispatch("getNotificationError", err);
+      }
     },
     async toggleThemeRenameFormModule({ state, dispatch }) {
       state.theme.rename.show = !state.theme.rename.show
@@ -309,21 +355,27 @@ export default {
       try {
         const newThemeTtl = state.theme.rename.ttl.inputValue;
         const newThemeTtlValid = await dispatch("validateiIputTtlThemeRename", newThemeTtl)
-        if (newThemeTtlValid) {
-          const uid = await dispatch("getUid");
-          const db = getDatabase();
-          const updates = {};
-          const themeId = state.theme.rename.saveTheme
-          updates[`users/${uid}/info/themeList/${themeId}/title`] = newThemeTtl;
-          await update(ref(db), updates);
-          await dispatch("loadTheme")
-          await dispatch("loadActiveThemeFromServer")
-          await dispatch("getNotificationSuccess", state.theme.rename.ttl.success);
-        } else {
-          return await dispatch("getNotificationError", state.theme.rename.ttl.error);
+        const validDublicate = await dispatch("checkingForDuplicationThemeTitle", newThemeTtl)
+
+        if (!newThemeTtlValid) {
+          throw new SyntaxError(state.theme.errors.themeGetMinThree);
         }
-      } catch (error) {
-        return await dispatch("getNotificationError", error);
+
+        if (!validDublicate) {
+          throw new SyntaxError(state.theme.errors.themeGetDuble);
+        }
+
+        const uid = await dispatch("getUid");
+        const db = getDatabase();
+        const updates = {};
+        const themeId = state.theme.rename.saveTheme
+        updates[`users/${uid}/info/themeList/${themeId}/title`] = newThemeTtl;
+        await update(ref(db), updates);
+        await dispatch("loadTheme")
+        await dispatch("getNotificationSuccess", state.theme.errors.themeRenameTtl);
+
+      } catch (err) {
+        return await dispatch("getNotificationError", err.message);
       }
     },
     async preloadThemeRenameImgFormModule({ state, dispatch }, e) {
@@ -334,8 +386,8 @@ export default {
 
         labelDiv.classList.add("image-file-input__label--sucess");
         return state.theme.rename.img.file = image, state.theme.rename.img.inputLoad = true;
-      } catch (error) {
-        return await dispatch("getNotificationError", error);
+      } catch (err) {
+        return await dispatch("getNotificationError", err);
       }
     },
     delThemeRenameImgFormModule({ state, dispatch }, e) {

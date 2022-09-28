@@ -45,8 +45,8 @@ export default {
         await uploadBytes(spaceRef, image, metadata).then((snapshot) => {
           console.log("Uploaded a blob or file!");
         });
-      } catch (error) {
-        return await dispatch("getNotificationError", error);
+      } catch (err) {
+        return await dispatch("getNotificationError", err);
       }
     },
     async preloadingImageAvatar({ state, commit, dispatch }, e) {
@@ -59,8 +59,8 @@ export default {
         let labelDiv = inputDiv.querySelector("label");
 
         labelDiv.classList.add("image-file-input__label--sucess");
-      } catch (error) {
-        return await dispatch("getNotificationError", error);
+      } catch (err) {
+        return await dispatch("getNotificationError", err);
       }
     },
     delPreloadImageAvatar({ state, commit, dispatch }, e) {
@@ -111,8 +111,8 @@ export default {
           .then(() => {
             return dispatch("getNotificationSuccess", state.userImage.success);
           });
-      } catch (error) {
-        return await dispatch("getNotificationError", error);
+      } catch (err) {
+        return await dispatch("getNotificationError", err);
       }
     },
     async preloadingImageThemeAdd({ state, commit, dispatch }, e) {
@@ -125,8 +125,8 @@ export default {
         let labelDiv = inputDiv.querySelector("label");
 
         labelDiv.classList.add("image-file-input__label--sucess");
-      } catch (error) {
-        return await dispatch("getNotificationError", error);
+      } catch (err) {
+        return await dispatch("getNotificationError", err);
       }
     },
     async uploadThemeRenameImgFormModule({ state, getters, commit, dispatch }, e) {
@@ -146,10 +146,12 @@ export default {
         await uploadBytes(spaceRef, image, metadata).then((snapshot) => {
           console.log("Uploaded a blob or file!");
         });
+
         await dispatch("getNotificationSuccess", success);
-        return await dispatch("loadTheme")
-      } catch (error) {
-        return await dispatch("getNotificationError", error);
+
+        return await dispatch("loadThemeImg", themeId)
+      } catch (err) {
+        return await dispatch("getNotificationError", err);
       }
     },
     delPreloadImageThemeAdd({ state, commit, dispatch }, e) {
@@ -178,41 +180,19 @@ export default {
         await uploadBytes(spaceRef, image, metadata).then((snapshot) => {
           console.log("Uploaded a blob or file!");
         });
-      } catch (error) {
-        return await dispatch("getNotificationError", error);
+      } catch (err) {
+        return await dispatch("getNotificationError", err);
       }
     },
     async createNewTheme({ state, commit, dispatch, getters }, themeRef) {
       try {
-        try {
-          await dispatch("uploadImageThemeAdd", themeRef)
-        } catch (error) {
-          console.log("error - uploadImageThemeAdd");
-        }
-
-        try {
-          await commit("hiddenWorkPlace");
-        } catch (error) {
-          console.log("error - hiddenWorkPlace");
-        }
-        try {
-          await commit("clearInputCreateNameTheme");
-        } catch (error) {
-          console.log("error - clearInputCreateNameTheme");
-        }
-
-        try {
-          await dispatch("delPreloadImageThemeAdd");
-        } catch (error) {
-          console.log("error - delPreloadImageThemeAdd");
-        }
-        try {
-          await dispatch("getNotificationSuccess", state.themes.success);
-        } catch (error) {
-          console.log("error - getNotificationSuccess");
-        }
-      } catch (error) {
-        return await dispatch("getNotificationError", error);
+        await dispatch("uploadImageThemeAdd", themeRef)
+        await commit("hiddenWorkPlace");
+        await commit("clearInputCreateNameTheme");
+        await dispatch("delPreloadImageThemeAdd");
+        await dispatch("getNotificationSuccess", state.themes.success);
+      } catch (err) {
+        return await dispatch("getNotificationError", err);
       }
     },
     async defaultUploadAvatarImg({ state, commit, dispatch, getters }) {
@@ -229,12 +209,12 @@ export default {
             console.log("Uploaded a data_url string!");
           }
         );
-      } catch (error) {
-        return await dispatch("getNotificationError", error);
+      } catch (err) {
+        return await dispatch("getNotificationError", err);
       }
     },
     async uploadDefaultThemeImg(
-      { state, commit, dispatch, getters },
+      { dispatch },
       { itemImg, itemRef }
     ) {
       try {
@@ -259,9 +239,8 @@ export default {
             reader.readAsDataURL(blob);
           });
 
-
-      } catch (error) {
-        return await dispatch("getNotificationError", error);
+      } catch (err) {
+        return await dispatch("getNotificationError", err);
       }
     },
     async loadThemeImg({ state, dispatch, getters }, themeId) {
@@ -284,8 +263,8 @@ export default {
               id: themeId
             })
           })
-      } catch (error) {
-        return await dispatch("getNotificationError", error);
+      } catch (err) {
+        return await dispatch("getNotificationError", err);
       }
     },
     async delThemeImg({ state, dispatch, getters }, themeId) {
@@ -297,8 +276,8 @@ export default {
         await deleteObject(desertRef).then(() => {
           console.log("File deleted successfully");
         })
-      } catch (error) {
-        return await dispatch("getNotificationError", error);
+      } catch (err) {
+        return await dispatch("getNotificationError", err);
       }
     }
   },

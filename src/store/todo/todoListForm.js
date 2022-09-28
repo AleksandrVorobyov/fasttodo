@@ -13,7 +13,10 @@ export default {
       title: "Список задач в данной теме пуст! Добавьте новую задачу!",
       inputPlaceholder: "Поле для ваших задач...",
       btnText: "Добавить",
-      inputErrorEmpty: "Поле для ваших задач пустое! Заполните его!",
+      errors: {
+        inputErrorEmpty: "Поле для ваших задач пустое! Заполните его!",
+        duble: "Такая задача уже существует!",
+      }
     },
     personRecord: [],
   },
@@ -35,9 +38,28 @@ export default {
       const result = [first, ...rest].join("");
       return result;
     },
+    checkingForDuplicationRecord({ state }, title) {
+      let error = true
+      state.personRecord.forEach((item) => {
+        if (item.text == title) {
+          return error = false
+        }
+      })
+      return error
+    },
     async getNewRecord({ state, getters, commit, dispatch }, message) {
-      const productInput = document.getElementById("todoFormInput");
-      if (productInput.value != "") {
+      try {
+        const validDublicate = await dispatch("checkingForDuplicationRecord", message)
+
+        if (message === "") {
+          throw new SyntaxError(state.todoForm.errors.inputErrorEmpty);
+        }
+
+        if (!validDublicate) {
+          throw new SyntaxError(state.todoForm.errors.duble);
+        }
+
+        const productInput = document.getElementById("todoFormInput");
         const yourMessage = await dispatch("getUpperFirstletter", message);
         const db = getDatabase();
         const uid = await dispatch("getUid");
@@ -57,10 +79,10 @@ export default {
         productInput.value = "";
         state.personRecord.push(item);
         return update(ref(db), updates);
-      } else {
+      } catch (err) {
         return await dispatch(
           "getNotificationError",
-          state.todoForm.inputErrorEmpty
+          err.message
         );
       }
     },
@@ -82,8 +104,8 @@ export default {
           return update(ref(db), updates);
         });
         await dispatch("loadPersonRecord");
-      } catch (error) {
-        return await dispatch("getNotificationError", error);
+      } catch (err) {
+        return await dispatch("getNotificationError", err);
       }
     },
     async delRecord({ state, getters, dispatch }, record) {
@@ -97,8 +119,8 @@ export default {
         const updates = {};
         updates[`users/${uid}/info/recordList/${idTheme}/${delElem}`] = {};
         await update(ref(db), updates);
-      } catch (error) {
-        return await dispatch("getNotificationError", error);
+      } catch (err) {
+        return await dispatch("getNotificationError", err);
       }
     },
     async loadPersonRecord({ state, getters, dispatch }) {
