@@ -9,7 +9,10 @@ button.module-view__btn-exit(
 <script>
 export default {
   props: {
-    btnType: String,
+    btnType: {
+      type: String,
+      default: "button",
+    },
     btnClass: String,
     btnId: String,
     btnText: String,
@@ -22,8 +25,8 @@ export default {
   position: relative;
   width: fit-content;
   display: block;
-  padding: 0;
-  border: none;
+  padding: 5px 10px;
+  border: 1px solid #fff;
   outline: none;
   background: transparent;
   font-size: 16px;
@@ -33,6 +36,7 @@ export default {
   color: white;
   cursor: pointer;
   transition: color 0.4s linear;
+  background: rgba(255, 255, 255, 0.5);
 
   &:hover {
     color: rgb(250, 169, 169);

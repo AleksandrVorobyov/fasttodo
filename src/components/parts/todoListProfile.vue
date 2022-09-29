@@ -1,20 +1,24 @@
 <template lang="pug">
 button#todolistProfile.todolist-profile(type="button")
-  h5.todolist-profile__username {{ webUser.username }}
+  .todolist-profile__ttl
+    todoListNavClock
+    h5.todolist-profile__username {{ webUser.username }}
   .todolist-profile__img
     img#todolistProfileImg(
       :src="require('@/assets/img/' + (profile.avatarImg.userСhoice ? profile.avatarImg.userСhoice : profile.avatarImg.default))"
     )
     span 
-      Icon(:name="'arrow-down'")
+      Icon(name="arrow-down")
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import Icon from "@/components/SvgIcon.vue";
+import Icon from "../SvgIcon.vue";
+import todoListNavClock from "./todoListNavClock.vue";
 export default {
   components: {
     Icon,
+    todoListNavClock,
   },
   computed: {
     ...mapGetters(["profile", "webUser"]),
@@ -55,20 +59,40 @@ export default {
   }
 }
 
+.todolist-profile__ttl {
+  display: none;
+
+  @media (min-width: 460px) {
+    display: flex;
+    gap: 5px;
+    flex-direction: column-reverse;
+  }
+}
+
 .todolist-profile__username {
   display: inline-block;
-  font-size: 18px;
-  line-height: 20px;
+  font-size: 16px;
+  line-height: 18px;
   letter-spacing: 0.5px;
   color: #fff;
+
+  @media (min-width: 720px) {
+    font-size: 18px;
+    line-height: 20px;
+  }
 }
 
 .todolist-profile__img {
   position: relative;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   overflow: hidden;
+
+  @media (min-width: 540px) {
+    width: 60px;
+    height: 60px;
+  }
 
   img {
     position: absolute;

@@ -76,15 +76,18 @@ export default {
   position: relative;
   margin-bottom: 20px;
   display: grid;
-  justify-content: center;
   gap: 20px;
   overflow: hidden;
   border-radius: 2px;
+
+  @media (min-width: 540px) {
+    justify-content: center;
+  }
 }
 
 .todolist__form-nav-search {
   position: relative;
-  width: 600px;
+  width: 100%;
   height: 50px;
   padding: 0px 10px;
   margin: 0;
@@ -95,6 +98,14 @@ export default {
   font-size: 18px;
   line-height: 22px;
   letter-spacing: 0.5px;
+
+  @media (min-width: 540px) {
+    width: 400px;
+  }
+
+  @media (min-width: 720px) {
+    width: 600px;
+  }
 
   &::placeholder {
     color: #fff;
@@ -112,12 +123,17 @@ export default {
 }
 
 .todolist__form-body-title {
-  font-size: 22px;
-  line-height: 26px;
+  font-size: 14px;
+  line-height: 18px;
   letter-spacing: 0.5px;
   color: #fff;
   margin: 15px 0;
   text-align: center;
+
+  @media (min-width: 540px) {
+    font-size: 22px;
+    line-height: 26px;
+  }
 }
 
 .todolist__form-body-list {
@@ -130,7 +146,7 @@ export default {
 
 .todolist__form-body-item {
   position: relative;
-  padding: 10px 5px;
+  padding: 10px 50px 10px 5px;
   width: 100%;
   background: linear-gradient(var(--bgInputMain) 0 0) padding-box,
     var(--linearMain) border-box;

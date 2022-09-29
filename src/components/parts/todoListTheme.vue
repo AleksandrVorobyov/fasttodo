@@ -62,16 +62,30 @@ export default {
 .todolist__theme-title {
   margin-bottom: 10px;
   color: white;
-  font-size: 34px;
-  line-height: 38px;
+  font-size: 24px;
+  line-height: 28px;
   letter-spacing: 0.5px;
   text-align: center;
+
+  @media (min-width: 540px) {
+    font-size: 30px;
+    line-height: 34px;
+  }
+
+  @media (min-width: 820px) {
+    font-size: 34px;
+    line-height: 38px;
+  }
 }
 
 .todolist__theme-cards {
   position: relative;
   width: 100%;
-  height: 260px;
+  height: 230px;
+
+  @media (min-width: 540px) {
+    height: 260px;
+  }
 }
 
 .todolist__theme-cards-item {
@@ -79,13 +93,23 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
-  height: 200px;
+  width: 230px;
+  height: 160px;
   background: #fff;
   border-radius: 8px;
   overflow: hidden;
   z-index: 50;
   transition: all 0.4s ease;
+
+  @media (min-width: 460px) {
+    width: 260px;
+    height: 180px;
+  }
+
+  @media (min-width: 820px) {
+    width: 300px;
+    height: 200px;
+  }
 }
 
 .todolist__theme-cards-item-title {
@@ -95,12 +119,17 @@ export default {
   padding: 5px 0px 5px;
   width: 100%;
   text-align: center;
-  font-size: 24px;
-  line-height: 26px;
+  font-size: 20px;
+  line-height: 22px;
   z-index: 10;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.8);
   opacity: 0;
   transition: opacity 0.4s ease;
+
+  @media (min-width: 820px) {
+    font-size: 24px;
+    line-height: 26px;
+  }
 }
 
 .todolist__theme-cards-item[data-theme="0"] .todolist__theme-cards-item-title {
@@ -132,7 +161,7 @@ export default {
   transform: translateY(-50%);
   padding: 5px 10px;
   z-index: 100;
-  transition: opacity .3s linear;
+  transition: opacity 0.3s linear;
 }
 
 .todolist__theme-cards-next {

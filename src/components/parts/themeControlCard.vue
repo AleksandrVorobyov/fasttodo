@@ -17,18 +17,35 @@ export default {
 .theme-control-card {
   position: relative;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 200px;
-  height: 150px;
-  gap: 15px;
+  width: 100%;
+  height: 70px;
+  gap: 10px;
   border-radius: 16px;
-  padding: 15px;
+  padding: 10px;
   overflow: hidden;
   background: rgba(233, 228, 228, 0.3);
   cursor: pointer;
   transition: box-shadow 0.4s linear, all 0.4s linear;
+
+  @media (min-width: 540px) {
+    justify-content: space-between;
+    height: 110px;
+  }
+
+  @media (min-width: 720px) {
+    gap: 15px;
+    padding: 15px;
+    height: 140px;
+    width: 180px;
+  }
+
+  @media (min-width: 820px) {
+    width: 200px;
+    height: 150px;
+  }
 
   * {
     pointer-events: none;
@@ -89,12 +106,28 @@ export default {
 }
 
 .theme-control-card__img {
-  position: relative;
-  width: 60px;
-  height: 60px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
   z-index: 30;
   opacity: 0.4;
   transition: opacity 0.4s linear;
+
+  @media (min-width: 540px) {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: translate(0);
+  }
+
+  @media (min-width: 720px) {
+    width: 60px;
+    height: 60px;
+  }
 
   img {
     position: absolute;
@@ -110,12 +143,17 @@ export default {
 .theme-control-card__title {
   position: relative;
   z-index: 40;
-  font-size: 22px;
-  line-height: 26px;
+  font-size: 18px;
+  line-height: 20px;
   letter-spacing: 0.5px;
   color: #fff;
   margin: 0;
   text-align: center;
   transition: opacity 0.4s linear;
+
+  @media (min-width: 820px) {
+    font-size: 22px;
+    line-height: 26px;
+  }
 }
 </style>

@@ -43,6 +43,11 @@
     --glitch-time-anim-2: 7s;
     --glitch-delay-anim-2: 14s;
     
-    --workplaceHeight: 300px;
+    --workplaceHeight: 370px;
+
+    @media (min-width: 1140px) {
+        --workplaceHeight: 300px;
+    }
+    
 
 }

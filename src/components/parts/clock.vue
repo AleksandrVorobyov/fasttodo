@@ -38,19 +38,33 @@ export default {
 </script>
 <style scoped lang="scss">
 .clock {
-  position: relative;
-  width: 300px;
-  height: 300px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 8px solid transparent;
-  background: linear-gradient(var(--bgMain) 0 0) padding-box,
-    var(--linearMain) border-box;
-  border-radius: 50%;
-  box-shadow: 0 -15px 15px rgba(255, 255, 255, 0.05),
-    inset 0 -15px 15px rgba(255, 255, 255, 0.05), 0 15px 15px rgba(0, 0, 0, 0.3),
-    inset 0 15px 15px rgba(0, 0, 0, 0.3);
+  display: none;
+
+  @media (min-width: 720px) {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 8px solid transparent;
+    background: linear-gradient(var(--bgMain) 0 0) padding-box,
+      var(--linearMain) border-box;
+    border-radius: 50%;
+    box-shadow: 0 -15px 15px rgba(255, 255, 255, 0.05),
+      inset 0 -15px 15px rgba(255, 255, 255, 0.05),
+      0 15px 15px rgba(0, 0, 0, 0.3), inset 0 15px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  @media (min-width: 820px) {
+    width: 230px;
+    height: 230px;
+  }
+
+  @media (min-width: 1140px) {
+    width: 300px;
+    height: 300px;
+  }
 }
 
 .clock:after {

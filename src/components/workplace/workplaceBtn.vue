@@ -3,7 +3,7 @@ mainBtn(
   :elText="data.text",
   :elClass="data.class",
   :elId="data.id",
-  @clickAction="getNewTheme()"
+  @clickAction="checkWorkPlaceInnerWidth(data.id)"
 )
 </template>
 <script>
@@ -16,8 +16,12 @@ export default {
     data: Object,
   },
   methods: {
-    async getNewTheme() {
-      await this.$store.dispatch("getNewTheme");
+    async checkWorkPlaceInnerWidth(id) {
+      if (window.innerWidth >= 1140 || id == "workplaceBtnThemeAdd") {
+        await this.$store.dispatch("getNewTheme");
+      } else {
+        await this.$store.dispatch("nextSectionWorkPlaceGetTheme");
+      }
     },
   },
 };

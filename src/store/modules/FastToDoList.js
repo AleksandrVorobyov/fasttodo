@@ -4,6 +4,7 @@ export default {
       title: `fast<span class="title-gradient">todo</span>`,
       glitchImgOne: "clock/bg-1.png",
       glitchImgTwo: "clock/bg-2.png",
+      time: ""
     },
     themeControl: {
       list: [
@@ -45,6 +46,13 @@ export default {
               id: "todolistWorkplaceInputThemeAdd",
               type: "text",
             },
+            {
+              name: "workplaceBtn",
+              text: "Далее",
+              id: "workplaceBtnThemeAddTtl",
+              class: "todolist__workplace-btn",
+              pref: "mob"
+            },
           ],
         },
         {
@@ -63,6 +71,20 @@ export default {
               success: "Картинка загружена!",
               file: "Перетащите картинку для темы...",
             },
+            {
+              name: "workplaceBtn",
+              text: "Далее",
+              id: "workplaceBtnThemeAddImgNext",
+              class: "todolist__workplace-btn",
+              pref: "mob"
+            },
+            {
+              name: "workplaceBtnBack",
+              text: "Назад",
+              id: "workplaceBtnThemeAddImgPrev",
+              class: "todolist__workplace-btn",
+              pref: "mob"
+            },
           ],
         },
         {
@@ -77,6 +99,13 @@ export default {
               id: "workplaceBtnThemeAdd",
               class: "todolist__workplace-btn",
             },
+            {
+              name: "workplaceBtnBack",
+              text: "Назад",
+              id: "workplaceBtnThemeAddLast",
+              class: "todolist__workplace-btn",
+              pref: "mob"
+            },
           ],
         },
       ],
@@ -86,7 +115,6 @@ export default {
       },
       activeComponent: "workplaceGetTheme",
       remove: {
-
       },
       rename: {
         themeListRenameBtnText: "Изменить"
@@ -167,10 +195,31 @@ export default {
       hr.style.transform = `rotateZ(${hh + mm / 12}deg)`;
       mn.style.transform = `rotateZ(${mm}deg)`;
       sc.style.transform = `rotateZ(${ss}deg)`;
+      return state.fastToDoList.time = `${day.getHours() >= 10 ? day.getHours() : '0' + day.getHours()} : ${day.getMinutes() >= 10 ? day.getMinutes() : '0' + day.getMinutes()} : ${day.getSeconds() >= 10 ? day.getSeconds() : '0' + day.getSeconds()}`
     },
     loadThemeCreateInputLoad({ state }) {
       return (state.todolistWorkplace.create.inputLoad =
         !state.todolistWorkplace.create.inputLoad);
+    },
+    nextSectionWorkPlaceGetTheme() {
+      const items = document.querySelectorAll(
+        ".todolist__workplace-get-theme .todolist__workplace-col"
+      )
+
+      items.forEach((item) => {
+        let indexItem = item.getAttribute('data-slide')
+        return item.setAttribute('data-slide', Number(indexItem) - 1)
+      })
+    },
+    prevSectionWorkPlaceGetTheme() {
+      const items = document.querySelectorAll(
+        ".todolist__workplace-get-theme .todolist__workplace-col"
+      )
+
+      items.forEach((item) => {
+        let indexItem = item.getAttribute('data-slide')
+        return item.setAttribute('data-slide', Number(indexItem) + 1)
+      })
     },
   },
 };

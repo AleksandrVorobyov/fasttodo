@@ -14,12 +14,32 @@ export default {
 <style scoped lang="scss">
 .glitch {
   position: relative;
-  width: 250px;
-  height: 250px;
+  width: 125px;
+  height: 125px;
   border: 5px solid transparent;
   box-sizing: content-box;
   border-image: var(--linearMain);
   border-image-slice: 1;
+
+  @media (min-width: 460px) {
+    width: 150px;
+    height: 150px;
+  }
+
+  @media (min-width: 540px) {
+    width: 175px;
+    height: 175px;
+  }
+
+  @media (min-width: 820px) {
+    width: 200px;
+    height: 200px;
+  }
+
+  @media (min-width: 1140px) {
+    width: 250px;
+    height: 250px;
+  }
 }
 
 .glitch div {

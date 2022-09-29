@@ -6,9 +6,15 @@
 }
 
 .arrow svg {
-    width: 50px;
+    width: 30px;
     height: auto;
     overflow: visible;
+}
+
+@media (min-width: 540px) {
+    .arrow svg {
+        width: 50px;
+    }
 }
 
 .arrow svg polygon, 

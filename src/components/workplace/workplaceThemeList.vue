@@ -78,11 +78,16 @@ export default {
 }
 
 .workplace__theme-list-title {
-  font-size: 20px;
-  line-height: 22px;
+  font-size: 16px;
+  line-height: 20px;
   letter-spacing: 0.5px;
   color: #fff;
   z-index: 10;
+
+  @media (min-width: 540px) {
+    font-size: 20px;
+    line-height: 22px;
+  }
 }
 
 .workplace__theme-list-img {

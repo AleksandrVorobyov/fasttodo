@@ -73,13 +73,8 @@ ul {
   margin: 0;
 }
 
-.container-big {
-  max-width: 1470px;
-  padding: 0 15px;
-  margin: 0 auto;
-}
-
 .container {
+  width: 100%;
   max-width: 1140px;
   padding: 0 15px;
   margin: 0 auto;
@@ -99,4 +94,24 @@ ul {
   background-clip: text;
   background-image: var(--linearMain);
   font-family: "Pixel";
+}
+
+@media (min-width: 460px) {
+
+}
+
+@media (min-width: 540px) {
+
+}
+
+@media (min-width: 720px) {
+
+}
+
+@media (min-width: 820px) {
+
+}
+
+@media (min-width: 1140px) {
+
 }

@@ -75,9 +75,13 @@ export default {
 <style scoped lang="scss">
 .todolist {
   position: relative;
-  padding: 100px 0 100px;
+  padding: 15px 0 15px;
   overflow: hidden;
   z-index: 500;
+
+  @media (min-width: 1140px) {
+    padding: 100px 0 100px;
+  }
 }
 
 #todolist-time {
@@ -88,13 +92,17 @@ export default {
 .todolist-wrap {
   position: relative;
   display: inline-block;
-  padding: 50px 8px;
+  padding: 30px 8px;
   width: 100%;
   background: linear-gradient(var(--bgMain) 0 0) padding-box,
     var(--linearMain) border-box;
   border: 8px solid transparent;
   border-radius: 16px;
   z-index: 100;
+
+  @media (min-width: 820px) {
+    padding: 50px 8px;
+  }
 
   &::before {
     position: absolute;
@@ -140,16 +148,24 @@ export default {
 }
 
 .totolist__nav,
-.totolist__theme-control-wrap {
+.totolist__theme-control-wrap,
+.todolist__clock-wrap {
   position: relative;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
+
+  @media (min-width: 820px) {
+    margin-bottom: 40px;
+  }
 }
 
 .todolist__clock-wrap {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 30px;
-  margin-bottom: 40px;
+  gap: 15px;
+
+  @media (min-width: 1140px) {
+    gap: 30px;
+  }
 }
 </style>

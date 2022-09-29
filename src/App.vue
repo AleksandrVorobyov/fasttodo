@@ -71,5 +71,5 @@ export default {
 
 <style lang="scss">
 @import url("./assets/scss/variables.scss");
-@import url("./assets/scss/theme.scss");
+@import url("./assets/scss/style.scss");
 </style>

@@ -1,5 +1,8 @@
 <template lang="pug">
 #todolistProfileMenu.todolist-profile__menu
+  .todolist-profile__menu-header
+    h5.todolist-profile__menu-header-username {{ webUser.username }}
+    todoListNavClock
   ul.todolist-profile__menu-list
     li.todolist-profile__menu-item
       button.todolist-profile__menu-btn(
@@ -19,9 +22,13 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import todoListNavClock from "./todoListNavClock.vue";
 export default {
   computed: {
-    ...mapGetters(["user", "profile"]),
+    ...mapGetters(["user", "profile", "webUser"]),
+  },
+  components: {
+    todoListNavClock,
   },
   methods: {
     async logout() {
@@ -48,7 +55,7 @@ export default {
   position: absolute;
   padding: 8px;
   display: grid;
-  top: calc(100% + 40px);
+  top: calc(100% + 20px);
   right: 0;
   background: var(--linearMain);
   z-index: 500;
@@ -56,6 +63,10 @@ export default {
   pointer-events: none;
   right: 100px;
   transition: all 0.5s linear;
+
+  @media (min-width: 720px) {
+    top: calc(100% + 40px);
+  }
 
   &::before {
     position: absolute;
@@ -65,6 +76,25 @@ export default {
     border: 10px solid transparent;
     border-bottom: 10px solid #2e81e2;
   }
+}
+
+.todolist-profile__menu-header {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  margin-bottom: 10px;
+  justify-content: flex-end;
+
+  @media (min-width: 460px) {
+    display: none;
+  }
+}
+
+.todolist-profile__menu-header-username {
+  font-size: 18px;
+  line-height: 20px;
+  color: #fff;
+  text-align: right;
 }
 
 .todolist-profile__menu--active {
