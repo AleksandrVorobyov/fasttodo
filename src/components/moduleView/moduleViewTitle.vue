@@ -25,8 +25,8 @@ export default {
   }
 
   @media (min-width: 720px) {
-    font-size: 26px;
-    line-height: 34px;
+    font-size: 22px;
+    line-height: 32px;
   }
 }
 </style>

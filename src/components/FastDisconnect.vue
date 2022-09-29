@@ -61,8 +61,4 @@ export default {
   pointer-events: all;
   visibility: visible;
 }
-
-.fast-disconnect-col + .fast-disconnect-col {
-  margin-top: 10px;
-}
 </style>
