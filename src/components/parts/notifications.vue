@@ -1,7 +1,5 @@
 <template lang="pug">
-.notification(
-  :class="notificationInfo.type == 'error' ? 'notification--error' : 'notification--success'"
-)
+.notification(:class="`notification--${notificationInfo.type}`")
   .notification__img
     Icon(:name="notificationInfo.type")
   h4.notification__text {{ notificationInfo.text }}
@@ -32,6 +30,16 @@ export default {
   border-radius: 6px 0px 0px 6px;
 }
 
+.notification.notification--error {
+  background: var(--notifErrorMain);
+  animation: bounce 2s ease;
+}
+
+.notification.notification--success {
+  background: var(--notifSuccessMain);
+  animation: bounce 2s ease;
+}
+
 .notification__img {
   position: absolute;
   top: 50%;
@@ -57,16 +65,6 @@ export default {
     object-fit: contain;
     color: var(--notifColor);
   }
-}
-
-.notification.notification--error {
-  background: var(--notifErrorMain);
-  animation: bounce 2s ease;
-}
-
-.notification.notification--success {
-  background: var(--notifSuccessMain);
-  animation: bounce 2s ease;
 }
 
 .notification__text {

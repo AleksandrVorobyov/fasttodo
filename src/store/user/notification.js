@@ -28,13 +28,13 @@ export default {
       }
     },
     getNotificationSuccess({ state }, text) {
-      if (state.notification.visible) {
+      if (!state.notification.visible) {
         state.notification.type = "success";
         state.notification.text = text;
         state.notification.visible = true;
         setTimeout(() => {
           return (
-            state.notification.type,
+            state.notification.type = null,
             (state.notification.text = null),
             (state.notification.visible = false)
           );
