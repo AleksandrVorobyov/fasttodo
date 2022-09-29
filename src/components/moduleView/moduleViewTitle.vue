@@ -20,7 +20,7 @@ export default {
   color: white;
 
   @media (min-width: 540px) {
-    font-size: 22px;
+    font-size: 18px;
     line-height: 26px;
   }
 
