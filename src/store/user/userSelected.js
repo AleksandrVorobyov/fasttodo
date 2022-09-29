@@ -12,11 +12,17 @@ export default {
       registerSuccess: "Вы успешно зарегистрировали аккаунт!",
       errors: {
         emailNotValid: "Неверная почта!",
+        emailEmpty: "Введите свою почту!",
         passwordNotValid: "Неверный пароль!",
+        passwordEmpty: "Введите пароль!",
         emailNotValidReg: "Неверная почта!",
         passwordNotValidReg: "Неверный пароль!",
         passwordConfNotValidReg: "Неверно введен повторный пароль!",
         nameNotValidReg: "Неверное имя пользователя!",
+        emailDubleOrHosting: "Пользователь с такой почтой уже зарегистрирован!"
+      },
+      errCode: {
+        dubleEmail: "auth/email-already-in-use"
       }
     },
     webUser: {
@@ -40,12 +46,24 @@ export default {
       }
       return false;
     },
-    passwordValid(state, { password }) {
+    passwordValid(state, password) {
       let regularExpression = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
       if (regularExpression.test(password) == true) {
         return true;
       }
       return false;
+    },
+    emailEmpty(state, email) {
+      if (email === "") {
+        return false;
+      }
+      return true;
+    },
+    passwordEmpty(state, password) {
+      if (password === "") {
+        return false;
+      }
+      return true;
     },
     confirmPasswordValid(state, { password, passwordConfirm }) {
       if (passwordConfirm === password) {
@@ -98,13 +116,23 @@ export default {
     async registerPerson({ commit, state, dispatch, getters }, { name, email, password, passwordConfirm }) {
       await dispatch("getInputReadonly", true);
       try {
+        const emailEmpty = await dispatch("emailEmpty", email);
+        const passwordEmpty = await dispatch("passwordEmpty", password);
         const nameValide = await dispatch("nameValid", name);
         const emailValidate = await dispatch("emailValid", email);
-        const passwordValide = await dispatch("passwordValid", { password });
+        const passwordValide = await dispatch("passwordValid", password);
         const confirmPasswordValide = await dispatch("confirmPasswordValid", {
           password,
           passwordConfirm,
         });
+
+        if (!emailEmpty) {
+          throw new SyntaxError(state.user.errors.emailEmpty);
+        }
+
+        if (!passwordEmpty) {
+          throw new SyntaxError(state.user.errors.passwordEmpty);
+        }
 
         if (!nameValide) {
           throw new SyntaxError(state.user.errors.nameNotValidReg);
@@ -162,14 +190,28 @@ export default {
           });
         return;
       } catch (err) {
-        return await dispatch("getNotificationError", err.message), await dispatch("getInputReadonly", false);
+        if (err.code === state.user.errCode.dubleEmail) {
+          return await dispatch("getNotificationError", state.user.errors.emailDubleOrHosting), await dispatch("getInputReadonly", false);
+        } else {
+          return await dispatch("getNotificationError", err.message), await dispatch("getInputReadonly", false);
+        }
       }
     },
     async loginFirebase({ dispatch, commit, state, getters }, { email, password }) {
       await dispatch("getInputReadonly", true);
       try {
+        const emailEmpty = await dispatch("emailEmpty", email);
+        const passwordEmpty = await dispatch("passwordEmpty", password);
         const emailValidate = await dispatch("emailValid", email);
-        const passwordValide = await dispatch("passwordValid", { password });
+        const passwordValide = await dispatch("passwordValid", password);
+
+        if (!emailEmpty) {
+          throw new SyntaxError(state.user.errors.emailEmpty);
+        }
+
+        if (!passwordEmpty) {
+          throw new SyntaxError(state.user.errors.passwordEmpty);
+        }
 
         if (!emailValidate) {
           throw new SyntaxError(state.user.errors.emailNotValid);

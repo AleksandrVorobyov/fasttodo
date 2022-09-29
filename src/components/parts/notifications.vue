@@ -19,7 +19,8 @@ export default {
 .notification {
   position: fixed;
   width: 400px;
-  height: 60px;
+  min-height: 60px;
+  padding: 5px;
   padding-left: 60px;
   top: 0;
   right: 0;
