@@ -47,9 +47,6 @@
     --notifSuccessMain: #A4B123;
     --notifColor: #fff;
     
-    --workplaceHeight: 370px;
-
-    @media (min-width: 1140px) {
-        --workplaceHeight: 300px;
-    }
+    --workplaceHeightMob: 370px;
+    --workplaceHeight: 300px;
 }

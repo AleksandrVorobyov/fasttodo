@@ -39,11 +39,15 @@ export default {
 }
 
 .todolist__workplace--active {
-  height: var(--workplaceHeight);
+  height: var(--workplaceHeightMob);
   visibility: visible;
   border: 5px solid transparent;
   border-top: 0px;
   transition: height 0.5s linear;
+
+  @media (min-width: 1140px) {
+    height: var(--workplaceHeight);
+  }
 
   & > * {
     transition: opacity 0.3s linear;
