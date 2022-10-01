@@ -6,7 +6,7 @@
     :id="item.id",
     :themeControlTitle="item.title",
     :themeControlImg="item.img",
-    @actionClick="changeTodolistWorkplaceActiveComp($event, item.funcSection), activeWorkPlace($event)"
+    @actionClick="changeTodolistWorkplaceActiveComp($event, item.funcSection), activeWorkPlace($event), checkTodolistWorkplaceGetThemeHeight()"
   )
 </template>
 <script>
@@ -22,6 +22,9 @@ export default {
   methods: {
     activeWorkPlace(e) {
       this.$store.commit("activeWorkPlace", e);
+    },
+    checkTodolistWorkplaceGetThemeHeight() {
+      this.$store.commit("checkTodolistWorkplaceGetThemeHeight");
     },
     changeTodolistWorkplaceActiveComp(e, item) {
       this.$store.commit("changeTodolistWorkplaceActiveComp", {

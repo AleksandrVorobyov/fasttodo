@@ -53,14 +53,22 @@ export default {
   z-index: 5;
 
   .main-btn__text {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
-    line-height: 21px;
-    letter-spacing: 0.5px;
+    line-height: 16px;
+    letter-spacing: 0.3px;
     color: white;
     z-index: 5;
     user-select: none;
     pointer-events: none;
+  }
+
+  @media (min-width: 540px) {
+    .main-btn__text {
+      font-size: 16px;
+      line-height: 21px;
+      letter-spacing: 0.5px;
+    }
   }
 
   .main-btn__effect {

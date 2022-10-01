@@ -6,11 +6,7 @@
     :data-slide="dataSlide(index)"
   )
     template(v-for="(comp, index) in item.component", :key="item")
-      component(
-        v-if="windowInner(comp.pref)",
-        :is="comp.name",
-        :data="comp"
-      )
+      component(v-if="windowInner(comp.pref)", :is="comp.name", :data="comp")
 </template>
 <script>
 import { mapGetters } from "vuex";
@@ -36,9 +32,9 @@ export default {
     },
     windowInner(pref) {
       if (window.innerWidth >= 1140 && pref == "mob") {
-        return false
+        return false;
       }
-      return true
+      return true;
     },
   },
 };
@@ -89,11 +85,15 @@ export default {
   flex-direction: column;
   padding: 30px 10px;
   gap: 20px;
-  width: 400px;
+  width: 100%;
   height: auto;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+
+  @media (min-width: 460px) {
+    width: 400px;
+  }
 
   @media (min-width: 1140px) {
     position: relative;

@@ -165,12 +165,20 @@ export default {
 }
 
 .todolist__theme-cards-next {
-  right: 0;
+  right: -15px;
+
+  @media (min-width: 540px) {
+    right: 0;
+  }
 }
 
 .todolist__theme-cards-prev {
   transform: translateY(-50%) rotate(180deg);
-  left: 0;
+  left: -15px;
+
+  @media (min-width: 540px) {
+    left: 0;
+  }
 }
 
 .todolist__theme-cards-btn--disabled {
@@ -178,5 +186,5 @@ export default {
   pointer-events: none;
 }
 
-@import url("~@/assets/scss/parts/arrowTheme.scss");
+@import url("~@/assets/css/parts/arrowTheme.css");
 </style>

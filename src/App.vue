@@ -70,6 +70,6 @@ export default {
 
 
 <style lang="scss">
-@import url("./assets/scss/variables.scss");
-@import url("./assets/scss/style.scss");
+@import url("./assets/css/variables.css");
+@import url("./assets/css/style.css");
 </style>

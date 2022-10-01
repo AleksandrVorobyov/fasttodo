@@ -95,23 +95,31 @@ export default {
   border: none;
   outline: none;
   color: #fff;
-  font-size: 18px;
-  line-height: 22px;
-  letter-spacing: 0.5px;
+  font-size: 16px;
+  line-height: 18px;
+  letter-spacing: 0.3px;
+
+  &::placeholder {
+    color: #fff;
+    font-size: 16px;
+    line-height: 18px;
+    letter-spacing: 0.3px;
+  }
 
   @media (min-width: 540px) {
     width: 400px;
+    font-size: 18px;
+    line-height: 22px;
+
+    &::placeholder {
+      font-size: 18px;
+      line-height: 22px;
+      letter-spacing: 0.5px;
+    }
   }
 
   @media (min-width: 720px) {
     width: 600px;
-  }
-
-  &::placeholder {
-    color: #fff;
-    font-size: 18px;
-    line-height: 22px;
-    letter-spacing: 0.5px;
   }
 }
 
@@ -123,6 +131,7 @@ export default {
 }
 
 .todolist__form-body-title {
+  padding: 0 15px;
   font-size: 14px;
   line-height: 18px;
   letter-spacing: 0.5px;
@@ -157,10 +166,17 @@ export default {
 
   span {
     color: rgb(255, 255, 255);
-    font-size: 18px;
+    font-size: 16px;
     line-height: 18px;
     font-family: "Benae";
     font-weight: 400;
+  }
+
+  @media (min-width: 540px) {
+    span {
+      font-size: 18px;
+      line-height: 22px;
+    }
   }
 
   span + span {

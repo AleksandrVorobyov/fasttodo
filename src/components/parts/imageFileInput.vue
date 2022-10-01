@@ -80,9 +80,17 @@ export default {
 
   span {
     color: rgb(243, 243, 243);
-    font-size: 18px;
-    line-height: 24px;
-    letter-spacing: 0.5px;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.3px;
+  }
+
+  @media (min-width: 540px) {
+    span {
+      font-size: 18px;
+      line-height: 24px;
+      letter-spacing: 0.5px;
+    }
   }
 
   svg {
