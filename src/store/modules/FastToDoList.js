@@ -140,24 +140,6 @@ export default {
     },
   },
   mutations: {
-    activeWorkPlace(state, e) {
-      let controlCard = e.target;
-
-      if (!controlCard.hasAttribute("data-disabled")) {
-        let allControlCard = document.querySelectorAll(".theme-control-card");
-        allControlCard.forEach((item) => {
-          if (item.hasAttribute("data-disabled")) {
-            return item.removeAttribute("data-disabled");
-          }
-          return item.setAttribute("data-disabled", true);
-        });
-        let todoListWorkPlace = document.getElementById("todoListWorkPlace");
-        todoListWorkPlace.classList.toggle("todolist__workplace--active");
-
-        controlCard.classList.toggle("theme-control-card--active");
-        return controlCard.removeAttribute("data-disabled");
-      }
-    },
     hiddenWorkPlace(state) {
       document
         .getElementById("todoListWorkPlace")
@@ -172,12 +154,6 @@ export default {
         }
       });
     },
-    changeTodolistWorkplaceActiveComp(state, { e, item }) {
-      let controlCard = e.target;
-      if (!controlCard.hasAttribute("data-disabled")) {
-        return (state.todolistWorkplace.activeComponent = item);
-      }
-    },
     inputCreateNameTheme(state, id) {
       return (state.todolistWorkplace.create.themeInput =
         document.getElementById(id).value);
@@ -186,27 +162,10 @@ export default {
       return (document.getElementById("todolistWorkplaceInputThemeAdd").value =
         "");
     },
-    checkTodolistWorkplaceGetThemeHeight(state) {
-      let todoListWorkPlace = document.getElementById("todoListWorkPlace");
-      let todolistWorkplaceGetTheme = document.getElementById(
-        "todoListWorkPlaceGetTheme"
-      );
-
-      if (
-        todoListWorkPlace.classList.contains("todolist__workplace--active") &&
-        todoListWorkPlace.contains(todolistWorkplaceGetTheme) &&
-        window.innerWidth < 1140
-      ) {
-        let sectionHeight = todolistWorkplaceGetTheme.querySelector(
-          ".todolist__workplace-col[data-slide='1']"
-        ).offsetHeight;
-
-        todoListWorkPlace.style.height = sectionHeight + 'px';
-      } else if (
-        todoListWorkPlace.contains(todolistWorkplaceGetTheme) &&
-        window.innerWidth < 1140
-      ) {
-        todoListWorkPlace.style.height = 0 + 'px';
+    changeTodolistWorkplaceActiveComp(state, { e, item }) {
+      let controlCard = e.target;
+      if (!controlCard.hasAttribute("data-disabled")) {
+        return (state.todolistWorkplace.activeComponent = item);
       }
     },
   },
@@ -225,13 +184,10 @@ export default {
       hr.style.transform = `rotateZ(${hh + mm / 12}deg)`;
       mn.style.transform = `rotateZ(${mm}deg)`;
       sc.style.transform = `rotateZ(${ss}deg)`;
-      return (state.fastToDoList.time = `${
-        day.getHours() >= 10 ? day.getHours() : "0" + day.getHours()
-      } : ${
-        day.getMinutes() >= 10 ? day.getMinutes() : "0" + day.getMinutes()
-      } : ${
-        day.getSeconds() >= 10 ? day.getSeconds() : "0" + day.getSeconds()
-      }`);
+      return (state.fastToDoList.time = `${day.getHours() >= 10 ? day.getHours() : "0" + day.getHours()
+        } : ${day.getMinutes() >= 10 ? day.getMinutes() : "0" + day.getMinutes()
+        } : ${day.getSeconds() >= 10 ? day.getSeconds() : "0" + day.getSeconds()
+        }`);
     },
     loadThemeCreateInputLoad({ state }) {
       return (state.todolistWorkplace.create.inputLoad =
@@ -256,6 +212,44 @@ export default {
         let indexItem = item.getAttribute("data-slide");
         return item.setAttribute("data-slide", Number(indexItem) + 1);
       });
+    },
+    async activeWorkPlace({ state }, e) {
+      let controlCard = e.target;
+
+      if (!controlCard.hasAttribute("data-disabled")) {
+        let allControlCard = document.querySelectorAll(".theme-control-card");
+        await allControlCard.forEach((item) => {
+          if (item.hasAttribute("data-disabled")) {
+            return item.removeAttribute("data-disabled");
+          }
+          return item.setAttribute("data-disabled", true);
+        });
+        let todoListWorkPlace = document.getElementById("todoListWorkPlace");
+        todoListWorkPlace.classList.toggle("todolist__workplace--active");
+
+        controlCard.classList.toggle("theme-control-card--active");
+        return controlCard.removeAttribute("data-disabled");
+      }
+    },
+    checkTodolistWorkplaceGetThemeHeight({ state }) {
+      let todoListWorkPlace = document.getElementById("todoListWorkPlace")
+      if (
+        todoListWorkPlace.classList.contains("todolist__workplace--active") &&
+        todoListWorkPlace.querySelector("*").id == "todoListWorkPlaceGetTheme" &&
+        window.innerWidth < 1140
+      ) {
+
+        let sectionHeight = todoListWorkPlace.querySelector(
+          ".todolist__workplace-col[data-slide='1']"
+        ).offsetHeight;
+
+        todoListWorkPlace.style.height = sectionHeight + 'px';
+      } else if (
+        todoListWorkPlace.querySelector("*").id == "todoListWorkPlaceGetTheme" &&
+        window.innerWidth < 1140
+      ) {
+        todoListWorkPlace.style.removeProperty('height');
+      }
     },
   },
 };

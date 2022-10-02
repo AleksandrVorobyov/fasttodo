@@ -75,12 +75,25 @@ export default {
 <style scoped lang="scss">
 .todolist {
   position: relative;
-  padding: 15px 0 15px;
   overflow: hidden;
   z-index: 500;
 
+  @media (min-width: 540px) {
+    padding: 15px 0 15px;
+  }
+
   @media (min-width: 1140px) {
     padding: 100px 0 100px;
+  }
+}
+
+.container {
+  padding: 0;
+}
+
+@media (min-width: 540px) {
+  .container {
+    padding: 0 15px;
   }
 }
 
@@ -96,9 +109,13 @@ export default {
   width: 100%;
   background: linear-gradient(var(--bgMain) 0 0) padding-box,
     var(--linearMain) border-box;
-  border: 8px solid transparent;
-  border-radius: 16px;
+
   z-index: 100;
+
+  @media (min-width: 540px) {
+    border: 8px solid transparent;
+    border-radius: 16px;
+  }
 
   @media (min-width: 820px) {
     padding: 50px 8px;

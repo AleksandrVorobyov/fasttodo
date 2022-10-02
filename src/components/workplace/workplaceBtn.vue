@@ -21,7 +21,7 @@ export default {
         await this.$store.dispatch("getNewTheme");
       } else {
         await this.$store.dispatch("nextSectionWorkPlaceGetTheme");
-        await this.$store.commit("checkTodolistWorkplaceGetThemeHeight");
+        await this.$store.dispatch("checkTodolistWorkplaceGetThemeHeight");
       }
     },
   },

@@ -165,20 +165,12 @@ export default {
 }
 
 .todolist__theme-cards-next {
-  right: -15px;
-
-  @media (min-width: 540px) {
-    right: 0;
-  }
+  right: 0;
 }
 
 .todolist__theme-cards-prev {
   transform: translateY(-50%) rotate(180deg);
-  left: -15px;
-
-  @media (min-width: 540px) {
-    left: 0;
-  }
+  left: 0;
 }
 
 .todolist__theme-cards-btn--disabled {

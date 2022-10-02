@@ -18,7 +18,7 @@ export default {
   methods: {
     prevSectionWorkPlaceGetTheme() {
       this.$store.dispatch("prevSectionWorkPlaceGetTheme");
-      this.$store.commit("checkTodolistWorkplaceGetThemeHeight");
+      this.$store.dispatch("checkTodolistWorkplaceGetThemeHeight");
     },
   },
 };

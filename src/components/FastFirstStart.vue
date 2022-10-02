@@ -80,11 +80,17 @@ export default {
 .first-start__info-title {
   display: inline-block;
   margin-bottom: 15px;
-  font-size: 42px;
-  line-height: 48px;
-  letter-spacing: 1px;
+  font-size: 32px;
+  line-height: 36px;
+  letter-spacing: 0.5px;
   font-weight: 700;
   color: white;
+
+  @media (min-width: 460px) {
+    font-size: 42px;
+    line-height: 48px;
+    letter-spacing: 1px;
+  }
 
   @media (min-width: 720px) {
     margin-bottom: 20px;
@@ -102,11 +108,16 @@ export default {
 .first-start__info-subtitle {
   display: inline-block;
   margin-bottom: 15px;
-  font-size: 18px;
-  line-height: 22px;
-  letter-spacing: 0.5px;
+  font-size: 16px;
+  line-height: 18px;
   font-weight: 400;
   color: white;
+
+  @media (min-width: 460px) {
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: 0.5px;
+  }
 
   @media (min-width: 720px) {
     margin-bottom: 20px;

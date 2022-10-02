@@ -20,11 +20,15 @@ export default {
 <style scoped lang="scss">
 .todolist__workplace-remove-theme {
   position: relative;
-  padding: 20px 40px;
+  padding: 10px;
   height: 100%;
   overflow: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
+
+  @media (min-width: 540px) {
+    padding: 20px 40px;
+  }
 
   &::-webkit-scrollbar {
     width: 0;

@@ -35,7 +35,7 @@ export default {
       },
       errors: {
         themeGetDuble: "Такая тема уже существует",
-        themeGetMinThree: "Должно быть минимум 3 символа!",
+        themeGetMinThree: "В названии вашей темы должно быть минимум 3 символа!",
         themeGetImg: "Выберите картинку для вашей темы!",
         themeRenameTtl: "Вы успешно изменили название темы!",
         themeRenameImg: "Вы успешно изменили картинку темы!",

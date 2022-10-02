@@ -73,29 +73,48 @@ export default {
   z-index: 500;
 }
 
+.container {
+  padding: 0;
+}
+
+@media (min-width: 540px) {
+  .container {
+    padding: 0 15px;
+  }
+}
+
 .registration-wrap {
   position: relative;
-  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (min-width: 540px) {
+    height: 100vh;
+  }
 }
 
 .registration__form {
   position: relative;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
   padding: 15px;
   width: 100%;
+  min-height: 100vh;
   background: linear-gradient(var(--bgMain) 0 0) padding-box,
     var(--linearMain) border-box;
   border: 8px solid transparent;
-  border-radius: 16px;
   z-index: 100;
 
   @media (min-width: 460px) {
     padding: 20px;
     width: 450px;
+  }
+
+  @media (min-width: 540px) {
+    min-height: auto;
+    border-radius: 16px;
   }
 
   @media (min-width: 720px) {
