@@ -27,6 +27,8 @@
         todoListTheme
       .todolist__form-wrap
         todoListForm
+      .todolist__footer
+        todoListFooter
   changeName(v-show="profile.rename.show")
   changeAvatar(v-show="profile.changeAvatar.show")
   themeRename(v-show="theme.rename.show")
@@ -43,6 +45,7 @@ import todoListProfile from "./parts/todoListProfile.vue";
 import todoListMenu from "./parts/todoListMenu.vue";
 import todoListClock from "./parts/clock.vue";
 import todoListForm from "./parts/todoListForm.vue";
+import todoListFooter from "./parts/todoListFooter.vue";
 import changeName from "./moduleViewSection/changeNameModuleView.vue";
 import changeAvatar from "./moduleViewSection/changeAvatarModuleView.vue";
 import themeRename from "./moduleViewSection/themeRenameModuleView.vue";
@@ -60,6 +63,7 @@ export default {
     todoListMenu,
     todoListClock,
     todoListForm,
+    todoListFooter,
     changeName,
     changeAvatar,
     themeRename,

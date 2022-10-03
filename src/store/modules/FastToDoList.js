@@ -119,6 +119,10 @@ export default {
         themeListRenameBtnText: "Изменить",
       },
     },
+    footer: {
+      ttl: "© 2022 — Воробьев Александр",
+      subTtl: "Веб-разработчик из Москвы, занимаюсь версткой и созданием сайтов."
+    }
   },
   getters: {
     fastToDoList(state) {
@@ -132,6 +136,9 @@ export default {
     },
     todolistWorkplace(state) {
       return state.todolistWorkplace;
+    },
+    footer(state) {
+      return state.footer;
     },
     inputCreateNameThemeBoolean(state) {
       return state.todolistWorkplace.create.themeInput.length >= 3

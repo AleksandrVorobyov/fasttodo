@@ -135,7 +135,7 @@ export default {
         const uid = await dispatch("getUid");
         const storage = getStorage();
         const themeId = await getters.theme.rename.saveTheme
-        const success = await getters.theme.rename.img.success
+        const success = await state.themes.success
 
         const spaceRef = ref(storage, `users/${uid}/theme/${themeId}`);
 

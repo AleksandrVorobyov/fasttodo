@@ -8,14 +8,16 @@ ul.workplace__theme-list
     h5.workplace__theme-list-title {{ item.title }}
     .workplace__theme-list-del(v-if="remove")
       buttonDelWithIcon(@clickAction="delTheme(item.id)")
-    button.workplace__theme-list-rename(
-      type="button",
-      v-else,
-      @click="toggleThemeRenameFormModule(), saveInfoForRenameTheme(item.id)"
-    ) {{ rename.themeListRenameBtnText }}
+    .workplace__theme-list-btn(v-else)
+      mainBtn(
+        @clickAction="toggleThemeRenameFormModule(), saveInfoForRenameTheme(item.id)",
+        :elText="rename.themeListRenameBtnText",
+        elClass="workplace__theme-list-btn-rename"
+      )
 </template>
 <script>
 import buttonDelWithIcon from "../parts/buttonDelWithIcon.vue";
+import mainBtn from "../parts/mainBtn.vue";
 export default {
   props: {
     list: Object,
@@ -24,6 +26,7 @@ export default {
   },
   components: {
     buttonDelWithIcon,
+    mainBtn,
   },
   methods: {
     async delTheme(id) {
@@ -66,13 +69,21 @@ export default {
       gray border-box;
 
     .workplace__theme-list-del,
-    .workplace__theme-list-rename {
+    .workplace__theme-list-btn {
       opacity: 1;
     }
 
-    .workplace__theme-list-rename {
+    .workplace__theme-list-btn {
       top: 50%;
       transform: translate(-50%, -50%);
+    }
+
+    .workplace__theme-list-title {
+      opacity: 0;
+
+      @media (min-width: 540px) {
+        opacity: 1;
+      }
     }
   }
 }
@@ -83,6 +94,7 @@ export default {
   letter-spacing: 0.5px;
   color: #fff;
   z-index: 10;
+  transition: opacity 0.3s linear;
 
   @media (min-width: 540px) {
     font-size: 20px;
@@ -115,29 +127,20 @@ export default {
   transform: translateY(-50%);
   transition: opacity 0.5s linear;
   opacity: 0;
+  z-index: 20;
 }
 
-.workplace__theme-list-rename {
+.workplace__theme-list-btn {
   position: absolute;
-  padding: 10px 25px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   opacity: 0;
-  font-size: 14px;
-  font-weight: bold;
-  text-align: center;
-  text-decoration: none;
-  background: var(--linearSectionMain);
-  transition: all 0.5s linear;
-  color: #fff;
-  cursor: pointer;
+  width: 200px;
   z-index: 20;
-  overflow: hidden;
-  border: 2px solid #fff;
+}
 
-  &:hover {
-    border-color: #65b37a;
-  }
+.workplace__theme-list-btn-rename {
+  height: 40px;
 }
 </style>

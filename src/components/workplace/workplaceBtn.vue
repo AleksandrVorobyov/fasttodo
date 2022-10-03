@@ -18,7 +18,9 @@ export default {
   methods: {
     async checkWorkPlaceInnerWidth(id) {
       if (window.innerWidth >= 1140 || id == "workplaceBtnThemeAdd") {
-        await this.$store.dispatch("getNewTheme");
+        await this.$store.dispatch("getNewTheme").then(() => {
+          this.$store.dispatch("checkTodolistWorkplaceGetThemeHeight")
+        })
       } else {
         await this.$store.dispatch("nextSectionWorkPlaceGetTheme");
         await this.$store.dispatch("checkTodolistWorkplaceGetThemeHeight");

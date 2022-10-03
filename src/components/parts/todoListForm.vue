@@ -61,11 +61,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.todolist__form-nav {
-  padding: 0 20px;
-  display: grid;
-}
-
 .todolist__form > hr {
   border: 3px solid transparent;
   border-image: var(--linearMain);
@@ -74,11 +69,17 @@ export default {
 
 .todolist__form-nav {
   position: relative;
-  margin-bottom: 20px;
+  padding: 0 10px;
+  margin-bottom: 10px;
   display: grid;
   gap: 20px;
   overflow: hidden;
   border-radius: 2px;
+
+  @media (min-width: 460px) {
+    padding: 0 20px;
+    margin-bottom: 20px;
+  }
 
   @media (min-width: 540px) {
     justify-content: center;
@@ -125,9 +126,12 @@ export default {
 
 .todolist__form-nav-btn {
   width: 100%;
-  max-width: 300px;
   margin: 0 auto;
   cursor: pointer;
+
+  @media (min-width: 460px) {
+    max-width: 300px;
+  }
 }
 
 .todolist__form-body-title {
@@ -150,7 +154,11 @@ export default {
   gap: 5px;
   list-style: none;
   text-align: left;
-  padding: 20px 40px;
+  padding: 10px;
+
+  @media (min-width: 460px) {
+    padding: 20px 40px;
+  }
 }
 
 .todolist__form-body-item {
