@@ -24,7 +24,6 @@
 <script>
 import { mapGetters } from "vuex";
 import moduleView from "./moduleView/moduleView.vue";
-import mainBtn from "./parts/mainBtn.vue";
 import sadFace from "./parts/sadFace.vue";
 import moduleViewTitle from "./moduleView/moduleViewTitle.vue";
 import moduleViewForm from "./moduleView/moduleViewForm.vue";
@@ -35,7 +34,6 @@ export default {
   components: {
     moduleView,
     moduleViewForm,
-    mainBtn,
     sadFace,
     moduleViewTitle,
   },

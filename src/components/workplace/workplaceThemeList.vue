@@ -17,7 +17,6 @@ ul.workplace__theme-list
 </template>
 <script>
 import buttonDelWithIcon from "../parts/buttonDelWithIcon.vue";
-import mainBtn from "../parts/mainBtn.vue";
 export default {
   props: {
     list: Object,
@@ -26,7 +25,6 @@ export default {
   },
   components: {
     buttonDelWithIcon,
-    mainBtn,
   },
   methods: {
     async delTheme(id) {

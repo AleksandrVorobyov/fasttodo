@@ -15,11 +15,7 @@ section.first-start
 </template>
 <script>
 import { mapGetters } from "vuex";
-import mainBtn from "./parts/mainBtn.vue";
 export default {
-  components: {
-    mainBtn,
-  },
   computed: {
     ...mapGetters(["firstStart"]),
   },

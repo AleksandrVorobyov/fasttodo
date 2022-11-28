@@ -13,6 +13,7 @@ button.main-btn(
 </template>
 <script>
 export default {
+  name: "mainBtn",
   props: {
     elText: String,
     elClass: String,

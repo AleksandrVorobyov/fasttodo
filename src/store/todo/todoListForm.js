@@ -16,7 +16,7 @@ export default {
       errors: {
         inputErrorEmpty: "Поле для ваших задач пустое! Заполните его!",
         duble: "Такая задача уже существует!",
-      }
+      },
     },
     personRecord: [],
   },
@@ -28,7 +28,11 @@ export default {
       return state.personRecord;
     },
   },
-  mutations: {},
+  mutations: {
+    updatePersonRecord(state, newPersonList) {
+      state.personRecord = newPersonList;
+    },
+  },
   actions: {
     getUpperFirstletter(state, text) {
       const splitted = text.split("");
@@ -39,17 +43,20 @@ export default {
       return result;
     },
     checkingForDuplicationRecord({ state }, title) {
-      let error = true
+      let error = true;
       state.personRecord.forEach((item) => {
         if (item.text == title) {
-          return error = false
+          return (error = false);
         }
-      })
-      return error
+      });
+      return error;
     },
     async getNewRecord({ state, getters, commit, dispatch }, message) {
       try {
-        const validDublicate = await dispatch("checkingForDuplicationRecord", message)
+        const validDublicate = await dispatch(
+          "checkingForDuplicationRecord",
+          message
+        );
 
         if (message === "") {
           throw new SyntaxError(state.todoForm.errors.inputErrorEmpty);
@@ -80,10 +87,7 @@ export default {
         state.personRecord.push(item);
         return update(ref(db), updates);
       } catch (err) {
-        return await dispatch(
-          "getNotificationError",
-          err.message
-        );
+        return await dispatch("getNotificationError", err.message);
       }
     },
     async dragRecordSave({ state, getters, dispatch }) {

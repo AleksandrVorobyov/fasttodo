@@ -7,7 +7,7 @@ section.registration
           img(:src="require('@/assets/img/' + registration.avatarImg)")
         h2.registration__form-title(v-html="registration.title")
         .registration__form-input-row
-          formInput(
+          main-input(
             v-for="item in registration.input",
             :key="item.id",
             :elId="item.id",
@@ -17,7 +17,7 @@ section.registration
             :elPlaceholder="item.placeholder",
             @inputAction="registrationinputSave(item.id)"
           )
-          mainBtn(
+          main-btn(
             :elText="registration.btnText",
             elClass="registration__form-btn",
             @clickAction="registerPerson()"
@@ -26,43 +26,47 @@ section.registration
           span {{ registration.question }}
           button.title-gradient(
             type="button",
-            @click="(registration.animSection = false), animRegistration(), loginToRouter()"
+            @click.once="(registration.animSection = false), animRegistration(), loginToRouter()"
           ) Login...
 </template>
 <script>
-import { mapGetters } from "vuex";
-import formInput from "./parts/formInput.vue";
-import mainBtn from "./parts/mainBtn.vue";
+import { computed, onMounted } from "vue";
+import { useStore } from "vuex";
 export default {
-  components: {
-    formInput,
-    mainBtn,
-  },
-  computed: {
-    ...mapGetters(["registration", "user"]),
-  },
-  methods: {
-    animRegistration() {
-      this.$store.dispatch("animRegistration");
-    },
-    loginToRouter() {
-      this.$store.dispatch("loginToRouter");
-    },
-    registrationinputSave(id) {
-      this.$store.commit("registrationinputSave", id);
-    },
-    async registerPerson() {
-      await this.$store.dispatch("registerPerson", {
-        name: this.registration.input[0].value,
-        email: this.registration.input[1].value,
-        password: this.registration.input[2].value,
-        passwordConfirm: this.registration.input[3].value,
+  setup() {
+    const store = useStore();
+    const registration = computed(() => store.getters.registration);
+    const user = computed(() => store.getters.user);
+    console.log(registration);
+    const animRegistration = () => store.dispatch("animRegistration");
+    const loginToRouter = () => store.dispatch("loginToRouter");
+    const registrationinputSave = (id) =>
+      store.commit("registrationinputSave", id);
+    const registerPerson = async () =>
+      await store.dispatch("registerPerson", {
+        name: registration.value.input[0].value,
+        email: registration.value.input[1].value,
+        password: registration.value.input[2].value,
+        passwordConfirm: registration.value.input[3].value,
       });
-    },
-  },
-  mounted() {
-    this.registration.animSection = true;
-    this.animRegistration();
+    const animRegistrationShow = () => store.commit("animRegistrationShow");
+
+    onMounted(() => {
+      animRegistrationShow();
+      animRegistration();
+    });
+
+    return {
+      registration,
+      user,
+      registrationinputSave,
+      registrationTo: () => store.dispatch("registrationTo"),
+      loginInputSave: (id) => store.dispatch("loginInputSave", id),
+      registerPerson,
+      loginToRouter,
+      animRegistration,
+      animRegistrationShow,
+    };
   },
 };
 </script>

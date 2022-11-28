@@ -1,8 +1,10 @@
 <template lang="pug">
-Preloader
-FastNotification
-FastDisconnect(v-if="disconnect.status")
-router-view(v-else)
+.app
+  .app-nav
+    Preloader(v-if="preloader")
+    FastNotification
+  FastDisconnect(v-if="disconnect.status")
+  router-view(v-else)
 </template>
 
 <script>
@@ -17,6 +19,7 @@ export default {
       disconnect: {
         status: false,
       },
+      preloader: true,
     };
   },
   components: {
@@ -43,13 +46,18 @@ export default {
   },
   mounted() {
     const that = this;
-    setTimeout(() => {
-      const preloader = document.querySelector(".preloader");
-      preloader.classList.add("preloader-remove");
-    }, 1000);
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelector(".preloader").classList.add("preloader-remove");
+      setTimeout(() => {
+        this.preloader = false;
+      }, 500);
+    });
+
     document.addEventListener("click", (e) => {
       this.todoMenuSmartHiding(e);
     });
+
     window.addEventListener("scroll", () => {
       if (this.hiddenBody) {
         let scrollTop = this.scrollBody.y;
@@ -57,12 +65,17 @@ export default {
         window.scrollTo(scrollLeft, scrollTop);
       }
     });
+
     window.addEventListener("offline", () => {
-      return that.disconnect.status = true, console.log(that.disconnect.status);;
+      return (
+        (that.disconnect.status = true), console.log(that.disconnect.status)
+      );
     });
 
     window.addEventListener("online", () => {
-      return that.disconnect.status = false, console.log(that.disconnect.status);;
+      return (
+        (that.disconnect.status = false), console.log(that.disconnect.status)
+      );
     });
   },
 };

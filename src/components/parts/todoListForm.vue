@@ -14,37 +14,55 @@
   hr(v-if="personRecord.length != 0")
   .todolist__form-body
     h3.todolist__form-body-title(v-if="personRecord.length == 0") {{ todoForm.title }}
-    draggable#list.todolist__form-body-list.list-group(
-      v-else,
-      tag="ul",
-      :list="personRecord",
-      handle=".handle",
-      item-key="name",
-      @end="dragRecordSave()"
-    )
-      template(#item="{ element, index }")
-        li.todolist__form-body-item
-          span {{ index + 1 + ')' }}
-          span {{ element.text }}
-          button.todolist__form-body-drag.handle(type="button")
-            span
-          .todolist__form-body-del
-            buttonDelWithIcon(@clickAction="delRecord(index)")
+    div(v-else)
+      draggable#list.todolist__form-body-list.list-group(
+        tag="ul",
+        :component-data="{ tag: 'transition-group', type: 'transition-group', name: 'flip-list' }",
+        v-model="personList",
+        v-bind="dragOptions",
+        @end="dragRecordSave()",
+        item-key="id",
+        handle=".handle"
+      )
+        template(#item="{ element, index }")
+          li.todolist__form-body-item.list-group-item
+            span {{ index + 1 + ')' }}
+            span {{ element.text }}
+            button.todolist__form-body-drag.handle(type="button")
+              span
+            .todolist__form-body-del
+              buttonDelWithIcon(@clickAction="delRecord(index)")
   hr
 </template>
 <script>
 import { mapGetters } from "vuex";
 import draggable from "vuedraggable";
-import mainBtn from "./mainBtn.vue";
 import buttonDelWithIcon from "../parts/buttonDelWithIcon.vue";
+
 export default {
-  computed: {
-    ...mapGetters(["todoForm", "personRecord"]),
-  },
+  name: "todolist-form",
   components: {
     draggable,
-    mainBtn: mainBtn,
     buttonDelWithIcon,
+  },
+  computed: {
+    ...mapGetters(["todoForm", "personRecord"]),
+    dragOptions() {
+      return {
+        animation: 200,
+        group: "todolist-group",
+        disabled: false,
+        ghostClass: "ghost",
+      };
+    },
+    personList: {
+      get() {
+        return this.personRecord;
+      },
+      set(newValue) {
+        this.$store.commit("updatePersonRecord", newValue);
+      },
+    },
   },
   methods: {
     async delRecord(elemIndex) {
@@ -65,6 +83,10 @@ export default {
   border: 3px solid transparent;
   border-image: var(--linearMain);
   border-image-slice: 1;
+}
+
+.flip-list-move {
+  transition: transform 0.5s;
 }
 
 .todolist__form-nav {
@@ -168,8 +190,6 @@ export default {
   background: linear-gradient(var(--bgInputMain) 0 0) padding-box,
     var(--linearMain) border-box;
   border: 2px solid transparent;
-  transition: background 0.4s linear, transform 0.4s linear,
-    box-shadow 0.4s linear;
   z-index: 10;
 
   span {
@@ -200,11 +220,6 @@ export default {
       opacity: 1;
     }
   }
-}
-
-.todolist__form-body-item--active {
-  transform: scale(1.05);
-  box-shadow: 0px 0px 3px gray;
 }
 
 .todolist__form-body-del {
@@ -264,11 +279,8 @@ export default {
   }
 }
 
-.flip-list-move {
-  transition: transform 0.5s;
-}
-
-.no-move {
-  transition: transform 0s;
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
 }
 </style>

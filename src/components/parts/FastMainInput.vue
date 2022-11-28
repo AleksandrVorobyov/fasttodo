@@ -1,5 +1,5 @@
 <template lang="pug">
-input.form-input(
+input.main-input(
   :type="elType",
   :value="elValue",
   :placeholder="elPlaceholder",
@@ -10,6 +10,7 @@ input.form-input(
 </template>
 <script>
 export default {
+  name: 'main-input',
   props: {
     elType: String,
     elValue: String,
@@ -21,7 +22,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.form-input {
+.main-input {
   position: relative;
   padding: 5px 10px;
   width: 100%;
@@ -54,11 +55,11 @@ export default {
   }
 }
 
-.form-input.login__form-input.login__form-input--true {
+.main-input.login__main-input.login__main-input--true {
   box-shadow: inset 0px 0px 3px 3px #1bff5fb4;
 }
 
-.form-input:focus::placeholder {
+.main-input:focus::placeholder {
   opacity: 0;
 }
 </style>

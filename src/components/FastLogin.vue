@@ -7,7 +7,7 @@ section.login
           img(:src="require('@/assets/img/' + login.avatar.img)")
         h2.login__form-title(v-html="login.title")
         .login__form-input-row
-          formInput(
+          main-input(
             v-for="item in login.input",
             :key="item.id",
             :elId="item.id",
@@ -17,7 +17,7 @@ section.login
             :elPlaceholder="item.placeholder",
             @inputAction="loginInputSave(item.id)"
           )
-          mainBtn(
+          main-btn(
             :elText="login.btnText",
             elClass="login__form-btn",
             @clickAction="loginFirebase()"
@@ -26,41 +26,38 @@ section.login
           span {{ login.btnRegister }}
           button.title-gradient(
             type="button",
-            @click="(login.animSection = false), animLogin(), registrationTo()"
+            @click.once="logAnimShow(), animLogin(), registrationTo()"
           ) Registration...
 </template>
 <script>
-import { mapGetters } from "vuex";
-import formInput from "./parts/formInput.vue";
-import mainBtn from "./parts/mainBtn.vue";
+import { computed, onMounted } from "vue";
+import { useStore } from "vuex";
 export default {
-  components: {
-    formInput,
-    mainBtn,
-  },
-  computed: {
-    ...mapGetters(["login", "user"]),
-  },
-  methods: {
-    animLogin() {
-      this.$store.dispatch("animLogin");
-    },
-    registrationTo() {
-      this.$store.dispatch("registrationTo");
-    },
-    loginInputSave(id) {
-      this.$store.dispatch("loginInputSave", id);
-    },
-    async loginFirebase() {
-      await this.$store.dispatch("loginFirebase", {
-        email: document.getElementById("login-form-input-email").value,
-        password: document.getElementById("login-form-input-password").value,
-      });
-    },
-  },
-  mounted() {
-    this.login.animSection = true;
-    this.animLogin();
+  setup() {
+    const store = useStore();
+    const login = computed(() => store.getters.login);
+    const user = computed(() => store.getters.user);
+    const animLogin = () => store.dispatch("animLogin");
+    const logAnimShow = () => store.commit("logAnimShow");
+    console.log(user);
+    onMounted(() => {
+      logAnimShow()
+      animLogin();
+    });
+
+    return {
+      login,
+      user,
+      registrationTo: () => store.dispatch("registrationTo"),
+      loginInputSave: (id) => store.dispatch("loginInputSave", id),
+      loginFirebase: async () =>
+        await store.dispatch("loginFirebase", {
+          email: document.getElementById("login-form-input-email").value,
+          password: document.getElementById("login-form-input-password").value,
+        }),
+      animLogin,
+      logAnimShow
+    };
   },
 };
 </script>

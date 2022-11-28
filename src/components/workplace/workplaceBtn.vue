@@ -7,11 +7,7 @@ mainBtn(
 )
 </template>
 <script>
-import mainBtn from "../parts/mainBtn.vue";
 export default {
-  components: {
-    mainBtn,
-  },
   props: {
     data: Object,
   },

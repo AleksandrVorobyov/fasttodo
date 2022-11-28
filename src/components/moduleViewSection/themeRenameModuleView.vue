@@ -28,7 +28,6 @@ moduleView(viewClass="theme-rename", viewId="themeRename")
 </template>
 <script>
 import { mapGetters } from "vuex";
-import mainBtn from "../parts/mainBtn.vue";
 import moduleView from "../moduleView/moduleView.vue";
 import moduleViewForm from "../moduleView/moduleViewForm.vue";
 import moduleViewBtnExit from "../moduleView/moduleViewBtnExit.vue";
@@ -38,7 +37,6 @@ export default {
     ...mapGetters(["theme"]),
   },
   components: {
-    mainBtn,
     moduleView,
     moduleViewForm,
     moduleViewBtnExit,

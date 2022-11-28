@@ -32,7 +32,6 @@ moduleView(viewClass="theme-rename-img", viewId="themeRenameTtl")
 </template>
 <script>
 import { mapGetters } from "vuex";
-import mainBtn from "../parts/mainBtn.vue";
 import imageFileInput from "../parts/imageFileInput.vue";
 import moduleView from "../moduleView/moduleView.vue";
 import moduleViewForm from "../moduleView/moduleViewForm.vue";
@@ -43,7 +42,6 @@ export default {
     ...mapGetters(["theme"]),
   },
   components: {
-    mainBtn,
     imageFileInput,
     moduleView,
     moduleViewForm,

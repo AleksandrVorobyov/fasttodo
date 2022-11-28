@@ -9,7 +9,7 @@ formInput(
 )
 </template>
 <script>
-import formInput from "../parts/formInput.vue";
+import formInput from "../parts/FastMainInput.vue";
 export default {
   components: {
     formInput,
