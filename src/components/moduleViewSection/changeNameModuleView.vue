@@ -5,14 +5,14 @@ moduleView(viewClass="form-rename", viewId="formRename")
       titleClass="form-rename__form-title",
       :titleText="profile.rename.title"
     )
-    formInput(
+    main-input(
       elType="text",
       :elPlaceholder="profile.rename.placeholder",
       elClass="form-rename__form-input",
       elId="formRenameInput",
       @inputAction="renameInputSave()"
     )
-    mainBtn(
+    main-btn(
       elType="button",
       elId="formRenameBtn",
       elClass="form-rename__form-btn",
@@ -28,7 +28,6 @@ moduleView(viewClass="form-rename", viewId="formRename")
 </template>
 <script>
 import { mapGetters } from "vuex";
-import formInput from "../parts/FastMainInput.vue";
 import moduleView from "../moduleView/moduleView.vue";
 import moduleViewForm from "../moduleView/moduleViewForm.vue";
 import moduleViewBtnExit from "../moduleView/moduleViewBtnExit.vue";
@@ -38,7 +37,6 @@ export default {
     ...mapGetters(["profile"]),
   },
   components: {
-    formInput,
     moduleView,
     moduleViewForm,
     moduleViewBtnExit,

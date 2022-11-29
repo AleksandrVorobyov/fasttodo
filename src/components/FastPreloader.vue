@@ -4,6 +4,12 @@
     div(v-for="item in 9")
 </template>
 
+<script>
+export default {
+  name: "preloader-section",
+};
+</script>
+
 <style scoped lang="scss">
 .preloader {
   position: fixed;

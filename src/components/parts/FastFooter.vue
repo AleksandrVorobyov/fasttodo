@@ -1,23 +1,24 @@
 <template lang="pug">
-footer.todoList-footer
-  h3.todoList-footer__title {{ footer.ttl }}
-  h4.todoList-footer__subtitle {{ footer.subTtl }}
+footer.footer
+  h3.footer__title {{ footer.ttl }}
+  h4.footer__subtitle {{ footer.subTtl }}
 </template>
 <script>
 import { mapGetters } from "vuex";
 export default {
+  name: "fast-footer",
   computed: {
     ...mapGetters(["footer"]),
   },
 };
 </script>
 <style scoped lang="scss">
-.todoList-footer {
+.footer {
   position: relative;
   padding: 20px;
 }
 
-.todoList-footer__title {
+.footer__title {
   margin-bottom: 10px;
   font-size: 16px;
   line-height: 18px;
@@ -31,7 +32,7 @@ export default {
   }
 }
 
-.todoList-footer__subtitle {
+.footer__subtitle {
   font-size: 14px;
   line-height: 16px;
   color: white;

@@ -7,16 +7,16 @@ ul.workplace__theme-list
       )
     h5.workplace__theme-list-title {{ item.title }}
     .workplace__theme-list-del(v-if="remove")
-      buttonDelWithIcon(@clickAction="delTheme(item.id)")
+      btn-del-trash(@clickAction="delTheme(item.id)")
     .workplace__theme-list-btn(v-else)
-      mainBtn(
+      main-btn(
         @clickAction="toggleThemeRenameFormModule(), saveInfoForRenameTheme(item.id)",
         :elText="rename.themeListRenameBtnText",
         elClass="workplace__theme-list-btn-rename"
       )
 </template>
 <script>
-import buttonDelWithIcon from "../parts/buttonDelWithIcon.vue";
+import buttonDelWithIcon from "../parts/FastBtnDelTrash.vue";
 export default {
   props: {
     list: Object,

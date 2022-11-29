@@ -4,6 +4,7 @@ h3.nav-time {{ fastToDoList.time }}
 <script>
 import { mapGetters } from "vuex";
 export default {
+  name: 'nav-clock',
   computed: {
     ...mapGetters(["fastToDoList"]),
   },

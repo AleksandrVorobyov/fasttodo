@@ -5,7 +5,7 @@ section.first-start
       .first-start__info
         h1.first-start__info-title(v-html="firstStart.title")
         h3.first-start__info-subtitle {{ firstStart.subtitle }}
-        mainBtn(
+        main-btn(
           :elText="firstStart.btnText",
           elClass="first-start__info-btn",
           @clickAction="(firstStart.animSection = false), animFirstStart(), loginToRouter()"
@@ -14,22 +14,26 @@ section.first-start
         .first-start__bg-circle(v-for="item in 4", :key="item")
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { onMounted, computed } from "vue";
+import { useStore } from "vuex";
+
 export default {
-  computed: {
-    ...mapGetters(["firstStart"]),
-  },
-  methods: {
-    animFirstStart() {
-      this.$store.dispatch("animFirstStart");
-    },
-    loginToRouter() {
-      this.$store.dispatch("loginToRouter");
-    },
-  },
-  mounted() {
-    this.firstStart.animSection = true;
-    this.animFirstStart();
+  name: "first-start-section",
+  setup() {
+    const store = useStore();
+    const firstStart = computed(() => store.getters.firstStart);
+    const animFirstStart = () => store.dispatch("animFirstStart");
+
+    onMounted(() => {
+      firstStart.animSection = true;
+      animFirstStart();
+    });
+
+    return {
+      firstStart,
+      loginToRouter: () => store.dispatch("loginToRouter"),
+      animFirstStart,
+    };
   },
 };
 </script>

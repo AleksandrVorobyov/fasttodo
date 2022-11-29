@@ -1,5 +1,5 @@
 <template lang="pug">
-mainBtn(
+main-btn(
   :elText="data.text",
   :elClass="data.class",
   :elId="data.id",

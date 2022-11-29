@@ -1,5 +1,5 @@
 <template lang="pug">
-formInput(
+main-input(
   :elType="data.type",
   :elValue="data.value",
   :elPlaceholder="data.place",
@@ -9,11 +9,7 @@ formInput(
 )
 </template>
 <script>
-import formInput from "../parts/FastMainInput.vue";
 export default {
-  components: {
-    formInput,
-  },
   props: {
     data: Object,
   },
@@ -24,6 +20,3 @@ export default {
   }
 };
 </script>
-<style scoped lang="scss">
-
-</style>

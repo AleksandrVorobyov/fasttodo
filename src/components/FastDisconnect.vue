@@ -11,9 +11,9 @@
           :titleText="disconnect.title"
         )
       .fast-disconnect-col
-        sadFace
+        sad-face
       .fast-disconnect-col
-        mainBtn(
+        main-btn(
           elType="button",
           elId="fastDisconnectBtn",
           elClass="fast-disconnect__btn",
@@ -24,10 +24,11 @@
 <script>
 import { mapGetters } from "vuex";
 import moduleView from "./moduleView/moduleView.vue";
-import sadFace from "./parts/sadFace.vue";
+import sadFace from "./parts/FastSadFace.vue";
 import moduleViewTitle from "./moduleView/moduleViewTitle.vue";
 import moduleViewForm from "./moduleView/moduleViewForm.vue";
 export default {
+  name: "disconnect-section",
   computed: {
     ...mapGetters(["disconnect"]),
   },

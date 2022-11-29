@@ -1,11 +1,12 @@
 <template lang="pug">
-.notifications-wrap(v-if="notification.visible")
+.notification-wrap(v-if="notification.visible")
   notifications(:notificationInfo="notification")
 </template>
 <script>
 import { mapGetters } from "vuex";
-import notifications from "./parts/notifications.vue";
+import notifications from "./parts/FastNotifications.vue";
 export default {
+  name: "notification-section",
   computed: {
     ...mapGetters(["notification"]),
   },
@@ -14,5 +15,3 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-</style>

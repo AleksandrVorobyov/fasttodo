@@ -33,13 +33,14 @@ section.login
 import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 export default {
+  name: "login-section",
   setup() {
     const store = useStore();
     const login = computed(() => store.getters.login);
     const user = computed(() => store.getters.user);
     const animLogin = () => store.dispatch("animLogin");
     const logAnimShow = () => store.commit("logAnimShow");
-    console.log(user);
+
     onMounted(() => {
       logAnimShow()
       animLogin();

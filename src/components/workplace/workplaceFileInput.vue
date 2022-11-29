@@ -12,7 +12,7 @@ imageFileInput(
 )
 </template>
 <script>
-import imageFileInput from "../parts/imageFileInput.vue";
+import imageFileInput from "../parts/FastImgFileInput.vue";
 export default {
   components: {
     imageFileInput,

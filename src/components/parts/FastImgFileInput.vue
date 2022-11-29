@@ -19,6 +19,7 @@
 <script>
 import fileLoadSvg from "@/assets/img/iconVue/file-load.vue";
 export default {
+  name: "img-file-input",
   components: {
     fileLoadSvg,
   },

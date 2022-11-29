@@ -1,10 +1,11 @@
 <template lang="pug">
-button.btn-del__icon(type="button", @click="$emit('clickAction', $event)")
+button.btn-del__trash(type="button", @click="$emit('clickAction', $event)")
   iconTrash
 </template>
 <script>
 import iconTrash from "@/assets/img/iconVue/trash.vue";
 export default {
+  name: "btn-del-trash",
   components: {
     iconTrash,
   },
@@ -15,7 +16,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.btn-del__icon {
+.btn-del__trash {
   display: block;
   padding: 3px;
   width: 32px;

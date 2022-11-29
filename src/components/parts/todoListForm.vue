@@ -1,12 +1,12 @@
 <template lang="pug">
 .todolist__form
-  form.todolist__form-nav(action="", method="get", @submit.prevent)
+  form.todolist__form-nav(action="#", method="get", @submit.prevent)
     input#todoFormInput.todolist__form-nav-search(
       type="text",
       :placeholder="todoForm.inputPlaceholder",
       @keyup.enter="getNewRecord()"
     )
-    mainBtn(
+    main-btn(
       :elText="todoForm.btnText",
       elClass="todolist__form-nav-btn",
       @clickAction="getNewRecord()"
@@ -31,19 +31,17 @@
             button.todolist__form-body-drag.handle(type="button")
               span
             .todolist__form-body-del
-              buttonDelWithIcon(@clickAction="delRecord(index)")
+              btn-del-trash(@clickAction="delRecord(index)")
   hr
 </template>
 <script>
 import { mapGetters } from "vuex";
 import draggable from "vuedraggable";
-import buttonDelWithIcon from "../parts/buttonDelWithIcon.vue";
 
 export default {
   name: "todolist-form",
   components: {
     draggable,
-    buttonDelWithIcon,
   },
   computed: {
     ...mapGetters(["todoForm", "personRecord"]),

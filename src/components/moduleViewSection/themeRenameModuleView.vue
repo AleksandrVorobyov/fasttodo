@@ -5,14 +5,14 @@ moduleView(viewClass="theme-rename", viewId="themeRename")
       titleClass="theme-rename__form-title",
       :titleText="theme.rename.title"
     )
-    mainBtn(
+    main-btn(
       elType="button",
       elId="themeRenameBtn",
       elClass="theme-rename__form-btn",
       :elText="theme.rename.btnTtlRenameText"
       @clickAction="toggleThemeRenameFormModule(), toggleThemeRenameTtlFormModule()"
     )
-    mainBtn(
+    main-btn(
       elType="button",
       elId="themeRenameBtn",
       elClass="theme-rename__form-btn",
@@ -32,6 +32,7 @@ import moduleView from "../moduleView/moduleView.vue";
 import moduleViewForm from "../moduleView/moduleViewForm.vue";
 import moduleViewBtnExit from "../moduleView/moduleViewBtnExit.vue";
 import moduleViewTitle from "../moduleView/moduleViewTitle.vue";
+
 export default {
   computed: {
     ...mapGetters(["theme"]),

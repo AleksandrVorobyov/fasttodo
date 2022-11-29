@@ -5,6 +5,7 @@
 </template>
 <script>
 export default {
+  name: 'glitch-img',
   props: {
     glitchImg: String,
     glitchClass: String,

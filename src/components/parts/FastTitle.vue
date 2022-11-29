@@ -3,6 +3,7 @@ h1.todolist__title(v-html="title")
 </template>
 <script>
 export default {
+  name: "fast-title",
   props: { title: String },
 };
 </script>

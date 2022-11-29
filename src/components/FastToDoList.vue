@@ -4,31 +4,32 @@
     .todolist-wrap
       nav.totolist__nav
         .totolist__nav-col
-          todoTitle(:title="fastToDoList.title")
+          fast-title(:title="fastToDoList.title")
         .totolist__nav-col
           todoListProfile
           todoListMenu
       .todolist__clock-wrap
         .todolist__img
-          glitchImg(
+          glitch-img(
             :glitchImg="fastToDoList.glitchImgOne",
             :glitchClass="'glitch-one'"
           )
-        todoListClock
+        .todolist__clock
+          clock
         .todolist__img
-          glitchImg(
+          glitch-img(
             :glitchImg="fastToDoList.glitchImgTwo",
             :glitchClass="'glitch-two'"
           )
       .totolist__theme-control-wrap
-        todoListThemeControl
+        list-theme-ctrl
         todoListWorkPlace
       .totolist__theme-wrap
-        todoListTheme
+        listTheme
       .todolist__form-wrap
         todoListForm
       .todolist__footer
-        todoListFooter
+        fast-footer
   changeName(v-show="profile.rename.show")
   changeAvatar(v-show="profile.changeAvatar.show")
   themeRename(v-show="theme.rename.show")
@@ -37,39 +38,35 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import todoTitle from "./parts/todoTitle.vue";
-import todoListThemeControl from "./parts/todoListThemeControl.vue";
+import fastTitle from "./parts/FastTitle.vue";
+import listThemeCtrl from "./parts/FastListThemeCtrl.vue";
 import todoListWorkPlace from "./parts/todoListWorkPlace.vue";
-import todoListTheme from "./parts/todoListTheme.vue";
+import listTheme from "./parts/FastListTheme.vue";
 import todoListProfile from "./parts/todoListProfile.vue";
 import todoListMenu from "./parts/todoListMenu.vue";
-import todoListClock from "./parts/clock.vue";
 import todoListForm from "./parts/todoListForm.vue";
-import todoListFooter from "./parts/todoListFooter.vue";
+import fastFooter from "./parts/FastFooter.vue";
 import changeName from "./moduleViewSection/changeNameModuleView.vue";
 import changeAvatar from "./moduleViewSection/changeAvatarModuleView.vue";
 import themeRename from "./moduleViewSection/themeRenameModuleView.vue";
 import themeRenameTtl from "./moduleViewSection/themeRenameTtlModuleView.vue";
 import themeRenameImg from "./moduleViewSection/themeRenameImgModuleView.vue";
-import glitchImg from "./parts/glitchImg.vue";
 
 export default {
   components: {
-    todoTitle,
-    todoListThemeControl,
+    fastTitle,
+    listThemeCtrl,
     todoListWorkPlace,
-    todoListTheme,
+    listTheme,
     todoListProfile,
     todoListMenu,
-    todoListClock,
     todoListForm,
-    todoListFooter,
+    fastFooter,
     changeName,
     changeAvatar,
     themeRename,
     themeRenameTtl,
     themeRenameImg,
-    glitchImg,
   },
   computed: {
     ...mapGetters(["fastToDoList", "profile", "theme"]),

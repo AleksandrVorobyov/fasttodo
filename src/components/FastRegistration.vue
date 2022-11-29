@@ -33,15 +33,11 @@ section.registration
 import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 export default {
+  name: "registration-section",
   setup() {
     const store = useStore();
     const registration = computed(() => store.getters.registration);
-    const user = computed(() => store.getters.user);
-    console.log(registration);
     const animRegistration = () => store.dispatch("animRegistration");
-    const loginToRouter = () => store.dispatch("loginToRouter");
-    const registrationinputSave = (id) =>
-      store.commit("registrationinputSave", id);
     const registerPerson = async () =>
       await store.dispatch("registerPerson", {
         name: registration.value.input[0].value,
@@ -58,12 +54,12 @@ export default {
 
     return {
       registration,
-      user,
-      registrationinputSave,
+      user: computed(() => store.getters.user),
+      registrationinputSave: (id) => store.commit("registrationinputSave", id),
       registrationTo: () => store.dispatch("registrationTo"),
       loginInputSave: (id) => store.dispatch("loginInputSave", id),
       registerPerson,
-      loginToRouter,
+      loginToRouter: () => store.dispatch("loginToRouter"),
       animRegistration,
       animRegistrationShow,
     };

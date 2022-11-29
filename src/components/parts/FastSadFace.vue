@@ -9,6 +9,7 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
+  name: 'sad-face',
   computed: {
     ...mapGetters(["header"]),
   },

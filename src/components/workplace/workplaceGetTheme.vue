@@ -15,6 +15,7 @@ import workplaceInput from "./workplaceInput.vue";
 import workplaceBtn from "./workplaceBtn.vue";
 import workplaceTitle from "./workplaceTitle.vue";
 import workplaceBtnBack from "./workplaceBtnBack.vue";
+
 export default {
   computed: {
     ...mapGetters(["todolistWorkplace"]),

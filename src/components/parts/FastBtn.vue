@@ -12,8 +12,9 @@ button.main-btn(
   )
 </template>
 <script>
+import { useStore } from "vuex";
 export default {
-  name: "mainBtn",
+  name: "main-btn",
   props: {
     elText: String,
     elClass: String,
@@ -25,13 +26,13 @@ export default {
     },
   },
   emits: ["clickAction"],
-  methods: {
-    mainBtnAnimMove(e) {
-      this.$store.commit("mainBtnAnimMove", e);
-    },
-    mainBtnAnimLeave(e) {
-      this.$store.commit("mainBtnAnimLeave", e);
-    },
+  setup() {
+    const store = useStore();
+
+    return {
+      mainBtnAnimMove: (e) => store.commit("mainBtnAnimMove", e),
+      mainBtnAnimLeave: (e) => store.commit("mainBtnAnimLeave", e),
+    };
   },
 };
 </script>

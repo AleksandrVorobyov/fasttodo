@@ -27,22 +27,22 @@ section.todolist__theme
           arrow
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { computed } from "vue";
+import { useStore } from "vuex";
 import arrow from "@/assets/img/iconVue/arrow.vue";
 export default {
-  computed: {
-    ...mapGetters(["theme"]),
-  },
+  name: "list-theme-section",
   components: {
     arrow,
   },
-  methods: {
-    async activeThemeNext() {
-      await this.$store.dispatch("activeThemeNext");
-    },
-    async activeThemePrev() {
-      await this.$store.dispatch("activeThemePrev");
-    },
+  setup() {
+    const store = useStore();
+
+    return {
+      theme: computed(() => store.getters.theme),
+      activeThemeNext: async () => await store.dispatch("activeThemeNext"),
+      activeThemePrev: async () => await store.dispatch("activeThemePrev"),
+    };
   },
 };
 </script>

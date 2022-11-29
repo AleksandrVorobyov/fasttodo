@@ -7,6 +7,7 @@
 <script>
 import Icon from "../SvgIcon.vue";
 export default {
+  name: "notification",
   props: {
     notificationInfo: Object,
   },

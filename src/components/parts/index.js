@@ -1,7 +1,15 @@
-import mainInput from "./FastMainInput.vue";
-import mainBtn from "./FastMainBtn.vue";
+import input from "./FastInput.vue";
+import btn from "./FastBtn.vue";
+import btnDelTrash from "./FastBtnDelTrash.vue";
+import glitchImg from "./FastGlitchImg.vue";
+import clock from "./FastClock.vue";
+import imgFileInput from "./FastImgFileInput.vue";
 
 export default [
-    mainInput,
-    mainBtn, 
+    input,
+    btn,
+    btnDelTrash,
+    glitchImg,
+    clock,
+    imgFileInput
 ];

@@ -14,7 +14,7 @@ button#todolistProfile.todolist-profile(type="button")
 <script>
 import { mapGetters } from "vuex";
 import Icon from "../SvgIcon.vue";
-import todoListNavClock from "./todoListNavClock.vue";
+import todoListNavClock from "./FastListNavClock.vue";
 export default {
   components: {
     Icon,

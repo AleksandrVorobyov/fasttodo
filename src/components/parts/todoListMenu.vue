@@ -2,7 +2,7 @@
 #todolistProfileMenu.todolist-profile__menu
   .todolist-profile__menu-header
     h5.todolist-profile__menu-header-username {{ webUser.username }}
-    todoListNavClock
+    list-nav-clock
   ul.todolist-profile__menu-list
     li.todolist-profile__menu-item
       button.todolist-profile__menu-btn(
@@ -22,13 +22,13 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import todoListNavClock from "./todoListNavClock.vue";
+import listNavClock from "./FastListNavClock.vue";
 export default {
   computed: {
     ...mapGetters(["user", "profile", "webUser"]),
   },
   components: {
-    todoListNavClock,
+    listNavClock,
   },
   methods: {
     async logout() {

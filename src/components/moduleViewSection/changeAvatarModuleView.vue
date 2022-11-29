@@ -5,7 +5,7 @@ moduleView(viewClass="change-avatar", viewId="changeAvatar")
       titleClass="change-avatar__form-title",
       :titleText="profile.changeAvatar.title"
     )
-    imageFileInput(
+    img-file-input(
       inputClass="change-avatar__form-file",
       inputId="changeAvatarFormFile",
       inputName="changeAvatarFormFile",
@@ -16,7 +16,7 @@ moduleView(viewClass="change-avatar", viewId="changeAvatar")
       :inputFile="profile.changeAvatar.inputFile",
       @changeAction="preloadingImageAvatar($event)"
     )
-    mainBtn(
+    main-btn(
       elType="button",
       elId="formRenameBtn",
       elClass="form-rename__form-btn",
@@ -36,7 +36,6 @@ import moduleView from "../moduleView/moduleView.vue";
 import moduleViewForm from "../moduleView/moduleViewForm.vue";
 import moduleViewBtnExit from "../moduleView/moduleViewBtnExit.vue";
 import moduleViewTitle from "../moduleView/moduleViewTitle.vue";
-import imageFileInput from "../parts/imageFileInput.vue";
 export default {
   computed: {
     ...mapGetters(["profile"]),
@@ -46,7 +45,6 @@ export default {
     moduleViewForm,
     moduleViewBtnExit,
     moduleViewTitle,
-    imageFileInput,
   },
   methods: {
     async toggleChangeAvatarFormModule() {
@@ -67,5 +65,3 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-</style>

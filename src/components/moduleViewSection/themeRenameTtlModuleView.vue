@@ -5,7 +5,7 @@ moduleView(viewClass="theme-rename-ttl", viewId="themeRenameTtl")
       titleClass="theme-rename-ttl__form-title",
       :titleText="theme.rename.ttl.title"
     )
-    formInput(
+    main-btn(
       elType="text",
       elClass="theme-rename-ttl__form-input",
       elId="themeRenameTtlFormInput",
@@ -13,7 +13,7 @@ moduleView(viewClass="theme-rename-ttl", viewId="themeRenameTtl")
       :elPlaceholder="theme.rename.ttl.inputPlace"
       @inputAction="saveInputTtlThemeRename('themeRenameTtlFormInput')"
     )
-    mainBtn(
+    main-btn(
       elType="button",
       elId="themeRenameTtlBtn",
       elClass="theme-rename-ttl__form-btn",
@@ -29,7 +29,6 @@ moduleView(viewClass="theme-rename-ttl", viewId="themeRenameTtl")
 </template>
 <script>
 import { mapGetters } from "vuex";
-import formInput from "../parts/FastMainInput.vue";
 import moduleView from "../moduleView/moduleView.vue";
 import moduleViewForm from "../moduleView/moduleViewForm.vue";
 import moduleViewBtnExit from "../moduleView/moduleViewBtnExit.vue";
@@ -39,7 +38,6 @@ export default {
     ...mapGetters(["theme"]),
   },
   components: {
-    formInput,
     moduleView,
     moduleViewForm,
     moduleViewBtnExit,

@@ -10,29 +10,26 @@
     #sc.sc
 </template>
 <script>
-import { mapGetters } from "vuex";
-export default {
-  data() {
-    return {
-      clock: {},
-    };
-  },
-  computed: {
-    ...mapGetters(["fastToDoList"]),
-  },
-  methods: {
-    runClock() {
-      this.clock = setInterval(() => {
-        this.$store.dispatch("runClock");
-      }, 1000);
-    },
-  },
-  mounted() {
-    this.runClock();
-  },
+import { computed, onMounted, onUnmounted } from "vue";
+import { useStore } from "vuex";
 
-  beforeUnmount() {
-    clearInterval(this.clock);
+export default {
+  name: "clock",
+  setup() {
+    const store = useStore();
+    let clock;
+
+    onMounted(() => {
+      clock = setInterval(() => {
+        store.dispatch("runClock");
+      }, 1000);
+    });
+
+    onUnmounted(() => clearInterval(clock))
+
+    return {
+      fastToDoList: computed(() => store.getters.fastToDoList),
+    };
   },
 };
 </script>

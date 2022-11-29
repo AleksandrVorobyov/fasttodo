@@ -1,6 +1,6 @@
 <template lang="pug">
 .todolist__theme-control
-  themeControlCard(
+  theme-ctrl-card(
     v-for="(item, index) in themeControl.list",
     :key="item",
     :id="item.id",
@@ -10,28 +10,29 @@
   )
 </template>
 <script>
-import { mapGetters } from "vuex";
-import themeControlCard from "./themeControlCard.vue";
+import { computed } from "vue";
+import { useStore } from "vuex";
+import themeCtrlCard from "./FastThemeCtrlCard.vue";
+
 export default {
+  name: "list-theme-control",
   components: {
-    themeControlCard,
+    themeCtrlCard,
   },
-  computed: {
-    ...mapGetters(["themeControl"]),
-  },
-  methods: {
-    async activeWorkPlace(e) {
-      await this.$store.dispatch("activeWorkPlace", e);
-    },
-    checkTodolistWorkplaceGetThemeHeight() {
-      this.$store.dispatch("checkTodolistWorkplaceGetThemeHeight");
-    },
-    changeTodolistWorkplaceActiveComp(e, item) {
-      this.$store.commit("changeTodolistWorkplaceActiveComp", {
-        e,
-        item,
-      });
-    },
+  setup() {
+    const store = useStore();
+
+    return {
+      themeControl: computed(() => store.getters.themeControl),
+      activeWorkPlace: async (e) => await store.dispatch("activeWorkPlace", e),
+      checkTodolistWorkplaceGetThemeHeight: () =>
+        store.dispatch("checkTodolistWorkplaceGetThemeHeight"),
+      changeTodolistWorkplaceActiveComp: (e, item) =>
+        store.commit("changeTodolistWorkplaceActiveComp", {
+          e,
+          item,
+        }),
+    };
   },
 };
 </script>
