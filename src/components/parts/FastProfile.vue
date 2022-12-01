@@ -1,9 +1,9 @@
 <template lang="pug">
-button#todolistProfile.todolist-profile(type="button")
-  .todolist-profile__ttl
-    todoListNavClock
-    h5.todolist-profile__username {{ webUser.username }}
-  .todolist-profile__img
+button#todolistProfile.todolist__profile(type="button")
+  .todolist__profile-ttl
+    fast-nav-clock
+    h5.todolist__profile-username {{ webUser.username }}
+  .todolist__profile-img
     img#todolistProfileImg(
       :src="require('@/assets/img/' + (profile.avatarImg.userСhoice ? profile.avatarImg.userСhoice : profile.avatarImg.default))"
     )
@@ -14,11 +14,12 @@ button#todolistProfile.todolist-profile(type="button")
 <script>
 import { mapGetters } from "vuex";
 import Icon from "../SvgIcon.vue";
-import todoListNavClock from "./FastListNavClock.vue";
+import fastNavClock from "./FastNavClock.vue";
 export default {
+  name: 'fast-profile',
   components: {
     Icon,
-    todoListNavClock,
+    fastNavClock,
   },
   computed: {
     ...mapGetters(["profile", "webUser"]),
@@ -26,7 +27,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.todolist-profile {
+.todolist__profile {
   position: relative;
   display: flex;
   gap: 5px;
@@ -48,7 +49,7 @@ export default {
   }
 }
 
-.todolist-profile.todolist-profile--active {
+.todolist__profile.todolist__profile--active {
   img {
     opacity: 0.6;
   }
@@ -59,7 +60,7 @@ export default {
   }
 }
 
-.todolist-profile__ttl {
+.todolist__profile-ttl {
   display: none;
 
   @media (min-width: 460px) {
@@ -69,7 +70,7 @@ export default {
   }
 }
 
-.todolist-profile__username {
+.todolist__profile-username {
   display: inline-block;
   font-size: 16px;
   line-height: 18px;
@@ -82,7 +83,7 @@ export default {
   }
 }
 
-.todolist-profile__img {
+.todolist__profile-img {
   position: relative;
   width: 50px;
   height: 50px;

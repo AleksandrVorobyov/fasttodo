@@ -72,7 +72,7 @@ export default {
       return false;
     },
     nameValid(state, name) {
-      if (name.length >= 3) {
+      if (name.length >= 3 && name.length < 15) {
         return true;
       }
       return false;

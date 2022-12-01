@@ -1,5 +1,5 @@
 <template lang="pug">
-section#todoListWorkPlace.todolist__workplace
+section#todoListWorkPlace.workplace
   component(:is="todolistWorkplace.activeComponent")
 </template>
 <script>
@@ -8,6 +8,7 @@ import workplaceGetTheme from "../workplace/workplaceGetTheme.vue";
 import workplaceRenameTheme from "../workplace/workplaceRenameTheme.vue";
 import workplaceRemoveTheme from "../workplace/workplaceRemoveTheme.vue";
 export default {
+  name: "fast-workplace",
   computed: {
     ...mapGetters(["todolistWorkplace"]),
   },

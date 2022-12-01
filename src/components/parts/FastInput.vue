@@ -12,7 +12,10 @@ input.main-input(
 export default {
   name: 'main-input',
   props: {
-    elType: String,
+    elType: {
+      type: String,
+      default: 'text'
+    },
     elValue: String,
     elPlaceholder: String,
     elClass: String,

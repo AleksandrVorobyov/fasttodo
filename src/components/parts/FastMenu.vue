@@ -2,7 +2,7 @@
 #todolistProfileMenu.todolist-profile__menu
   .todolist-profile__menu-header
     h5.todolist-profile__menu-header-username {{ webUser.username }}
-    list-nav-clock
+    fast-nav-clock
   ul.todolist-profile__menu-list
     li.todolist-profile__menu-item
       button.todolist-profile__menu-btn(
@@ -21,32 +21,33 @@
       ) {{ profile.menu.btn.exitBtn }}
 </template>
 <script>
-import { mapGetters } from "vuex";
-import listNavClock from "./FastListNavClock.vue";
+import { computed } from "vue";
+import { useStore } from "vuex";
+import fastNavClock from "./FastNavClock.vue";
 export default {
-  computed: {
-    ...mapGetters(["user", "profile", "webUser"]),
-  },
+  name: "fast-menu",
   components: {
-    listNavClock,
+    fastNavClock,
   },
-  methods: {
-    async logout() {
-      await this.$store.dispatch("logout");
-      return (this.user.selected = false);
-    },
-    loginToRouter() {
-      this.$store.dispatch("loginToRouter");
-    },
-    todoMenuActive() {
-      this.$store.commit("todoMenuActive");
-    },
-    async toggleRenameFormModule() {
-      await this.$store.dispatch("toggleRenameFormModule");
-    },
-    async toggleChangeAvatarFormModule() {
-      await this.$store.dispatch("toggleChangeAvatarFormModule");
-    },
+  setup() {
+    const store = useStore();
+    const user = computed(() => store.getters.user);
+
+    return {
+      user,
+      profile: computed(() => store.getters.profile),
+      webUser: computed(() => store.getters.webUser),
+      loginToRouter: () => store.dispatch("loginToRouter"),
+      todoMenuActive: () => store.commit("todoMenuActive"),
+      toggleRenameFormModule: async () =>
+        await store.dispatch("toggleRenameFormModule"),
+      toggleChangeAvatarFormModule: async () =>
+        await store.dispatch("toggleChangeAvatarFormModule"),
+      logout: async () => {
+        await store.dispatch("logout")
+        return user.selected = false;
+      },
+    };
   },
 };
 </script>

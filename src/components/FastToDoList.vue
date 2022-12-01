@@ -6,8 +6,8 @@
         .totolist__nav-col
           fast-title(:title="fastToDoList.title")
         .totolist__nav-col
-          todoListProfile
-          todoListMenu
+          fast-profile
+          fast-menu
       .todolist__clock-wrap
         .todolist__img
           glitch-img(
@@ -22,12 +22,12 @@
             :glitchClass="'glitch-two'"
           )
       .totolist__theme-control-wrap
-        list-theme-ctrl
-        todoListWorkPlace
+        fast-theme-ctrl
+        fast-workPlace
       .totolist__theme-wrap
-        listTheme
+        fast-theme
       .todolist__form-wrap
-        todoListForm
+        fast-form-todo
       .todolist__footer
         fast-footer
   changeName(v-show="profile.rename.show")
@@ -39,12 +39,12 @@
 <script>
 import { mapGetters } from "vuex";
 import fastTitle from "./parts/FastTitle.vue";
-import listThemeCtrl from "./parts/FastListThemeCtrl.vue";
-import todoListWorkPlace from "./parts/todoListWorkPlace.vue";
-import listTheme from "./parts/FastListTheme.vue";
-import todoListProfile from "./parts/todoListProfile.vue";
-import todoListMenu from "./parts/todoListMenu.vue";
-import todoListForm from "./parts/todoListForm.vue";
+import fastThemeCtrl from "./parts/FastListThemeCtrl.vue";
+import fastWorkPlace from "./parts/FastWorkPlace.vue";
+import fastTheme from "./parts/FastListTheme.vue";
+import fastProfile from "./parts/FastProfile.vue";
+import fastMenu from "./parts/FastMenu.vue";
+import fastFormTodo from "./parts/FastFormTodo.vue";
 import fastFooter from "./parts/FastFooter.vue";
 import changeName from "./moduleViewSection/changeNameModuleView.vue";
 import changeAvatar from "./moduleViewSection/changeAvatarModuleView.vue";
@@ -53,14 +53,15 @@ import themeRenameTtl from "./moduleViewSection/themeRenameTtlModuleView.vue";
 import themeRenameImg from "./moduleViewSection/themeRenameImgModuleView.vue";
 
 export default {
+  name: 'todolist-section',
   components: {
     fastTitle,
-    listThemeCtrl,
-    todoListWorkPlace,
-    listTheme,
-    todoListProfile,
-    todoListMenu,
-    todoListForm,
+    fastThemeCtrl,
+    fastWorkPlace,
+    fastTheme,
+    fastProfile,
+    fastMenu,
+    fastFormTodo,
     fastFooter,
     changeName,
     changeAvatar,

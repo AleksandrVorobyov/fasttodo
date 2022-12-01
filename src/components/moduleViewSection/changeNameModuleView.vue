@@ -11,12 +11,13 @@ moduleView(viewClass="form-rename", viewId="formRename")
       elClass="form-rename__form-input",
       elId="formRenameInput",
       @inputAction="renameInputSave()"
+      @keyup.enter.trim="changeUserName()"
     )
     main-btn(
       elType="button",
       elId="formRenameBtn",
       elClass="form-rename__form-btn",
-      @clickAction="changeUserName()",
+      @clickAction.trim="changeUserName()",
       :elText="profile.rename.btn"
     )
     moduleViewBtnExit(

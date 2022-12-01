@@ -4,6 +4,7 @@ form.view-module__form(
   :id="formId",
   :name="formName",
   :action="formAction"
+  @submit.prevent
 )
   slot
 </template>
