@@ -7,7 +7,7 @@ import "@/assets/css/fonts.css";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
-import components from "@/components/parts";
+import components from "@/components/ui";
 
 const firebaseApp = firebase.initializeApp({
   apiKey: "AIzaSyDOIu82BV8vbZCQrflYirIby0Pbbb-p0H4",

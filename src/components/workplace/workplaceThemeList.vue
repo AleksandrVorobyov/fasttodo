@@ -16,15 +16,11 @@ ul.workplace__theme-list
       )
 </template>
 <script>
-import buttonDelWithIcon from "../parts/FastBtnDelTrash.vue";
 export default {
   props: {
     list: Object,
     remove: Object,
     rename: Object,
-  },
-  components: {
-    buttonDelWithIcon,
   },
   methods: {
     async delTheme(id) {

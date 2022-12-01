@@ -1,5 +1,5 @@
 <template lang="pug">
-section#todoListWorkPlace.workplace
+section#todoListWorkPlace.todolist__workplace
   component(:is="todolistWorkplace.activeComponent")
 </template>
 <script>

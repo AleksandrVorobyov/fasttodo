@@ -1,5 +1,5 @@
 <template lang="pug">
-imageFileInput(
+img-file-input(
   :inputClass="data.class",
   :inputId="data.id",
   :inputName="data.name",
@@ -12,11 +12,7 @@ imageFileInput(
 )
 </template>
 <script>
-import imageFileInput from "../parts/FastImgFileInput.vue";
 export default {
-  components: {
-    imageFileInput,
-  },
   props: {
     data: Object,
   },
