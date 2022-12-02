@@ -8,6 +8,7 @@ button.module-view__btn-exit(
 </template>
 <script>
 export default {
+  name: "module-view-btn-exit",
   props: {
     btnType: {
       type: String,

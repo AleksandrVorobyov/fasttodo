@@ -1,82 +1,72 @@
 <template lang="pug">
 .app
   .app-nav
-    Preloader(v-if="preloader")
-    FastNotification
-  FastDisconnect(v-if="disconnect.status")
+    fast-preloader(v-if="preload")
+    fast-notification
+  fast-disconnect(v-if="disconnect")
   router-view(v-else)
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Preloader from "@/components/FastPreloader.vue";
-import FastNotification from "@/components/FastNotification.vue";
-import FastDisconnect from "@/components/FastDisconnect.vue";
+import { computed, onMounted, ref } from "vue";
+import { useStore } from "vuex";
+import fastPreloader from "@/components/FastPreloader.vue";
+import fastNotification from "@/components/FastNotification.vue";
+import fastDisconnect from "@/components/FastDisconnect.vue";
 
 export default {
-  data() {
-    return {
-      disconnect: {
-        status: false,
-      },
-      preloader: true,
-    };
-  },
   components: {
-    Preloader,
-    FastNotification,
-    FastDisconnect,
+    fastPreloader,
+    fastNotification,
+    fastDisconnect,
   },
-  computed: {
-    ...mapGetters(["user", "hiddenBody", "scrollBody"]),
-  },
-  methods: {
-    async authLocalVerification() {
-      await this.$store.dispatch("authLocalVerification");
-    },
-    todoMenuSmartHiding(e) {
-      this.$store.dispatch("todoMenuSmartHiding", e);
-    },
-    changeDisconnectStatus() {
-      this.$store.commit("changeDisconnectStatus");
-    },
-  },
-  created() {
-    this.authLocalVerification();
-  },
-  mounted() {
-    const that = this;
+  setup() {
+    const store = useStore();
+    let preloader = ref(true);
+    let disconnect = ref(false);
+    let preload = ref(true);
+    const hiddenBody = computed(() => store.getters.hiddenBody);
+    const scrollBody = computed(() => store.getters.scrollBody);
+    const authLocalVerification = async () =>
+      await store.dispatch("authLocalVerification");
+    const todoMenuSmartHiding = (e) => store.dispatch("todoMenuSmartHiding", e);
 
-    document.addEventListener("DOMContentLoaded", () => {
-      document.querySelector(".preloader").classList.add("preloader-remove");
-      setTimeout(() => {
-        this.preloader = false;
-      }, 500);
+    authLocalVerification();
+
+    onMounted(() => {
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelector(".preloader").classList.add("preloader-remove");
+        setTimeout(() => {
+          preload.value = false;
+        }, 500);
+      });
+
+      document.addEventListener("click", (e) => {
+        todoMenuSmartHiding(e);
+      });
+
+      window.addEventListener("scroll", () => {
+        if (hiddenBody.value) {
+          let scrollTop = scrollBody.y;
+          let scrollLeft = scrollBody.x;
+          window.scrollTo(scrollLeft, scrollTop);
+        }
+      });
+
+      window.addEventListener("offline", () => {
+        return (disconnect.value = true), console.log(disconnect.value);
+      });
+
+      window.addEventListener("online", () => {
+        return (disconnect.value = false), console.log(disconnect.value);
+      });
     });
 
-    document.addEventListener("click", (e) => {
-      this.todoMenuSmartHiding(e);
-    });
-
-    window.addEventListener("scroll", () => {
-      if (this.hiddenBody) {
-        let scrollTop = this.scrollBody.y;
-        let scrollLeft = this.scrollBody.x;
-        window.scrollTo(scrollLeft, scrollTop);
-      }
-    });
-
-    window.addEventListener("offline", () => {
-      return (
-        (that.disconnect.status = true), console.log(that.disconnect.status)
-      );
-    });
-
-    window.addEventListener("online", () => {
-      return (
-        (that.disconnect.status = false), console.log(that.disconnect.status)
-      );
-    });
+    return {
+      user: computed(() => store.getters.user),
+      preload,
+      disconnect,
+    };
   },
 };
 </script>

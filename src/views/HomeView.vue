@@ -1,5 +1,5 @@
 <template lang="pug">
-.home-page
+.home-view
   FastToDoList
 </template>
 

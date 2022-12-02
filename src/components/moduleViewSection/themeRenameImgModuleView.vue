@@ -1,7 +1,7 @@
 <template lang="pug">
-moduleView(viewClass="theme-rename-img", viewId="themeRenameTtl")
-  moduleViewForm(formClass="theme-rename-img__form")
-    moduleViewTitle(
+module-view(viewClass="theme-rename-img", viewId="themeRenameTtl")
+  module-view-form(formClass="theme-rename-img__form")
+    module-view-title(
       titleClass="theme-rename-img__form-title",
       :titleText="theme.rename.img.title"
     )
@@ -23,7 +23,7 @@ moduleView(viewClass="theme-rename-img", viewId="themeRenameTtl")
       :elText="theme.rename.img.btnSub",
       @clickAction="uploadThemeRenameImgFormModule().then(() => { delThemeRenameImgFormModule($event), toggleThemeRenameImgFormModule(); })"
     )
-    moduleViewBtnExit(
+    module-view-btn-exit(
       btnType="button",
       btnClass="theme-rename-img__form-btn-exit",
       :btnText="theme.rename.img.btnExit",
@@ -38,6 +38,7 @@ import moduleViewBtnExit from "../moduleView/moduleViewBtnExit.vue";
 import moduleViewTitle from "../moduleView/moduleViewTitle.vue";
 
 export default {
+  name: "rename-theme-img-module",
   computed: {
     ...mapGetters(["theme"]),
   },

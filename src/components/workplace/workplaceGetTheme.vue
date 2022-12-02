@@ -9,7 +9,8 @@
       component(v-if="windowInner(comp.pref)", :is="comp.name", :data="comp")
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { computed } from "vue";
+import { useStore } from "vuex";
 import workplaceFileInput from "./workplaceFileInput.vue";
 import workplaceInput from "./workplaceInput.vue";
 import workplaceBtn from "./workplaceBtn.vue";
@@ -17,9 +18,6 @@ import workplaceTitle from "./workplaceTitle.vue";
 import workplaceBtnBack from "./workplaceBtnBack.vue";
 
 export default {
-  computed: {
-    ...mapGetters(["todolistWorkplace"]),
-  },
   components: {
     workplaceFileInput,
     workplaceInput,
@@ -27,16 +25,19 @@ export default {
     workplaceTitle,
     workplaceBtnBack,
   },
-  methods: {
-    dataSlide(index) {
-      return window.innerWidth >= 1140 ? "" : index + 1;
-    },
-    windowInner(pref) {
-      if (window.innerWidth >= 1140 && pref == "mob") {
-        return false;
-      }
-      return true;
-    },
+  setup() {
+    const store = useStore();
+
+    return {
+      todolistWorkplace: computed(() => store.getters.todolistWorkplace),
+      dataSlide: (idx) => (window.innerWidth >= 1140 ? "" : idx + 1),
+      windowInner: (pref) => {
+        if (window.innerWidth >= 1140 && pref == "mob") {
+          return false;
+        }
+        return true;
+      },
+    };
   },
 };
 </script>

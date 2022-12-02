@@ -5,12 +5,12 @@ moduleView(viewClass="theme-rename-ttl", viewId="themeRenameTtl")
       titleClass="theme-rename-ttl__form-title",
       :titleText="theme.rename.ttl.title"
     )
-    main-btn(
+    main-input(
       elType="text",
       elClass="theme-rename-ttl__form-input",
       elId="themeRenameTtlFormInput",
       elValue="",
-      :elPlaceholder="theme.rename.ttl.inputPlace"
+      :elPlaceholder="theme.rename.ttl.inputPlace",
       @inputAction="saveInputTtlThemeRename('themeRenameTtlFormInput')"
     )
     main-btn(
@@ -28,36 +28,33 @@ moduleView(viewClass="theme-rename-ttl", viewId="themeRenameTtl")
     )
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { computed } from "vue";
+import { useStore } from "vuex";
 import moduleView from "../moduleView/moduleView.vue";
 import moduleViewForm from "../moduleView/moduleViewForm.vue";
 import moduleViewBtnExit from "../moduleView/moduleViewBtnExit.vue";
 import moduleViewTitle from "../moduleView/moduleViewTitle.vue";
 export default {
-  computed: {
-    ...mapGetters(["theme"]),
-  },
+  name: "theme-rename-ttl-module",
   components: {
     moduleView,
     moduleViewForm,
     moduleViewBtnExit,
     moduleViewTitle,
   },
-  methods: {
-    async toggleThemeRenameTtlFormModule() {
-      await this.$store.dispatch("toggleThemeRenameTtlFormModule");
-    },
-    async changeThemeRenameTtlFormModule() {
-      await this.$store.dispatch("changeThemeRenameTtlFormModule");
-    },
-    delInfoForRenameTheme() {
-      this.$store.commit("delInfoForRenameTheme");
-    },
-    saveInputTtlThemeRename(id) {
-      this.$store.commit("saveInputTtlThemeRename", id);
-    },
+  setup() {
+    const store = useStore();
+
+    return {
+      theme: computed(() => store.getters.theme),
+      toggleThemeRenameTtlFormModule: async () =>
+        await store.dispatch("toggleThemeRenameTtlFormModule"),
+      changeThemeRenameTtlFormModule: async () =>
+        await store.dispatch("changeThemeRenameTtlFormModule"),
+      delInfoForRenameTheme: () => store.commit("delInfoForRenameTheme"),
+      saveInputTtlThemeRename: (id) =>
+        store.commit("saveInputTtlThemeRename", id),
+    };
   },
 };
 </script>
-<style scoped lang="scss">
-</style>

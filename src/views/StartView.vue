@@ -1,12 +1,12 @@
 <template lang="pug">
-.start-page
+.start-view
   FastFirstStart
 </template>
 
 <script>
 import FastFirstStart from "@/components/FastFirstStart.vue";
 export default {
-  name: "HomeView",
+  name: "start-view",
   components: {
     FastFirstStart,
   },

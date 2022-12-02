@@ -3,6 +3,7 @@ h3.module-view__title(:class="titleClass") {{ titleText }}
 </template>
 <script>
 export default {
+  name: "module-view-title",
   props: {
     titleText: String,
     titleClass: String,

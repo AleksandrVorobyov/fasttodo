@@ -1,11 +1,12 @@
 <template lang="pug">
-.registration-page
+.registration-view
   FastRegistration
 </template>
 
 <script>
 import FastRegistration from "@/components/FastRegistration.vue";
 export default {
+  name: "registration-view",
   components: {
     FastRegistration,
   },

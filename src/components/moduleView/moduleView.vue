@@ -4,6 +4,7 @@ section.module-view(:class="viewClass", :id="viewId")
 </template>
 <script>
 export default {
+  name: 'module-view',
   props: {
     viewClass: String,
     viewId: String,

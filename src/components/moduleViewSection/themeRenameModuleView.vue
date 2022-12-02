@@ -1,7 +1,7 @@
 <template lang="pug">
-moduleView(viewClass="theme-rename", viewId="themeRename")
-  moduleViewForm(formClass="theme-rename__form")
-    moduleViewTitle(
+module-view(viewClass="theme-rename", viewId="themeRename")
+  module-view-form(formClass="theme-rename__form")
+    module-view-title(
       titleClass="theme-rename__form-title",
       :titleText="theme.rename.title"
     )
@@ -9,17 +9,17 @@ moduleView(viewClass="theme-rename", viewId="themeRename")
       elType="button",
       elId="themeRenameBtn",
       elClass="theme-rename__form-btn",
-      :elText="theme.rename.btnTtlRenameText"
+      :elText="theme.rename.btnTtlRenameText",
       @clickAction="toggleThemeRenameFormModule(), toggleThemeRenameTtlFormModule()"
     )
     main-btn(
       elType="button",
       elId="themeRenameBtn",
       elClass="theme-rename__form-btn",
-      :elText="theme.rename.btnTtlRenameimg"
+      :elText="theme.rename.btnTtlRenameimg",
       @clickAction="toggleThemeRenameFormModule(), toggleThemeRenameImgFormModule()"
     )
-    moduleViewBtnExit(
+    module-view-btn-exit(
       btnType="button",
       btnClass="theme-rename__form-btn-exit",
       :btnText="theme.rename.btnExit",
@@ -27,36 +27,35 @@ moduleView(viewClass="theme-rename", viewId="themeRename")
     )
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { computed } from "vue";
+import { useStore } from "vuex";
 import moduleView from "../moduleView/moduleView.vue";
 import moduleViewForm from "../moduleView/moduleViewForm.vue";
 import moduleViewBtnExit from "../moduleView/moduleViewBtnExit.vue";
 import moduleViewTitle from "../moduleView/moduleViewTitle.vue";
 
 export default {
-  computed: {
-    ...mapGetters(["theme"]),
-  },
+  name: "rename-theme-module",
   components: {
     moduleView,
     moduleViewForm,
     moduleViewBtnExit,
     moduleViewTitle,
   },
-  methods: {
-    async toggleThemeRenameFormModule() {
-      await this.$store.dispatch("toggleThemeRenameFormModule");
-    },
-    async toggleThemeRenameTtlFormModule() {
-      await this.$store.dispatch("toggleThemeRenameTtlFormModule");
-    },
-    async toggleThemeRenameImgFormModule() {
-      await this.$store.dispatch("toggleThemeRenameImgFormModule");
-    },
-    delInfoForRenameTheme() {
-      this.$store.commit("delInfoForRenameTheme");
-    },
+  setup() {
+    const store = useStore();
+    return {
+      theme: computed(() => store.getters.theme),
+      toggleThemeRenameFormModule: async () =>
+        await store.dispatch("toggleThemeRenameFormModule"),
+      toggleThemeRenameTtlFormModule: async () =>
+        await store.dispatch("toggleThemeRenameTtlFormModule"),
+      toggleThemeRenameImgFormModule: async () =>
+        await store.dispatch("toggleThemeRenameImgFormModule"),
+      delInfoForRenameTheme: () => store.dispatch("delInfoForRenameTheme"),
+    };
   },
+
 };
 </script>
 <style scoped lang="scss">

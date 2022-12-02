@@ -1,7 +1,7 @@
 <template lang="pug">
-moduleView(viewClass="form-rename", viewId="formRename")
-  moduleViewForm(formClass="form-rename__form")
-    moduleViewTitle(
+module-view(viewClass="form-rename", viewId="formRename")
+  module-view-form(formClass="form-rename__form")
+    module-view-title(
       titleClass="form-rename__form-title",
       :titleText="profile.rename.title"
     )
@@ -10,7 +10,7 @@ moduleView(viewClass="form-rename", viewId="formRename")
       :elPlaceholder="profile.rename.placeholder",
       elClass="form-rename__form-input",
       elId="formRenameInput",
-      @inputAction="renameInputSave()"
+      @inputAction="renameInputSave()",
       @keyup.enter.trim="changeUserName()"
     )
     main-btn(
@@ -20,7 +20,7 @@ moduleView(viewClass="form-rename", viewId="formRename")
       @clickAction.trim="changeUserName()",
       :elText="profile.rename.btn"
     )
-    moduleViewBtnExit(
+    module-view-btn-exit(
       btnType="button",
       btnClass="form-rename__form-btn-exit",
       :btnText="profile.rename.btnExit",
@@ -28,33 +28,30 @@ moduleView(viewClass="form-rename", viewId="formRename")
     )
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { computed } from "vue";
+import { useStore } from "vuex";
 import moduleView from "../moduleView/moduleView.vue";
 import moduleViewForm from "../moduleView/moduleViewForm.vue";
 import moduleViewBtnExit from "../moduleView/moduleViewBtnExit.vue";
 import moduleViewTitle from "../moduleView/moduleViewTitle.vue";
 export default {
-  computed: {
-    ...mapGetters(["profile"]),
-  },
+  name: "change-name-module",
   components: {
     moduleView,
     moduleViewForm,
     moduleViewBtnExit,
     moduleViewTitle,
   },
-  methods: {
-    async changeUserName() {
-      await this.$store.dispatch("changeUserName");
-    },
-    async toggleRenameFormModule() {
-      await this.$store.dispatch("toggleRenameFormModule");
-    },
-    renameInputSave() {
-      this.$store.commit("renameInputSave");
-    },
+  setup() {
+    const store = useStore();
+
+    return {
+      profile: computed(() => store.getters.profile),
+      changeUserName: async () => await store.dispatch("changeUserName"),
+      toggleRenameFormModule: async () =>
+        await store.dispatch("toggleRenameFormModule"),
+      renameInputSave: () => store.dispatch("renameInputSave"),
+    };
   },
 };
 </script>
-<style scoped lang="scss">
-</style>

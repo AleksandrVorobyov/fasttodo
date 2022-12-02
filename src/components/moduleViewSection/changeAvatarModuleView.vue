@@ -1,7 +1,7 @@
 <template lang="pug">
-moduleView(viewClass="change-avatar", viewId="changeAvatar")
-  moduleViewForm(formClass="change-avatar__form")
-    moduleViewTitle(
+module-view(viewClass="change-avatar", viewId="changeAvatar")
+  module-view-form(formClass="change-avatar__form")
+    module-view-title(
       titleClass="change-avatar__form-title",
       :titleText="profile.changeAvatar.title"
     )
@@ -23,45 +23,41 @@ moduleView(viewClass="change-avatar", viewId="changeAvatar")
       :elText="profile.changeAvatar.btnSubmit",
       @clickAction="changeAvatar()"
     )
-    moduleViewBtnExit(
+    module-view-btn-exit(
       btnType="button",
       btnClass="change-avatar__form-btn-exit",
       :btnText="profile.changeAvatar.btnExit",
-      @clickAction="toggleChangeAvatarFormModule(), loadProfileInputFile(), delPreloadImageAvatar($event);"
+      @clickAction="toggleChangeAvatarFormModule(), loadProfileInputFile(), delPreloadImageAvatar($event)"
     )
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { computed } from "vue";
+import { useStore } from "vuex";
 import moduleView from "../moduleView/moduleView.vue";
 import moduleViewForm from "../moduleView/moduleViewForm.vue";
 import moduleViewBtnExit from "../moduleView/moduleViewBtnExit.vue";
 import moduleViewTitle from "../moduleView/moduleViewTitle.vue";
 export default {
-  computed: {
-    ...mapGetters(["profile"]),
-  },
+  name: "change-avatar-module",
   components: {
     moduleView,
     moduleViewForm,
     moduleViewBtnExit,
     moduleViewTitle,
   },
-  methods: {
-    async toggleChangeAvatarFormModule() {
-      await this.$store.dispatch("toggleChangeAvatarFormModule");
-    },
-    async changeAvatar() {
-      await this.$store.dispatch("changeAvatar");
-    },
-    async preloadingImageAvatar(e) {
-      await this.$store.dispatch("preloadingImageAvatar", e);
-    },
-    loadProfileInputFile() {
-      this.$store.dispatch("loadProfileInputFile");
-    },
-    delPreloadImageAvatar(e) {
-      this.$store.dispatch("delPreloadImageAvatar", e);
-    },
+  setup() {
+    const store = useStore();
+
+    return {
+      profile: computed(() => store.getters.profile),
+      toggleChangeAvatarFormModule: async () =>
+        await store.dispatch("toggleChangeAvatarFormModule"),
+      changeAvatar: async () => await store.dispatch("changeAvatar"),
+      preloadingImageAvatar: async (e) =>
+        await store.dispatch("preloadingImageAvatar", e),
+      loadProfileInputFile: () => store.dispatch("loadProfileInputFile"),
+      delPreloadImageAvatar: (e) => store.dispatch("delPreloadImageAvatar", e),
+    };
   },
 };
 </script>

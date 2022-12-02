@@ -1,15 +1,16 @@
 <template lang="pug">
-form.view-module__form(
+form.module-view__form(
   :class="formClass",
   :id="formId",
   :name="formName",
-  :action="formAction"
+  :action="formAction",
   @submit.prevent
 )
   slot
 </template>
 <script>
 export default {
+  name: "module-view-form",
   props: {
     formClass: String,
     formId: String,
@@ -22,7 +23,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.view-module__form {
+.module-view__form {
   position: absolute;
   top: 50%;
   left: 10px;
