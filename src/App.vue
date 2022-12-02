@@ -22,7 +22,6 @@ export default {
   },
   setup() {
     const store = useStore();
-    let preloader = ref(true);
     let disconnect = ref(false);
     let preload = ref(true);
     const hiddenBody = computed(() => store.getters.hiddenBody);
